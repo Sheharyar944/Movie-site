@@ -12,7 +12,7 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import Link from "@mui/material/Link";
 import useGetMovieLists from "../hooks/useGetMovieLists";
-import "../App.css";
+import useGetTrending from "../hooks/useGetTrending";
 
 const Root = () => {
   // search bar styling starts here
@@ -62,52 +62,33 @@ const Root = () => {
   // search bar styling ends here
 
   // Trending Movie starts here
+  const { trendingMovie } = useGetTrending();
+  const backgroundImageUrl = `https://image.tmdb.org/t/p/original${trendingMovie.backdrop_path}`;
 
-  const { getMovieList } = useGetMovieLists();
-  const [trending, setTrending] = useState("");
-
-  const getList = async (url, state) => {
-    const list = await getMovieList(url);
-    state(list);
-  };
-  useEffect(() => {
-    getList(
-      "https://api.themoviedb.org/3/trending/all/day?language=en-US",
-      setTrending
-    );
-  }, []);
-
-  const trendingMovieBackdrop =
-    Array.isArray(trending.results) &&
-    trending.results.reduce((prev, current) =>
-      prev.popularity > current.popularity
-        ? prev.backdrop_path
-        : current.backdrop_path
-    );
-
-  const backgroundImageUrl = `https://image.tmdb.org/t/p/original${trendingMovieBackdrop}`;
+  console.log("poster", backgroundImageUrl);
 
   // Trending Movie ends here
 
   return (
-    <div
-      classname="App"
-      style={{ flexGrow: 1, backgroundImage: `url(${backgroundImageUrl})` }}
+    <Box
+      sx={{
+        // flexGrow: 1,
+        backgroundImage: `url(${backgroundImageUrl})`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        height: "100vh",
+        // maxWidth: "100%",
+      }}
     >
       <AppBar
         position="static"
-        sx={{ backgroundColor: "transparent", boxShadow: "none" }}
+        sx={{
+          backgroundColor: "transparent",
+          boxShadow: "none",
+        }}
       >
-        <Toolbar variant="dense">
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <img src={logo} alt="logo" style={{ width: "50px" }} />
-          </IconButton>
+        <Toolbar variant="dense" style={{ padding: "0px", marginLeft: "70px" }}>
           <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
             Flixer
           </Typography>
@@ -136,11 +117,13 @@ const Root = () => {
               inputProps={{ "aria-label": "search" }}
             />
           </Search>
-          <Button color="inherit">Login</Button>
+          <IconButton sx={{ marginRight: "50px" }}>
+            <img src={logo} alt="logo" style={{ width: "50px" }} />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Outlet />
-    </div>
+    </Box>
   );
 };
 

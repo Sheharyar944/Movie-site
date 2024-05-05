@@ -1,6 +1,28 @@
 body {
+  background-color: #020208;
   margin: 0;
   padding: 0;
-  background-size: cover;
-  background-position: center;
+}
+
+/* .App {
+  background-color: black;
+} */
+
+.slideshow {
+  margin: 14px 0px;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.slideshowSlider {
+  white-space: nowrap;
+  transition: ease 1000ms;
+}
+
+.slide {
+  display: inline-block;
+  height: 175px;
+  width: 345px;
+  border-radius: 20px;
+  margin-right: 10px;
 }
