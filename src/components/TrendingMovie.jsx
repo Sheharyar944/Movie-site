@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
-import useGetMovieLists from "../hooks/useGetMovieLists";
-import { Box } from "@mui/material";
 import date from "../assets/date.png";
 import star from "../assets/star.png";
 import useGetTrending from "../hooks/useGetTrending";
+import { Box } from "@mui/material";
 
 const TrendingMovie = () => {
   const { trendingMovie } = useGetTrending();
@@ -18,10 +17,11 @@ const TrendingMovie = () => {
         height: "120px",
         marginTop: "180px",
         marginBottom: "32px",
+        // position: "absolute",
       }}
     >
       <Typography variant="h4" color="#fbfafb">
-        {trendingMovie.original_title}
+        {trendingMovie.title || trendingMovie.name}
       </Typography>
       <Box sx={{ display: "flex", alignItems: "center", margin: "10px 0px" }}>
         <img

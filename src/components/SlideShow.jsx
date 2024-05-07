@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import useGetTrending from "../hooks/useGetTrending";
-import { Box, Button, Typography } from "@mui/material";
 import hoverPlay from "../assets/hoverPlay.png";
+import { Box, Button, Typography } from "@mui/material";
 
 const SlideShow = () => {
   const { trending } = useGetTrending();
@@ -21,8 +21,6 @@ const SlideShow = () => {
     }
   };
 
-  console.log("trending", images);
-  ///////////////////////////////////
   useEffect(() => {
     resetTimeout();
     timeoutRef.current = setTimeout(
@@ -44,8 +42,13 @@ const SlideShow = () => {
   }, [index]);
 
   return (
-    <div className="slideshow">
-      <div
+    <Box
+      className="slideshow"
+      sx={{
+        borderRadius: "20px",
+      }}
+    >
+      <Box
         className="slideshowSlider"
         style={{ transform: `translate3d(${index}px, 0, 0)` }}
       >
@@ -61,34 +64,41 @@ const SlideShow = () => {
                 borderRadius: "20px",
                 marginRight: "10px",
                 textTransform: "none",
-                // transition: "border-color 20s ease, background-size 0.3s ease",
+                "&::before": {
+                  content: '""',
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  borderRadius: "20px",
+                  background: "rgba(0, 0, 0, 0.3)",
+                  zindex: 0,
+                },
                 "&:hover": {
-                  borderColor: "#00c1db",
-                  border: "2px solid",
+                  border: "2px solid #2dd5fd",
                   backgroundSize: "105%",
                 },
-              }}
-            >
-              <img
-                src={hoverPlay}
-                alt="Overlay Image"
-                style={{
-                  width: "50px",
-                  height: "50px",
+                "& img": {
                   position: "absolute",
                   top: "50%",
                   left: "50%",
                   transform: "translate(-50%, -50%)",
                   opacity: 0,
                   transition: "opacity 0.3s ease",
-                }}
-              />
+                },
+                "&:hover img": {
+                  opacity: 1,
+                },
+              }}
+            >
+              <img src={hoverPlay} alt="Overlay Image" />
               <Box
                 sx={{
                   position: "absolute",
                   width: "345px",
                   height: "175px",
-                  backgroundColor: "rgba(0, 0, 0, 0.3)",
+                  backgroundColor: "rgba(0, 0, 0, 0)",
                   borderRadius: "20px",
                 }}
               >
@@ -99,6 +109,7 @@ const SlideShow = () => {
                     fontWeight: "bold",
                     padding: "0 20px",
                     textShadow: "2px 2px 4px rgba(0, 0, 0, 1)",
+                    zindex: 1,
                   }}
                   variant="body1"
                   color="#FFFFFF"
@@ -108,7 +119,7 @@ const SlideShow = () => {
                 </Typography>
                 <Typography
                   variant="body1"
-                  color="#4dd4e6"
+                  color="#2dd5fd"
                   sx={{
                     marginTop: "4px",
                     padding: "0 20px",
@@ -129,8 +140,8 @@ const SlideShow = () => {
               </Box>
             </Button>
           ))}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

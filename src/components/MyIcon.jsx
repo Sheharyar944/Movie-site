@@ -1,5 +1,5 @@
-import { Box, Typography } from "@mui/material";
 import React from "react";
+import { Box, Typography } from "@mui/material";
 
 const MyIcon = ({ img, alt, text }) => {
   return (
@@ -8,7 +8,7 @@ const MyIcon = ({ img, alt, text }) => {
         display: "flex",
         alignItems: "center",
         marginBottom: "18px",
-        marginTop: "44px",
+        marginTop: "50px",
       }}
     >
       <Box

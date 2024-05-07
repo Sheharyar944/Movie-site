@@ -1,11 +1,13 @@
-import { Box, Button, Typography } from "@mui/material";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Box, Button, Typography } from "@mui/material";
 import useGetMovieLists from "../hooks/useGetMovieLists";
 import movie1 from "../assets/movie1.png";
 import flashy from "../assets/flashy.png";
 import tv from "../assets/tv.png";
 import MyIcon from "./MyIcon";
+import starGold from "../assets/starGold.png";
+import { ForkLeft } from "@mui/icons-material";
 
 const MovieLists = () => {
   const { getMovieList } = useGetMovieLists();
@@ -68,7 +70,7 @@ const MovieLists = () => {
 
   const Lists = ({ list }) => (
     <Box
-      border={1}
+      // border={1}
       sx={{
         display: "grid",
         gridTemplateColumns: "repeat(6, 1fr)", // 6 columns
@@ -82,14 +84,48 @@ const MovieLists = () => {
       {Array.isArray(list.results) &&
         list.results.slice(0, 18).map((item, index) => (
           <Box key={index}>
-            <Button sx={{ padding: 0, borderRadius: "10px" }}>
+            <Button
+              sx={{ padding: 0, borderRadius: "6px", position: "relative" }}
+            >
               {item.poster_path && (
                 <img
-                  style={{ borderRadius: "10px", width: 135, height: 202 }}
+                  style={{ borderRadius: "6px", width: 135, height: 202 }}
                   src={`https://image.tmdb.org/t/p/w185${item.poster_path}`}
                   alt={`Movie Poster:${item.title || item.name}`}
                 />
               )}
+              <Box
+                // border={1}
+                sx={{
+                  position: "absolute",
+                  top: 4,
+                  right: 0,
+                  height: 20,
+                  width: 40,
+                  display: "flex",
+                  backgroundColor: "rgba(0, 0, 0,0.6)",
+                  alignItems: "center",
+                  borderTopLeftRadius: "4px",
+                  borderBottomLeftRadius: "4px",
+                }}
+              >
+                <img
+                  src={starGold}
+                  alt="star"
+                  style={{
+                    height: 14,
+                    marginLeft: 4,
+                    marginBottom: 2,
+                  }}
+                />
+                <Typography
+                  variant="body1"
+                  color="#fbfafb"
+                  sx={{ fontSize: 12, marginLeft: "2px" }}
+                >
+                  {item.vote_average.toFixed(1)}
+                </Typography>
+              </Box>
             </Button>
             {/* <Box
               border={1}
@@ -128,7 +164,10 @@ const MovieLists = () => {
   );
 
   const SideList = ({ list }) => (
-    <Box border={1} sx={{ height: "650px" }}>
+    <Box
+      //  border={1}
+      sx={{ height: "650px" }}
+    >
       {list &&
         list.results.slice(0, 8).map((movie, index) => (
           <Box key={index}>
@@ -225,7 +264,7 @@ const MovieLists = () => {
           <SideList list={popularTvShows} />
         </Box>
       </Box>
-
+      {/* 
       <Typography variant="h5" color="#F0F0F0">
         Now Playing
       </Typography>
@@ -242,7 +281,7 @@ const MovieLists = () => {
       <Typography variant="h5" color="#F0F0F0">
         Upcoming
       </Typography>
-      <Lists list={upcoming} />
+      <Lists list={upcoming} /> */}
     </Box>
   );
 };

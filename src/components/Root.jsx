@@ -5,7 +5,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
@@ -13,9 +13,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import Link from "@mui/material/Link";
 import useGetMovieLists from "../hooks/useGetMovieLists";
 import useGetTrending from "../hooks/useGetTrending";
+import heart from "../assets/heart.png";
 
 const Root = () => {
   // search bar styling starts here
+  const location = useLocation();
 
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -71,39 +73,59 @@ const Root = () => {
 
   return (
     <Box
-      sx={{
-        // flexGrow: 1,
-        backgroundImage: `url(${backgroundImageUrl})`,
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-        height: "100vh",
-        // maxWidth: "100%",
-      }}
+    // border={1}
+    // sx={{
+    //   position: "absolute",
+    //   top: 0,
+    //   left: 0,
+    //   backgroundImage: `url(${backgroundImageUrl})`,
+    //   backgroundRepeat: "no-repeat",
+    //   backgroundPosition: "center",
+    //   backgroundSize: "cover",
+    //   height: "100vh",
+    //   width: "100%",
+    // }}
     >
+      {" "}
+      <div
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          background: "rgba(0, 0, 0, 1)", // Semi-transparent black overlay
+        }}
+      />
       <AppBar
         position="static"
         sx={{
           backgroundColor: "transparent",
           boxShadow: "none",
+          zIndex: 1000,
         }}
       >
         <Toolbar variant="dense" style={{ padding: "0px", marginLeft: "70px" }}>
-          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            variant="h5"
+            color="#fbfafb"
+            component="div"
+            sx={{ flexGrow: 1 }}
+          >
             Flixer
           </Typography>
           <Link href="/" underline="none" sx={{ marginRight: "30px" }}>
-            <Typography variant="body1" color="#F0F0F0">
+            <Typography variant="body1" color="#fbfafb">
               Home
             </Typography>
           </Link>
           <Link href="/" underline="none" sx={{ marginRight: "30px" }}>
-            <Typography variant="body1" color="#F0F0F0">
+            <Typography variant="body1" color="#fbfafb">
               Movies
             </Typography>
           </Link>
           <Link href="/" underline="none" sx={{ marginRight: "30px" }}>
-            <Typography variant="body1" color="#F0F0F0">
+            <Typography variant="body1" color="#fbfafb">
               Tv Shows
             </Typography>
           </Link>
@@ -123,6 +145,39 @@ const Root = () => {
         </Toolbar>
       </AppBar>
       <Outlet />
+      <Box
+        // border={1}
+        sx={{
+          margin: "80px 70px",
+          paddingBottom: "18px",
+        }}
+      >
+        <Box sx={{ display: "flex" }}>
+          <Typography
+            variant="h5"
+            color="#fbfafb"
+            sx={{ fontSize: "18px", marginBottom: "8px", marginRight: "8px" }}
+          >
+            Welcome to Flixer
+          </Typography>
+          <img
+            src={heart}
+            alt="heart"
+            style={{ height: "20px", marginTop: "2px" }}
+          />
+        </Box>
+        <Typography
+          variant="body1"
+          color="#ababab"
+          sx={{ fontSize: "12px", marginBottom: "8px" }}
+        >
+          This site does not store any files on our server, we only linked to
+          the media which is hosted on 3rd party services.
+        </Typography>
+        <Typography variant="body1" color="#ababab" sx={{ fontSize: "12px" }}>
+          Copyright ©Flixer 2024
+        </Typography>
+      </Box>
     </Box>
   );
 };
