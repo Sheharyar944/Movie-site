@@ -14,10 +14,11 @@ import Link from "@mui/material/Link";
 import useGetMovieLists from "../hooks/useGetMovieLists";
 import useGetTrending from "../hooks/useGetTrending";
 import heart from "../assets/heart.png";
+import arrowLeftBlue from "../assets/arrowLeftBlue.png";
 
 const Root = () => {
   // search bar styling starts here
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -30,7 +31,8 @@ const Root = () => {
     width: "100%",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(1),
-      width: "auto",
+      width: "300px",
+      // height: 30,
     },
   }));
 
@@ -63,14 +65,6 @@ const Root = () => {
 
   // search bar styling ends here
 
-  // Trending Movie starts here
-  const { trendingMovie } = useGetTrending();
-  const backgroundImageUrl = `https://image.tmdb.org/t/p/original${trendingMovie.backdrop_path}`;
-
-  console.log("poster", backgroundImageUrl);
-
-  // Trending Movie ends here
-
   return (
     <Box
     // border={1}
@@ -87,33 +81,41 @@ const Root = () => {
     // }}
     >
       {" "}
-      <div
+      {/* <div
         sx={{
           position: "absolute",
           top: 0,
           left: 0,
           width: "100%",
           height: "100%",
-          background: "rgba(0, 0, 0, 1)", // Semi-transparent black overlay
+          background: "rgba(0, 0, 0, 1)",
         }}
-      />
+      /> */}
       <AppBar
         position="static"
         sx={{
-          backgroundColor: "transparent",
+          backgroundColor: pathname.startsWith("/info")
+            ? "rgba(0, 0, 0, 0.3)"
+            : "transparent",
           boxShadow: "none",
           zIndex: 1000,
         }}
       >
         <Toolbar variant="dense" style={{ padding: "0px", marginLeft: "70px" }}>
-          <Typography
-            variant="h5"
-            color="#fbfafb"
-            component="div"
-            sx={{ flexGrow: 1 }}
-          >
-            Flixer
-          </Typography>
+          {pathname.startsWith("/info") && (
+            <Link href="/" underline="none">
+              <img
+                src={arrowLeftBlue}
+                alt="arrow left blue"
+                style={{ width: 30, marginTop: "7px", marginRight: "20px" }}
+              />
+            </Link>
+          )}
+          <Link href="/" underline="none" sx={{ mr: "auto" }}>
+            <Typography variant="h5" color="#fbfafb" component="div">
+              Flixer
+            </Typography>
+          </Link>
           <Link href="/" underline="none" sx={{ marginRight: "30px" }}>
             <Typography variant="body1" color="#fbfafb">
               Home
@@ -148,7 +150,7 @@ const Root = () => {
       <Box
         // border={1}
         sx={{
-          margin: "80px 70px",
+          margin: "80px 70px 10px 70px",
           paddingBottom: "18px",
         }}
       >

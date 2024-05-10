@@ -8,6 +8,7 @@ import tv from "../assets/tv.png";
 import MyIcon from "./MyIcon";
 import starGold from "../assets/starGold.png";
 import { ForkLeft } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const MovieLists = () => {
   const { getMovieList } = useGetMovieLists();
@@ -20,6 +21,7 @@ const MovieLists = () => {
   const [airingToday, setAiringToday] = useState("");
   const [onTheAir, setOnTheAir] = useState("");
   const [popularTvShows, setPopularTvShows] = useState("");
+  const navigate = useNavigate();
 
   const getList = async (url, state) => {
     const list = await getMovieList(url);
@@ -68,7 +70,7 @@ const MovieLists = () => {
     );
   }, []);
 
-  const Lists = ({ list }) => (
+  const Lists = ({ list, mediaType }) => (
     <Box
       // border={1}
       sx={{
@@ -85,6 +87,7 @@ const MovieLists = () => {
         list.results.slice(0, 18).map((item, index) => (
           <Box key={index}>
             <Button
+              onClick={() => navigate(`/info/${mediaType}/${item.id}`)}
               sx={{ padding: 0, borderRadius: "6px", position: "relative" }}
             >
               {item.poster_path && (
@@ -244,7 +247,7 @@ const MovieLists = () => {
       <Box sx={{ display: "flex" }}>
         <Box>
           <MyIcon img={movie1} alt="movie" text="MOVIES" />
-          <Lists list={trendingMovies} />
+          <Lists list={trendingMovies} mediaType={"movie"} />
         </Box>
         <Box sx={{ marginLeft: "24px" }}>
           <MyIcon img={flashy} alt="movie" text="Top Movies" />
@@ -256,7 +259,7 @@ const MovieLists = () => {
         <Box>
           <MyIcon img={tv} alt="movie" text="TV SHOWS" />
 
-          <Lists list={trendingTvShows} />
+          <Lists list={trendingTvShows} mediaType={"tv"} />
         </Box>
         <Box sx={{ marginLeft: "24px" }}>
           <MyIcon img={flashy} alt="movie" text="Popular shows" />

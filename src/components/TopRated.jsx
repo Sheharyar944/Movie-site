@@ -327,7 +327,20 @@ const TopRated = () => {
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     filter: "blur(80px)",
-                    zIndex: -1,
+                    zIndex: 0,
+                  }}
+                />
+                <Box
+                  sx={{
+                    position: "absolute",
+                    width: "1260px",
+                    height: "100%",
+                    backgroundColor: "rgba(0, 0, 0, 0.6)",
+                    filter: "blur(100px)",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
                   }}
                 />
                 <Box
@@ -420,6 +433,7 @@ const TopRated = () => {
                         fontSize: "12px",
                         marginBottom: "16px",
                         fontFamily: "",
+                        letterSpacing: "1px",
                       }}
                     >
                       {item.overview}

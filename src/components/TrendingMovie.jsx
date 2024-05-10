@@ -4,11 +4,13 @@ import date from "../assets/date.png";
 import star from "../assets/star.png";
 import useGetTrending from "../hooks/useGetTrending";
 import { Box } from "@mui/material";
+import useGetMovieLists from "../hooks/useGetMovieLists";
 
-const TrendingMovie = () => {
-  const { trendingMovie } = useGetTrending();
+const nowPlayingMovie = () => {
+  const { getMovieList } = useGetMovieLists();
+  const { nowPlayingMovie } = useGetTrending();
+  const [trendingList, setTrendingList] = useState("");
 
-  console.log("trend", trendingMovie);
   return (
     <Box
       //   border={1}
@@ -21,7 +23,7 @@ const TrendingMovie = () => {
       }}
     >
       <Typography variant="h4" color="#fbfafb">
-        {trendingMovie.title || trendingMovie.name}
+        {nowPlayingMovie.title || nowPlayingMovie.name}
       </Typography>
       <Box sx={{ display: "flex", alignItems: "center", margin: "10px 0px" }}>
         <img
@@ -34,7 +36,7 @@ const TrendingMovie = () => {
           color="#fbfafb"
           sx={{ marginRight: "15px" }}
         >
-          {trendingMovie && trendingMovie.vote_average.toFixed(1)}
+          {nowPlayingMovie && nowPlayingMovie.vote_average.toFixed(1)}
         </Typography>
         <img
           src={date}
@@ -46,10 +48,10 @@ const TrendingMovie = () => {
           color="#fbfafb"
           sx={{ marginRight: "15px" }}
         >
-          {trendingMovie.release_date}
+          {nowPlayingMovie.release_date}
         </Typography>
         <Typography variant="body1" color="#fbfafb">
-          {trendingMovie && trendingMovie.original_language.toUpperCase()}
+          {nowPlayingMovie && nowPlayingMovie.original_language.toUpperCase()}
         </Typography>
       </Box>
       <Typography
@@ -63,10 +65,10 @@ const TrendingMovie = () => {
           WebkitBoxOrient: "vertical",
         }}
       >
-        {trendingMovie.overview}
+        {nowPlayingMovie.overview}
       </Typography>
     </Box>
   );
 };
 
-export default TrendingMovie;
+export default nowPlayingMovie;

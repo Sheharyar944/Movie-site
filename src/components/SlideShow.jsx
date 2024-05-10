@@ -2,9 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import useGetTrending from "../hooks/useGetTrending";
 import hoverPlay from "../assets/hoverPlay.png";
 import { Box, Button, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const SlideShow = () => {
   const { trending } = useGetTrending();
+  const navigate = useNavigate();
 
   const images =
     trending &&
@@ -34,7 +36,6 @@ const SlideShow = () => {
         ),
       5000
     );
-    console.log("index", index);
 
     return () => {
       resetTimeout();
@@ -53,12 +54,13 @@ const SlideShow = () => {
         style={{ transform: `translate3d(${index}px, 0, 0)` }}
       >
         {trending &&
-          trending.results.map((movie, index) => (
+          trending.results.map((item, index) => (
             <Button
               className="slide"
+              onClick={() => navigate(`/info/${item.media_type}/${item.id}`)}
               key={index}
               sx={{
-                backgroundImage: `url(https://image.tmdb.org/t/p/w780${movie.backdrop_path})`,
+                backgroundImage: `url(https://image.tmdb.org/t/p/w780${item.backdrop_path})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 borderRadius: "20px",
@@ -115,7 +117,7 @@ const SlideShow = () => {
                   color="#FFFFFF"
                 >
                   {" "}
-                  {movie.title || movie.name}
+                  {item.title || item.name}
                 </Typography>
                 <Typography
                   variant="body1"
@@ -127,15 +129,15 @@ const SlideShow = () => {
                     textShadow: "2px 2px 12px rgba(0, 0, 0, 1)",
                   }}
                 >
-                  Rating {movie.vote_average.toFixed(1)}
+                  Rating {item.vote_average.toFixed(1)}
                   <span style={{ verticalAlign: "middle", margin: "0 5px" }}>
                     •
                   </span>
-                  {(movie.release_date || movie.first_air_date).split("-")[0]}
+                  {(item.release_date || item.first_air_date).split("-")[0]}
                   <span style={{ verticalAlign: "middle", margin: "0 5px" }}>
                     •
                   </span>
-                  {movie.original_language.toUpperCase()}
+                  {item.original_language.toUpperCase()}
                 </Typography>
               </Box>
             </Button>
