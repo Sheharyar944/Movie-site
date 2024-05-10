@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import MovieLists from "../components/MovieLists";
 import { Box, Button, Typography } from "@mui/material";
 import TrendingMovie from "../components/TrendingMovie";
@@ -10,9 +10,9 @@ import whiteinfo from "../assets/whiteinfo.png";
 import MyIcon from "../components/MyIcon";
 import useGetTrending from "../hooks/useGetTrending";
 import { useNavigate } from "react-router-dom";
-import ReactPlayer from "react-player";
-import useGetMovieLists from "../hooks/useGetMovieLists";
 import YouTubePlayer from "../components/YouTubePlayer";
+import useGetMovieLists from "../hooks/useGetMovieLists";
+import YouTube from "react-youtube";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -81,11 +81,6 @@ const Home = () => {
   );
 
   const backgroundImageUrl = `https://image.tmdb.org/t/p/original${nowPlayingMovie.backdrop_path}`;
-  // const trailer =
-  //   movieTrailer &&
-  //   movieTrailer.results.reduce((item) =>
-  //     item && item.name === "Official Trailer" ? item.key : null
-  //   );
 
   const trailer =
     movieTrailer &&
@@ -98,8 +93,6 @@ const Home = () => {
       }
       return acc;
     }, null);
-
-  console.log("trailer", trailer);
 
   return (
     <Box>
@@ -114,7 +107,7 @@ const Home = () => {
           backgroundSize: "cover",
           height: "635px",
           width: "100%",
-          zIndex: -9999,
+          zIndex: -1,
           "&::before": {
             content: '""',
             position: "absolute",
@@ -126,69 +119,7 @@ const Home = () => {
           },
         }}
       ></Box>
-      {trailer !== null && (
-        // <Box
-        //   border={1}
-        //   sx={{
-        //     position: "absolute",
-        //     width: "100%",
-        //     height: "100%",
-        //     top: 0,
-        //     left: 0,
-        //     zIndex: -2,
-        //     overflow: "hidden",
-        //   }}
-        // >
-        //   <ReactPlayer
-        //     url={`https://www.youtube.com/embed/${trailer}`}
-        //     controls={false}
-        //     playing={true}
-        //     muted={true}
-        //     width="100vw"
-        //     height="100vh"
-        //     style={{
-        //       // position: "absolute",
-        //       // top: "0",
-        //       // left: "0",
-        //       zIndex: -2,
-        //       objectFit: "cover",
-        //     }}
-        //     // config={{
-        //     //   youtube: {
-        //     //     playerVars: {
-        //     //       autoplay: 1, // Auto-play the video
-        //     //       fs: 1, // Show fullscreen button
-        //     //     },
-        //     //   },
-        //     // }}
-        //   />
-        // </Box>
-        <Box
-          // border={1}
-          sx={{
-            position: "absolute",
-            top: -52,
-            left: 0,
-            width: "100%",
-            height: "100vh",
-            zIndex: -1,
-            // overflow: "hidden",
-          }}
-        >
-          <Box
-            sx={{
-              position: "absolute",
-              width: "100%",
-              height: "116vh",
-              backgroundColor: "rgba(0, 0, 0, 0.4)",
-              top: 0,
-              left: 0,
-            }}
-          />
-
-          <YouTubePlayer videoId={trailer} />
-        </Box>
-      )}
+      {trailer !== null && <YouTubePlayer videoId={trailer} />}
       <Box sx={{ padding: "0 70px 0 70px" }}>
         {/* <Box
           sx={{

@@ -11,8 +11,6 @@ import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import Link from "@mui/material/Link";
-import useGetMovieLists from "../hooks/useGetMovieLists";
-import useGetTrending from "../hooks/useGetTrending";
 import heart from "../assets/heart.png";
 import arrowLeftBlue from "../assets/arrowLeftBlue.png";
 
@@ -66,31 +64,7 @@ const Root = () => {
   // search bar styling ends here
 
   return (
-    <Box
-    // border={1}
-    // sx={{
-    //   position: "absolute",
-    //   top: 0,
-    //   left: 0,
-    //   backgroundImage: `url(${backgroundImageUrl})`,
-    //   backgroundRepeat: "no-repeat",
-    //   backgroundPosition: "center",
-    //   backgroundSize: "cover",
-    //   height: "100vh",
-    //   width: "100%",
-    // }}
-    >
-      {" "}
-      {/* <div
-        sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          background: "rgba(0, 0, 0, 1)",
-        }}
-      /> */}
+    <Box>
       <AppBar
         position="static"
         sx={{
