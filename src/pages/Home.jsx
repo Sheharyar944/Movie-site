@@ -12,20 +12,24 @@ import useGetTrending from "../hooks/useGetTrending";
 import { useNavigate } from "react-router-dom";
 import YouTubePlayer from "../components/YouTubePlayer";
 import useGetMovieLists from "../hooks/useGetMovieLists";
-import YouTube from "react-youtube";
 
 const Home = () => {
   const navigate = useNavigate();
   const { getMovieList } = useGetMovieLists();
-  const { nowPlayingMovie } = useGetTrending();
+  const { nowPlayingMovie, nowPlayingMovies } = useGetTrending();
   const [movieTrailer, setMovieTrailer] = useState("");
+  const [trailer, setTrailer] = useState("");
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   const getList = async (url, state) => {
     const list = await getMovieList(url);
     state(list);
   };
 
+  // const nowPlayingMovie = nowPlayingMovies && nowPlayingMovies.results[0];
+
   useEffect(() => {
+    setVideoLoaded(false);
     if (nowPlayingMovie) {
       getList(
         `https://api.themoviedb.org/3/movie/${nowPlayingMovie.id}/videos?language=en-US`,
@@ -33,6 +37,23 @@ const Home = () => {
       );
     }
   }, [nowPlayingMovie]);
+
+  useEffect(() => {
+    if (movieTrailer !== "") {
+      const trailer =
+        movieTrailer &&
+        movieTrailer.results.reduce((acc, item) => {
+          const normalizedItemName = item.name.toLowerCase().replace(/\s/g, "");
+          const normalizedSearchTerm = "officialtrailer";
+
+          if (normalizedItemName === normalizedSearchTerm) {
+            return item.key;
+          }
+          return acc;
+        }, null);
+      setTrailer(trailer);
+    }
+  }, [movieTrailer]);
 
   const PlayAndMore = () => (
     <Box sx={{ marginBottom: "70px" }}>
@@ -57,7 +78,7 @@ const Home = () => {
         {`Play Now`}
       </Button>
       <Button
-        onClick={() => navigate(`/info/movie/${trendingMovie.id}`)}
+        onClick={() => navigate(`/info/movie/${nowPlayingMovie.id}`)}
         startIcon={
           <img src={whiteinfo} alt="info" style={{ height: "18px" }} />
         }
@@ -82,17 +103,20 @@ const Home = () => {
 
   const backgroundImageUrl = `https://image.tmdb.org/t/p/original${nowPlayingMovie.backdrop_path}`;
 
-  const trailer =
-    movieTrailer &&
-    movieTrailer.results.reduce((acc, item) => {
-      const normalizedItemName = item.name.toLowerCase().replace(/\s/g, "");
-      const normalizedSearchTerm = "officialtrailer";
+  // const trailer =
+  //   movieTrailer &&
+  //   movieTrailer.results.reduce((acc, item) => {
+  //     const normalizedItemName = item.name.toLowerCase().replace(/\s/g, "");
+  //     const normalizedSearchTerm = "officialtrailer";
 
-      if (normalizedItemName === normalizedSearchTerm) {
-        return item.key;
-      }
-      return acc;
-    }, null);
+  //     if (normalizedItemName === normalizedSearchTerm) {
+  //       return item.key;
+  //     }
+  //     return acc;
+  //   }, null);
+
+  console.log("trailer", trailer);
+  console.log("now", nowPlayingMovie);
 
   return (
     <Box>
@@ -119,7 +143,13 @@ const Home = () => {
           },
         }}
       ></Box>
-      {trailer !== null && <YouTubePlayer videoId={trailer} />}
+      {trailer !== null && (
+        <YouTubePlayer
+          videoId={trailer}
+          videoLoaded={videoLoaded}
+          setVideoLoaded={setVideoLoaded}
+        />
+      )}
       <Box sx={{ padding: "0 70px 0 70px" }}>
         {/* <Box
           sx={{

@@ -1,0 +1,502 @@
+import React, { useState, useEffect } from "react";
+import SelectMenu from "../components/SelectMenu";
+import Typography from "@mui/material/Typography";
+import { Box, Button } from "@mui/material";
+import play from "../assets/play.png";
+import useGetMovieLists from "../hooks/useGetMovieLists";
+import Grid from "../components/Grid";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import Fade from "@mui/material/Fade";
+import tick from "../assets/tick.png";
+import expand from "../assets/expand.png";
+
+const Explore = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { getMovieList } = useGetMovieLists();
+  const [list, setList] = useState();
+  const [genreList, setGenreList] = useState();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorE2, setAnchorE2] = useState(null);
+  const [anchorE3, setAnchorE3] = useState(null);
+  const [anchorE4, setAnchorE4] = useState(null);
+  const [anchorE5, setAnchorE5] = useState(null);
+
+  const media = ["movie", "show"];
+
+  const getYears = () => {
+    const yearsArray = ["Any"];
+    for (let year = 2024; year >= 1940; year--) {
+      yearsArray.push(year);
+    }
+    return yearsArray;
+  };
+
+  const getQueryParams = () => {
+    const params = new URLSearchParams(location.search);
+    return {
+      type: params.get("type") || "",
+      genre: parseInt(params.get("genre")) || "",
+      year: parseInt(params.get("year")) || "",
+    };
+  };
+  const initialParams = getQueryParams();
+
+  const filteredGenre =
+    genreList &&
+    genreList.genres.reduce(
+      (accumulator, item) =>
+        item.id === initialParams.genre ? item.name : accumulator,
+      "Any"
+    );
+
+  const [genreName, setGenreName] = useState(filteredGenre);
+  const [type, setType] = useState(
+    initialParams.type === "tv" ? "show" : initialParams.type
+  );
+  const [genre, setGenre] = useState(initialParams.genre);
+  const [year, setYear] = useState(initialParams.year);
+  const [mediaType, setMediaType] = useState(initialParams.type);
+
+  const constructBrowserUrl = () => {
+    const params = new URLSearchParams();
+    const mediaType = type === "show" ? "tv" : type;
+    if (type) {
+      params.append("type", mediaType);
+    }
+    if (genre) {
+      params.append("genre", genre);
+    }
+    if (year) {
+      params.append("year", year);
+    }
+    return `${location.pathname}?${params}`;
+  };
+
+  const constructApiUrl = () => {
+    const baseUrl = "https://api.themoviedb.org/3/discover/";
+    const mediaType = type === "show" ? "tv" : type;
+    const params = new URLSearchParams({
+      language: "en-US",
+      page: "1",
+    });
+    if (genre && genre !== "any") {
+      params.append("with_genres", genre);
+    }
+    if (year && year !== "any" && mediaType === "tv") {
+      params.append("first_air_date_year", year);
+    } else if (year && year !== "any") {
+      params.append("primary_release_year", year);
+    }
+
+    // if (genre) {params.append('with_genres', genre)}
+    // if (genre) {params.append('with_genres', genre)}
+    // if (genre) {params.append('with_genres', genre)}
+    return `${baseUrl}${mediaType}?${params}`;
+  };
+
+  useEffect(() => {
+    console.log("yes please");
+    const url = constructBrowserUrl();
+    const apiUrl = constructApiUrl();
+    console.log("api", apiUrl);
+    navigate(url, { replace: true });
+    getList(apiUrl, setList);
+  }, [type, genre, year]);
+
+  console.log("list", list);
+
+  const getList = async (url, state) => {
+    const list = await getMovieList(url);
+    state(list);
+  };
+
+  useEffect(() => {
+    const mediaType = type === "show" ? "tv" : type;
+    getList(
+      `https://api.themoviedb.org/3/genre/${mediaType}/list?language=en`,
+      setGenreList
+    );
+  }, [type]);
+
+  const handleClick = (event, setAnchor) => {
+    setAnchor(event.currentTarget);
+  };
+
+  const handleClose = (setAnchor) => {
+    setAnchor(null);
+  };
+
+  const DropDownButton = ({ list, type, onClick, anchorEl, onClose }) => (
+    <>
+      <Box>
+        <Typography variant="body1" color="#fbfafb">
+          {type}
+        </Typography>
+        <Button
+          variant="contained"
+          onClick={onClick}
+          sx={{
+            borderRadius: "8px",
+            width: 248,
+            height: 36,
+            backgroundColor: "#1b1f29",
+            transition: "transform 1s ease",
+            "&:hover": {
+              backgroundColor: "#1b1f29",
+            },
+            "&:active": {
+              transform: "scale(0.98)",
+            },
+          }}
+          disableRipple
+        >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%",
+              textTransform: "capitalize",
+            }}
+          >
+            <Typography variant="body1" color="#fbfafb">
+              {mediaType}
+            </Typography>
+            <img
+              src={expand}
+              alt="play"
+              style={{ height: 16, transform: "rotate(90deg)" }}
+            />
+          </Box>
+        </Button>
+      </Box>
+      <Menu
+        TransitionComponent={Fade}
+        transitionDuration={200}
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={onClose}
+        sx={{ maxHeight: 200, mt: "4px" }}
+        PaperProps={{
+          style: {
+            backgroundColor: "#1b1f29",
+          },
+        }}
+      >
+        {list.map((item, index) => (
+          <MenuItem
+            key={index}
+            onClick={() => handleSelect(item)}
+            sx={{
+              width: 248,
+              fontSize: "14px",
+              color: mediaType === item ? "#49e4d7" : "#fbfafb", // Change text color
+              pl: mediaType === item ? "0px" : "44px",
+              textTransform: "capitalize",
+              "&:hover": {
+                backgroundColor: "#272a34", // Change background color on hover
+                color: "#49e4d7", // Change text color on hover
+              },
+            }}
+          >
+            {mediaType === item && (
+              <img
+                src={tick}
+                alt="tick"
+                style={{ height: 20, marginRight: 10, marginLeft: "14px" }}
+              />
+            )}
+            {item}
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
+  );
+
+  return (
+    <Box sx={{ mt: "46px", mx: "20px" }}>
+      <Box sx={{ display: "flex" }}>
+        <Box>
+          <Box>
+            <Typography variant="body1" color="#fbfafb">
+              TYPE
+            </Typography>
+            <Button
+              variant="contained"
+              onClick={(event) => setAnchorEl(event.currentTarget)}
+              sx={{
+                borderRadius: "8px",
+                width: 248,
+                height: 36,
+                backgroundColor: "#1b1f29",
+                transition: "transform 1s ease",
+                "&:hover": {
+                  backgroundColor: "#1b1f29",
+                },
+                "&:active": {
+                  transform: "scale(0.98)",
+                },
+              }}
+              disableRipple
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  width: "100%",
+                  textTransform: "capitalize",
+                }}
+              >
+                <Typography variant="body1" color="#fbfafb">
+                  {type}
+                </Typography>
+                <img
+                  src={expand}
+                  alt="play"
+                  style={{ height: 16, transform: "rotate(90deg)" }}
+                />
+              </Box>
+            </Button>
+          </Box>
+          <Menu
+            TransitionComponent={Fade}
+            transitionDuration={200}
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={() => setAnchorEl(null)}
+            sx={{ maxHeight: 200, mt: "4px" }}
+            PaperProps={{
+              style: {
+                backgroundColor: "#1b1f29",
+              },
+            }}
+          >
+            {media.map((item, index) => (
+              <MenuItem
+                key={index}
+                onClick={() => (setType(item), setAnchorEl(null))}
+                sx={{
+                  width: 248,
+                  fontSize: "14px",
+                  color: type === item ? "#49e4d7" : "#fbfafb", // Change text color
+                  pl: type === item ? "0px" : "44px",
+                  textTransform: "capitalize",
+                  "&:hover": {
+                    backgroundColor: "#272a34", // Change background color on hover
+                    color: "#49e4d7", // Change text color on hover
+                  },
+                }}
+              >
+                {type === item && (
+                  <img
+                    src={tick}
+                    alt="tick"
+                    style={{ height: 20, marginRight: 10, marginLeft: "14px" }}
+                  />
+                )}
+                {item}
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
+
+        <Box>
+          <Box>
+            <Typography variant="body1" color="#fbfafb">
+              GENRE
+            </Typography>
+            <Button
+              variant="contained"
+              onClick={(event) => setAnchorE2(event.currentTarget)}
+              sx={{
+                borderRadius: "8px",
+                width: 248,
+                height: 36,
+                backgroundColor: "#1b1f29",
+                transition: "transform 1s ease",
+                "&:hover": {
+                  backgroundColor: "#1b1f29",
+                },
+                "&:active": {
+                  transform: "scale(0.98)",
+                },
+              }}
+              disableRipple
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  width: "100%",
+                  textTransform: "capitalize",
+                }}
+              >
+                <Typography variant="body1" color="#fbfafb">
+                  {filteredGenre || genreName}
+                </Typography>
+                <img
+                  src={expand}
+                  alt="play"
+                  style={{ height: 16, transform: "rotate(90deg)" }}
+                />
+              </Box>
+            </Button>
+          </Box>
+          <Menu
+            TransitionComponent={Fade}
+            transitionDuration={200}
+            anchorEl={anchorE2}
+            open={Boolean(anchorE2)}
+            onClose={() => setAnchorE2(null)}
+            sx={{ maxHeight: 200, mt: "4px" }}
+            PaperProps={{
+              style: {
+                backgroundColor: "#1b1f29",
+              },
+            }}
+          >
+            {genreList &&
+              [{ name: "Any", id: "any" }]
+                .concat(genreList.genres)
+                .map((item, index) => (
+                  <MenuItem
+                    key={index}
+                    onClick={() => (
+                      setGenre(item.id),
+                      setAnchorE2(null),
+                      setGenreName(item.name)
+                    )}
+                    sx={{
+                      width: 248,
+                      fontSize: "14px",
+                      color: genre === item.id ? "#49e4d7" : "#fbfafb", // Change text color
+                      pl: genre === item.id ? "0px" : "44px",
+                      textTransform: "capitalize",
+                      "&:hover": {
+                        backgroundColor: "#272a34", // Change background color on hover
+                        color: "#49e4d7", // Change text color on hover
+                      },
+                    }}
+                  >
+                    {genre === item.id && (
+                      <img
+                        src={tick}
+                        alt="tick"
+                        style={{
+                          height: 20,
+                          marginRight: 10,
+                          marginLeft: "14px",
+                        }}
+                      />
+                    )}
+                    {item.name}
+                  </MenuItem>
+                ))}
+          </Menu>
+        </Box>
+
+        <Box>
+          <Box>
+            <Typography variant="body1" color="#fbfafb">
+              Year
+            </Typography>
+            <Button
+              variant="contained"
+              onClick={(event) => setAnchorE3(event.currentTarget)}
+              sx={{
+                borderRadius: "8px",
+                width: 248,
+                height: 36,
+                backgroundColor: "#1b1f29",
+                transition: "transform 1s ease",
+                "&:hover": {
+                  backgroundColor: "#1b1f29",
+                },
+                "&:active": {
+                  transform: "scale(0.98)",
+                },
+              }}
+              disableRipple
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  width: "100%",
+                  textTransform: "capitalize",
+                }}
+              >
+                <Typography variant="body1" color="#fbfafb">
+                  {year}
+                </Typography>
+                <img
+                  src={expand}
+                  alt="play"
+                  style={{ height: 16, transform: "rotate(90deg)" }}
+                />
+              </Box>
+            </Button>
+          </Box>
+          <Menu
+            TransitionComponent={Fade}
+            transitionDuration={200}
+            anchorEl={anchorE3}
+            open={Boolean(anchorE3)}
+            onClose={() => setAnchorE3(null)}
+            sx={{ maxHeight: 200, mt: "4px" }}
+            PaperProps={{
+              style: {
+                backgroundColor: "#1b1f29",
+              },
+            }}
+          >
+            {getYears().map((item, index) => (
+              <MenuItem
+                key={index}
+                onClick={() => (setYear(item), setAnchorE3(null))}
+                sx={{
+                  width: 248,
+                  fontSize: "14px",
+                  color: year === item ? "#49e4d7" : "#fbfafb", // Change text color
+                  pl: year === item ? "0px" : "44px",
+                  textTransform: "capitalize",
+                  "&:hover": {
+                    backgroundColor: "#272a34", // Change background color on hover
+                    color: "#49e4d7", // Change text color on hover
+                  },
+                }}
+              >
+                {year === item && (
+                  <img
+                    src={tick}
+                    alt="tick"
+                    style={{ height: 20, marginRight: 10, marginLeft: "14px" }}
+                  />
+                )}
+                {item}
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
+
+        {/* <DropDownButton
+          list={media}
+          type="TYPE"
+          onClick={(event) => setAnchorE2(event.currentTarget)}
+          anchorEl={anchorE2}
+          onClose={() => setAnchorE2(null)}
+        /> */}
+      </Box>
+      {/* <SelectMenu /> */}
+      <Grid data={list} />
+    </Box>
+  );
+};
+
+export default Explore;

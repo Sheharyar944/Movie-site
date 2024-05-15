@@ -5,12 +5,12 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { Outlet, useNavigate, useLocation, Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 import heart from "../assets/heart.png";
 import arrowLeftBlue from "../assets/arrowLeftBlue.png";
 
@@ -77,30 +77,41 @@ const Root = () => {
       >
         <Toolbar variant="dense" style={{ padding: "0px", marginLeft: "70px" }}>
           {pathname.startsWith("/info") && (
-            <Link href="/" underline="none">
+            <Link to="/">
               <img
                 src={arrowLeftBlue}
                 alt="arrow left blue"
-                style={{ width: 30, marginTop: "7px", marginRight: "20px" }}
+                style={{
+                  width: 30,
+                  marginTop: "7px",
+                  marginRight: "20px",
+                  textDecoration: "none",
+                }}
               />
             </Link>
           )}
-          <Link href="/" underline="none" sx={{ mr: "auto" }}>
+          <Link to="/" style={{ marginRight: "auto", textDecoration: "none" }}>
             <Typography variant="h5" color="#fbfafb" component="div">
               Flixer
             </Typography>
           </Link>
-          <Link href="/" underline="none" sx={{ marginRight: "30px" }}>
+          <Link to="/" style={{ marginRight: "30px", textDecoration: "none" }}>
             <Typography variant="body1" color="#fbfafb">
               Home
             </Typography>
           </Link>
-          <Link href="/" underline="none" sx={{ marginRight: "30px" }}>
+          <Link
+            to="/explore?type=movie"
+            style={{ marginRight: "30px", textDecoration: "none" }}
+          >
             <Typography variant="body1" color="#fbfafb">
               Movies
             </Typography>
           </Link>
-          <Link href="/" underline="none" sx={{ marginRight: "30px" }}>
+          <Link
+            to="/explore?type=tv"
+            style={{ marginRight: "30px", textDecoration: "none" }}
+          >
             <Typography variant="body1" color="#fbfafb">
               Tv Shows
             </Typography>

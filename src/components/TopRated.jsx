@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import useGetMovieLists from "../hooks/useGetMovieLists";
 import star from "../assets/star.png";
-import date from "../assets/date.png";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import whiteinfo from "../assets/whiteinfo.png";
 import starblack1 from "../assets/starblack1.png";
 import MyIcon from "./MyIcon";
 import { Box, Button, Typography } from "@mui/material";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import leftArrow from "../assets/leftArrow.png";
 import rightArrow from "../assets/rightArrow.png";
+import { useNavigate } from "react-router-dom";
 
 const TopRated = () => {
   const [index, setIndex] = useState(0);
@@ -18,6 +17,7 @@ const TopRated = () => {
   const { getMovieList } = useGetMovieLists();
   const [checked, setChecked] = useState(true);
   const [position, setPosition] = useState(0);
+  const navigate = useNavigate();
 
   function resetTimeout() {
     if (timeoutRef.current) {
@@ -59,7 +59,7 @@ const TopRated = () => {
     }
   }, [checked]);
 
-  const PlayAndMore = () => (
+  const PlayAndMore = ({ id }) => (
     <Box sx={{ marginBottom: "70px" }}>
       <Button
         startIcon={<PlayArrowIcon fontSize="large" />}
@@ -82,6 +82,7 @@ const TopRated = () => {
         {`Watch Now`}
       </Button>
       <Button
+        onClick={() => navigate(`/info/${checked ? "tv" : "movie"}/${id}`)}
         startIcon={
           <img src={whiteinfo} alt="info" style={{ height: "18px" }} />
         }
@@ -438,7 +439,7 @@ const TopRated = () => {
                     >
                       {item.overview}
                     </Typography>
-                    <PlayAndMore />
+                    <PlayAndMore id={item.id} />
                   </Box>
                 </Box>
                 <Box

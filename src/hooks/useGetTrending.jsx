@@ -5,6 +5,7 @@ const useGetTrending = () => {
   const { getMovieList } = useGetMovieLists();
   const [trending, setTrending] = useState("");
   const [nowPlayingMovies, setNowPlayingMovies] = useState("");
+  const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
 
   const getList = async (url, state) => {
     const list = await getMovieList(url);
@@ -22,13 +23,24 @@ const useGetTrending = () => {
     );
   }, []);
 
-  const nowPlayingMovie =
-    nowPlayingMovies &&
-    nowPlayingMovies.results.reduce((prev, current) =>
-      prev.popularity > current.popularity ? prev : current
-    );
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentMovieIndex((prevIndex) => (prevIndex + 1) % 20);
+    }, 60000);
 
-  return { trending, nowPlayingMovie };
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const nowPlayingMovie =
+    nowPlayingMovies && nowPlayingMovies.results[currentMovieIndex];
+
+  // const nowPlayingMovie =
+  //   nowPlayingMovies &&
+  //   nowPlayingMovies.results.reduce((prev, current) =>
+  //     prev.popularity > current.popularity ? prev : current
+  //   );
+
+  return { trending, nowPlayingMovie, nowPlayingMovies };
 };
 
 export default useGetTrending;

@@ -1,13 +1,12 @@
 import { Box, Button, IconButton } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import YouTube from "react-youtube";
 import mute from "../assets/mute.png";
 import sound from "../assets/sound.png";
 
-const YouTubePlayer = ({ videoId }) => {
+const YouTubePlayer = ({ videoId, videoLoaded, setVideoLoaded }) => {
   const [player, setPlayer] = useState(null);
   const [isMuted, setIsMuted] = useState(true);
-  const [videoLoaded, setVideoLoaded] = useState(false);
 
   const opts = {
     height: "780px", // Full height
@@ -39,6 +38,12 @@ const YouTubePlayer = ({ videoId }) => {
     }
   };
 
+  useEffect(() => {
+    if (player && videoId) {
+      player.loadVideoById(videoId);
+    }
+  }, [videoId]);
+
   const handleToggleSound = () => {
     if (player) {
       const currentVolume = player.isMuted();
@@ -62,7 +67,7 @@ const YouTubePlayer = ({ videoId }) => {
           left: 0,
           width: "100%",
           height: "100vh",
-          zIndex: videoLoaded ? -1 : -2,
+          zIndex: videoLoaded ? -1 : -3,
         }}
       >
         <Box
@@ -103,6 +108,7 @@ const YouTubePlayer = ({ videoId }) => {
           left: 1250,
           height: 35,
           width: 35,
+          zIndex: videoLoaded ? 0 : -3,
           backgroundColor: " rgba(255,255,255,0.1)",
           "&:hover": {
             backgroundColor: " rgba(255,255,255,0.2)",

@@ -1,8 +1,9 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/Home";
 import Root from "./components/Root";
+import Home from "./pages/Home";
 import Info from "./pages/Info";
+import Explore from "./pages/Explore";
 
 function App() {
   const router = createBrowserRouter([
@@ -17,6 +18,10 @@ function App() {
         {
           path: "/info/:type/:id",
           element: <Info />,
+        },
+        {
+          path: "/explore/",
+          element: <Explore />,
         },
       ],
     },

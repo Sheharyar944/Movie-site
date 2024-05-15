@@ -60,12 +60,15 @@ const SlideShow = () => {
               onClick={() => navigate(`/info/${item.media_type}/${item.id}`)}
               key={index}
               sx={{
-                backgroundImage: `url(https://image.tmdb.org/t/p/w780${item.backdrop_path})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
+                position: "relative",
+                // backgroundImage: `url(https://image.tmdb.org/t/p/w780${item.backdrop_path})`,
+                // backgroundSize: "cover",
+                // backgroundPosition: "center",
                 borderRadius: "20px",
                 marginRight: "10px",
                 textTransform: "none",
+                transition: "transform 0.3s ease",
+                overflow: "hidden",
                 "&::before": {
                   content: '""',
                   position: "absolute",
@@ -73,13 +76,18 @@ const SlideShow = () => {
                   left: 0,
                   right: 0,
                   bottom: 0,
+                  backgroundImage: `url(https://image.tmdb.org/t/p/w780${item.backdrop_path})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
                   borderRadius: "20px",
-                  background: "rgba(0, 0, 0, 0.3)",
-                  zindex: 0,
+                  opacity: 1,
+                  transition: "transform 0.3s ease",
+                },
+                "&:hover::before": {
+                  transform: "scale(1.1)",
                 },
                 "&:hover": {
                   border: "2px solid #2dd5fd",
-                  backgroundSize: "105%",
                 },
                 "& img": {
                   position: "absolute",
@@ -91,54 +99,70 @@ const SlideShow = () => {
                 },
                 "&:hover img": {
                   opacity: 1,
+                  zIndex: 100,
                 },
               }}
             >
               <img src={hoverPlay} alt="Overlay Image" />
               <Box
+                // border={1}
                 sx={{
                   position: "absolute",
                   width: "345px",
                   height: "175px",
-                  backgroundColor: "rgba(0, 0, 0, 0)",
+                  backgroundImage:
+                    "linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.4))",
                   borderRadius: "20px",
                 }}
               >
-                <Typography
+                <Box
+                  // border={1}
                   sx={{
-                    marginTop: "120px",
-                    textTransform: "uppercase",
-                    fontWeight: "bold",
-                    padding: "0 20px",
-                    textShadow: "2px 2px 4px rgba(0, 0, 0, 1)",
-                    zindex: 1,
-                  }}
-                  variant="body1"
-                  color="#FFFFFF"
-                >
-                  {" "}
-                  {item.title || item.name}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  color="#2dd5fd"
-                  sx={{
-                    marginTop: "4px",
-                    padding: "0 20px",
-                    fontSize: "12px",
-                    textShadow: "2px 2px 12px rgba(0, 0, 0, 1)",
+                    position: "absolute",
+                    borderRadius: "20px",
+                    width: "100%",
+                    bottom: 0,
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    padding: "0 20px 10px 20px",
                   }}
                 >
-                  Rating {item.vote_average.toFixed(1)}
-                  <span style={{ verticalAlign: "middle", margin: "0 5px" }}>
-                    •
-                  </span>
-                  {(item.release_date || item.first_air_date).split("-")[0]}
-                  <span style={{ verticalAlign: "middle", margin: "0 5px" }}>
-                    •
-                  </span>
-                  {item.original_language.toUpperCase()}
-                </Typography>
+                  <Typography
+                    sx={{
+                      textTransform: "uppercase",
+                      fontWeight: "bold",
+                      // textShadow: "2px 2px 4px rgba(0, 0, 0, 1)",
+                      zindex: 1,
+                      fontSize: "15px",
+                      textWrap: "wrap",
+                    }}
+                    variant="body1"
+                    color="#FFFFFF"
+                  >
+                    {" "}
+                    {item.title || item.name}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    color="#2dd5fd"
+                    sx={{
+                      marginTop: "4px",
+                      padding: "0 20px",
+                      fontSize: "12px",
+                      textShadow: "2px 2px 12px rgba(0, 0, 0, 1)",
+                    }}
+                  >
+                    Rating {item.vote_average.toFixed(1)}
+                    <span style={{ verticalAlign: "middle", margin: "0 5px" }}>
+                      •
+                    </span>
+                    {(item.release_date || item.first_air_date).split("-")[0]}
+                    <span style={{ verticalAlign: "middle", margin: "0 5px" }}>
+                      •
+                    </span>
+                    {item.original_language.toUpperCase()}
+                  </Typography>
+                </Box>
               </Box>
             </Button>
           ))}

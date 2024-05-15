@@ -166,7 +166,7 @@ const MovieLists = () => {
     </Box>
   );
 
-  const SideList = ({ list }) => (
+  const SideList = ({ list, mediaType }) => (
     <Box
       //  border={1}
       sx={{ height: "650px" }}
@@ -175,6 +175,7 @@ const MovieLists = () => {
         list.results.slice(0, 8).map((movie, index) => (
           <Box key={index}>
             <Button
+              onClick={() => navigate(`info/${mediaType}/${movie.id}`)}
               sx={{
                 padding: "0px",
                 marginBottom: "7px",
@@ -252,7 +253,7 @@ const MovieLists = () => {
         <Box sx={{ marginLeft: "24px" }}>
           <MyIcon img={flashy} alt="movie" text="Top Movies" />
 
-          <SideList list={nowPlaying} />
+          <SideList list={nowPlaying} mediaType={"movie"} />
         </Box>
       </Box>
       <Box sx={{ display: "flex" }}>
@@ -264,7 +265,7 @@ const MovieLists = () => {
         <Box sx={{ marginLeft: "24px" }}>
           <MyIcon img={flashy} alt="movie" text="Popular shows" />
 
-          <SideList list={popularTvShows} />
+          <SideList list={popularTvShows} mediaType={"tv"} />
         </Box>
       </Box>
       {/* 
