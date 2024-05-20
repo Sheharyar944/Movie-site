@@ -4,15 +4,17 @@ import circle from "../assets/circle.png";
 import circleGrey from "../assets/circleGrey.png";
 import play from "../assets/play.png";
 import starGold from "../assets/starGold.png";
+import { useNavigate } from "react-router-dom";
 
-const Grid = ({ data }) => {
+const Grid = ({ data, type }) => {
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
         display: "grid",
-        gridTemplateColumns: "repeat(6, 1fr)",
+        gridTemplateColumns: "repeat(5, 1fr)",
         gridAutoRows: "auto",
-        gap: "12px",
+        gap: "26px",
         marginTop: "12px",
         marginBottom: "100px",
       }}
@@ -24,7 +26,7 @@ const Grid = ({ data }) => {
               <Box key={index}>
                 <Button
                   onClick={() =>
-                    navigate(`/info/${item.media_type}/${item.id}`)
+                    navigate(`/info/${item.media_type || type}/${item.id}`)
                   }
                   //   onMouseEnter={() => setHoveredIndex(index + 1000)}
                   //   onMouseLeave={() => setHoveredIndex(null)}
@@ -34,8 +36,8 @@ const Grid = ({ data }) => {
                     // backgroundImage: `url(https://image.tmdb.org/t/p/w780${item.poster_path})`,
                     // backgroundSize: "cover",
                     // backgroundPosition: "center",
-                    height: 296,
-                    width: 197,
+                    height: 330,
+                    width: 230,
                     position: "relative",
                     textTransform: "none",
                     transition: "0.5s ease",
@@ -74,8 +76,8 @@ const Grid = ({ data }) => {
                   <Box
                     sx={{
                       position: "absolute",
-                      height: 296,
-                      width: 197,
+                      height: 330,
+                      width: 230,
                       top: 0,
                       left: 0,
                       backgroundImage:

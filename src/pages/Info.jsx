@@ -759,6 +759,7 @@ const Info = () => {
       <Box sx={{ padding: "0 56px" }}>
         <MovieDetails />
         <RelatedVideosHeader />
+
         {relatedVideos && relatedVideos.results.length !== 0 && (
           <Box
             // border={1}

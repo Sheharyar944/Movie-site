@@ -13,10 +13,13 @@ import SearchIcon from "@mui/icons-material/Search";
 // import Link from "@mui/material/Link";
 import heart from "../assets/heart.png";
 import arrowLeftBlue from "../assets/arrowLeftBlue.png";
+import line from "../assets/line.png";
 
 const Root = () => {
   // search bar styling starts here
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
+  const path = pathname + search;
+  const navigate = useNavigate();
 
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -95,27 +98,154 @@ const Root = () => {
               Flixer
             </Typography>
           </Link>
-          <Link to="/" style={{ marginRight: "30px", textDecoration: "none" }}>
-            <Typography variant="body1" color="#fbfafb">
-              Home
-            </Typography>
-          </Link>
-          <Link
-            to="/explore?type=movie"
-            style={{ marginRight: "30px", textDecoration: "none" }}
+          <Button
+            onClick={() => navigate("/")}
+            sx={{
+              marginRight: "30px",
+              textDecoration: "none",
+              textTransform: "capitalize",
+              backgroundColor: "transparent",
+              "&:hover": {
+                backgroundColor: "transparent",
+              },
+              "& .hoverBox": {
+                position: "absolute",
+                top: 34,
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                opacity: 0,
+                transition: "height 0.4s ease, opacity 0.4s ease",
+              },
+              "&:hover .hoverBox": {
+                opacity: 1,
+                zIndex: 100,
+                height: 3,
+              },
+            }}
+            disableRipple
           >
-            <Typography variant="body1" color="#fbfafb">
-              Movies
-            </Typography>
-          </Link>
-          <Link
-            to="/explore?type=tv"
-            style={{ marginRight: "30px", textDecoration: "none" }}
+            <Box>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: path === "/" ? "#00c1db" : "#fbfafb",
+                  fontWeight: 700,
+                }}
+              >
+                Home
+              </Typography>
+              {!(path === "/") && (
+                <Box
+                  className="hoverBox"
+                  sx={{
+                    width: "80%",
+                    height: 0,
+                    backgroundColor: "#00c1db",
+                  }}
+                />
+              )}
+            </Box>
+          </Button>
+          <Button
+            onClick={() => navigate("/explore?type=movie")}
+            sx={{
+              marginRight: "30px",
+              textDecoration: "none",
+              textTransform: "capitalize",
+              backgroundColor: "transparent",
+              "&:hover": {
+                backgroundColor: "transparent",
+              },
+              "& .hoverBox": {
+                position: "absolute",
+                top: 34,
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                opacity: 0,
+                transition: "height 0.4s ease, opacity 0.4s ease",
+              },
+              "&:hover .hoverBox": {
+                opacity: 1,
+                zIndex: 100,
+                height: 3,
+              },
+            }}
+            disableRipple
           >
-            <Typography variant="body1" color="#fbfafb">
-              Tv Shows
-            </Typography>
-          </Link>
+            <Box sx={{ overflow: "hidden" }}>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: path.startsWith("/explore?type=movie")
+                    ? "#00c1db"
+                    : "#fbfafb",
+                  fontWeight: 700,
+                }}
+              >
+                Movies
+              </Typography>
+              {!path.startsWith("/explore?type=movie") && (
+                <Box
+                  className="hoverBox"
+                  sx={{
+                    width: "80%",
+                    height: 0,
+                    backgroundColor: "#00c1db",
+                  }}
+                />
+              )}
+            </Box>
+          </Button>
+          <Button
+            onClick={() => navigate("/explore?type=tv")}
+            sx={{
+              marginRight: "30px",
+              textDecoration: "none",
+              textTransform: "capitalize",
+              backgroundColor: "transparent",
+              "&:hover": {
+                backgroundColor: "transparent",
+              },
+              "& .hoverBox": {
+                position: "absolute",
+                top: 34,
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                opacity: 0,
+                transition: "height 0.4s ease, opacity 0.4s ease",
+              },
+              "&:hover .hoverBox": {
+                opacity: 1,
+                zIndex: 100,
+                height: 3,
+              },
+            }}
+            disableRipple
+          >
+            <Box>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: path.startsWith("/explore?type=tv")
+                    ? "#00c1db"
+                    : "#fbfafb",
+                  fontWeight: 700,
+                }}
+              >
+                Tv Shows
+              </Typography>
+              {!path.startsWith("/explore?type=tv") && (
+                <Box
+                  className="hoverBox"
+                  sx={{
+                    width: "80%",
+                    height: 0,
+                    backgroundColor: "#00c1db",
+                  }}
+                />
+              )}
+            </Box>
+          </Button>
 
           <Search sx={{ marginRight: "30px" }}>
             <SearchIconWrapper>
