@@ -3,7 +3,7 @@ import MovieLists from "../components/MovieLists";
 import { Box, Button, Typography } from "@mui/material";
 import TrendingMovie from "../components/TrendingMovie";
 import SlideShow from "../components/SlideShow";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import play from "../assets/play.png";
 import fire2 from "../assets/fire2.png";
 import TopRated from "../components/TopRated";
 import whiteinfo from "../assets/whiteinfo.png";
@@ -58,7 +58,8 @@ const Home = () => {
   const PlayAndMore = () => (
     <Box sx={{ marginBottom: "70px" }}>
       <Button
-        startIcon={<PlayArrowIcon fontSize="large" />}
+        onClick={() => navigate(`/watch/movie/${nowPlayingMovie.id}`)}
+        startIcon={<img src={play} alt="play" style={{ height: 18 }} />}
         variant="contained"
         sx={{
           width: "158px",
@@ -67,20 +68,24 @@ const Home = () => {
           textTransform: "none",
           backgroundColor: "#00c1db",
           borderRadius: "10px",
-          fontSize: "16px",
-
           color: "black",
           "&:hover": {
             backgroundColor: "#009aaf",
           },
         }}
       >
-        {`Play Now`}
+        <Typography
+          variant="body1"
+          color="rgba(0,0,0,0.8)"
+          sx={{ fontWeight: "bold", fontSize: "16px" }}
+        >
+          Play Now
+        </Typography>
       </Button>
       <Button
         onClick={() => navigate(`/info/movie/${nowPlayingMovie.id}`)}
         startIcon={
-          <img src={whiteinfo} alt="info" style={{ height: "18px" }} />
+          <img src={whiteinfo} alt="info" style={{ height: "20px" }} />
         }
         variant="contained"
         sx={{
@@ -96,7 +101,13 @@ const Home = () => {
           },
         }}
       >
-        More Info
+        <Typography
+          variant="body1"
+          color="rgba(255,255,255,0.8)"
+          sx={{ fontWeight: "bold", fontSize: "16px" }}
+        >
+          More Info
+        </Typography>
       </Button>
     </Box>
   );
@@ -114,9 +125,6 @@ const Home = () => {
   //     }
   //     return acc;
   //   }, null);
-
-  console.log("trailer", trailer);
-  console.log("now", nowPlayingMovie);
 
   return (
     <Box>
@@ -143,24 +151,14 @@ const Home = () => {
           },
         }}
       ></Box>
-      {trailer !== null && (
+      {/* {trailer !== null && (
         <YouTubePlayer
           videoId={trailer}
           videoLoaded={videoLoaded}
           setVideoLoaded={setVideoLoaded}
         />
-      )}
+      )} */}
       <Box sx={{ padding: "0 70px 0 70px" }}>
-        {/* <Box
-          sx={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0)",
-          }}
-        /> */}
         <TrendingMovie />
         <PlayAndMore />
         <MyIcon img={fire2} alt="fire" text="What's Trending Today" />

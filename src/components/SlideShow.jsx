@@ -14,6 +14,8 @@ const SlideShow = () => {
       (item) => `https://image.tmdb.org/t/p/w342${item.backdrop_path}`
     );
 
+  const length = trending && trending.results.length - 4;
+
   const [index, setIndex] = useState(0);
   const timeoutRef = useRef(null);
 
@@ -28,10 +30,10 @@ const SlideShow = () => {
     timeoutRef.current = setTimeout(
       () =>
         setIndex((prevIndex) =>
-          prevIndex === -355 * 16 - 200
+          prevIndex === -355 * length - 200
             ? 0
-            : prevIndex === -355 * 16
-            ? -355 * 16 - 200
+            : prevIndex === -355 * length
+            ? -355 * length - 200
             : prevIndex - 355
         ),
       5000
@@ -41,6 +43,8 @@ const SlideShow = () => {
       resetTimeout();
     };
   }, [index]);
+
+  console.log("trending", trending);
 
   return (
     <Box

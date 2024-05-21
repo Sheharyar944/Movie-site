@@ -134,28 +134,6 @@ const Explore = () => {
     return newParams;
   };
 
-  const constructBrowserUrl = () => {
-    const params = new URLSearchParams();
-    if (type) {
-      params.append("type", type);
-    }
-    if (genre !== "Any") {
-      params.append("genre", genre);
-    }
-    if (year !== "Any") {
-      params.append("year", year);
-    }
-    if (sort !== "Any") {
-      params.append("sort", sort);
-    }
-    if (country !== "Any") {
-      params.append("country", country);
-    }
-    params.append("page", page);
-
-    return `${location.pathname}?${params}`;
-  };
-
   const constructApiUrl = () => {
     const baseUrl = "https://api.themoviedb.org/3/discover/";
     const params = new URLSearchParams({
@@ -180,20 +158,12 @@ const Explore = () => {
   };
 
   useEffect(() => {
-    // const url = constructBrowserUrl();
     console.log("I am dumb thats why i am working", genre);
     const newParams = constructParams();
     setSearchParams(newParams);
     const apiUrl = constructApiUrl();
-    // navigate(url, { replace: true });
     getList(apiUrl, setList);
   }, [type, genre, year, sort, country, page]);
-
-  // useEffect(() => {
-  //   const apiUrl = constructApiUrl();
-  //   console.log("apiUrl:", apiUrl);
-  //   getList(apiUrl, setList);
-  // }, [type]);
 
   useEffect(() => {
     setGenre("Any");
@@ -201,12 +171,6 @@ const Explore = () => {
     setSortName("Most Popular");
     setTypeName(type === "tv" ? "Show" : type);
   }, [type]);
-
-  // useEffect(() => {
-  //   const newType = getQueryParams();
-  //   setType(newType.type);
-  //   setTypeName(newType.type === "tv" ? "Show" : newType.type);
-  // }, [location.search]);
 
   const getList = async (url, state) => {
     const list = await getMovieList(url);

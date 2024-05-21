@@ -19,9 +19,11 @@ const MyIcon = ({ img, alt, text }) => {
           backgroundColor: "#00c1db",
           borderRadius: "6px",
           marginRight: "10px",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        <img src={img} alt={alt} />
+        <img src={img} alt={alt} style={{ height: 20 }} />
       </Box>
       <Typography
         variant="body1"

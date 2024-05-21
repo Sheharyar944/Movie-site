@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import useGetMovieLists from "../hooks/useGetMovieLists";
 import star from "../assets/star.png";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import play from "../assets/play.png";
 import whiteinfo from "../assets/whiteinfo.png";
-import starblack1 from "../assets/starblack1.png";
+import blackStar from "../assets/blackStar.png";
 import MyIcon from "./MyIcon";
 import { Box, Button, Typography } from "@mui/material";
 import leftArrow from "../assets/leftArrow.png";
@@ -62,7 +62,7 @@ const TopRated = () => {
   const PlayAndMore = ({ id }) => (
     <Box sx={{ marginBottom: "70px" }}>
       <Button
-        startIcon={<PlayArrowIcon fontSize="large" />}
+        startIcon={<img src={play} alt="play" style={{ height: 18 }} />}
         variant="contained"
         sx={{
           width: "176px",
@@ -72,8 +72,8 @@ const TopRated = () => {
           backgroundColor: "#00c1db",
           borderRadius: "100px",
           fontSize: "16px",
-
-          color: "black",
+          fontWeight: "bold",
+          color: "rgba(0,0,0,0.8)",
           "&:hover": {
             backgroundColor: "#009aaf",
           },
@@ -84,7 +84,7 @@ const TopRated = () => {
       <Button
         onClick={() => navigate(`/info/${checked ? "tv" : "movie"}/${id}`)}
         startIcon={
-          <img src={whiteinfo} alt="info" style={{ height: "18px" }} />
+          <img src={whiteinfo} alt="info" style={{ height: "20px" }} />
         }
         variant="contained"
         sx={{
@@ -94,6 +94,8 @@ const TopRated = () => {
           backgroundColor: "rgba(87, 76, 88, 0.6)",
           borderRadius: "100px",
           // opacity: "0.6",
+          fontSize: "16px",
+
           color: "#FFFFFF",
           "&:hover": {
             backgroundColor: "rgba(52, 46, 53, 0.6)",
@@ -113,7 +115,7 @@ const TopRated = () => {
         margin: "0px 70px",
       }}
     >
-      <MyIcon img={starblack1} alt="fire" text="Top Rated" />
+      <MyIcon img={blackStar} alt="fire" text="Top Rated" />
       <Box sx={{ marginTop: "50px", display: "flex", gap: "10px" }}>
         {checked ? (
           <Button
@@ -392,8 +394,8 @@ const TopRated = () => {
                         src={star}
                         alt="star"
                         style={{
-                          height: "12px",
-                          paddingBottom: "3px",
+                          height: "14px",
+                          paddingBottom: "2px",
                           paddingRight: "2px",
                         }}
                       />
@@ -410,14 +412,21 @@ const TopRated = () => {
                         color="#fbfafb"
                         sx={{ marginRight: "15px", fontSize: "12px" }}
                       >
-                        {item.release_date}
+                        {item.release_date || item.first_air_date}
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        color="#fbfafb"
+                        sx={{ marginRight: "15px", fontSize: "12px" }}
+                      >
+                        {item && item.original_language.toUpperCase()}
                       </Typography>
                       <Typography
                         variant="body1"
                         color="#fbfafb"
                         sx={{ fontSize: "12px" }}
                       >
-                        {item && item.original_language.toUpperCase()}
+                        HD
                       </Typography>
                     </Box>
 

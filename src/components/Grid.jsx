@@ -25,6 +25,7 @@ const Grid = ({ data, type }) => {
             item.poster_path && (
               <Box key={index}>
                 <Button
+                  disableRipple
                   onClick={() =>
                     navigate(`/info/${item.media_type || type}/${item.id}`)
                   }
@@ -57,7 +58,7 @@ const Grid = ({ data, type }) => {
                       transition: "transform 0.3s ease",
                     },
                     "&:hover::before": {
-                      transform: "scale(1.1)",
+                      transform: "scale(1.05)",
                     },
                     "& img": {
                       position: "absolute",
@@ -70,6 +71,9 @@ const Grid = ({ data, type }) => {
                     "&:hover img": {
                       opacity: 1,
                       zIndex: 100,
+                    },
+                    "&:active": {
+                      transform: "scale(0.98)",
                     },
                   }}
                 >

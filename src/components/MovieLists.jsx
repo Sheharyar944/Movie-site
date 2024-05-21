@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Box, Button, Typography } from "@mui/material";
 import useGetMovieLists from "../hooks/useGetMovieLists";
-import movie1 from "../assets/movie1.png";
+import movie from "../assets/movie.png";
+import shine from "../assets/shine.png";
 import flashy from "../assets/flashy.png";
 import tv from "../assets/tv.png";
 import MyIcon from "./MyIcon";
 import starGold from "../assets/starGold.png";
-import { ForkLeft } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import circle from "../assets/circle.png";
+import play from "../assets/play.png";
 
 const MovieLists = () => {
   const { getMovieList } = useGetMovieLists();
@@ -87,16 +89,85 @@ const MovieLists = () => {
         list.results.slice(0, 18).map((item, index) => (
           <Box key={index}>
             <Button
+              disableRipple
               onClick={() => navigate(`/info/${mediaType}/${item.id}`)}
-              sx={{ padding: 0, borderRadius: "6px", position: "relative" }}
+              sx={{
+                padding: 0,
+                borderRadius: "6px",
+                height: 202,
+                width: 135,
+                position: "relative",
+                textTransform: "none",
+                transition: "0.5s ease",
+                overflow: "hidden",
+                "&::before": {
+                  content: '""',
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundImage: `url(https://image.tmdb.org/t/p/w780${item.poster_path})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  borderRadius: "8px",
+                  opacity: 1,
+                  transition: "transform 0.3s ease",
+                },
+                "&:hover::before": {
+                  transform: "scale(1.05)",
+                },
+                "& img": {
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  opacity: 0,
+                  transition: "opacity 0.3s ease",
+                },
+                "&:hover img": {
+                  opacity: 1,
+                  zIndex: 100,
+                },
+                "&:active": {
+                  transform: "scale(0.98)",
+                },
+                "& .hoverBox": {
+                  opacity: 0,
+                },
+                "&:hover .hoverBox": {
+                  opacity: 1,
+                },
+              }}
             >
-              {item.poster_path && (
-                <img
-                  style={{ borderRadius: "6px", width: 135, height: 202 }}
-                  src={`https://image.tmdb.org/t/p/w185${item.poster_path}`}
-                  alt={`Movie Poster:${item.title || item.name}`}
-                />
-              )}
+              <Box
+                className="hoverBox"
+                sx={{
+                  position: "absolute",
+                  height: 202,
+                  width: 135,
+                  top: 0,
+                  left: 0,
+                  backgroundImage:
+                    "linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.9))",
+                  borderRadius: "6px",
+                  zIndex: 0,
+                }}
+              />
+              <img
+                src={circle}
+                alt="circled play"
+                style={{
+                  height: 40,
+                }}
+              />
+              <img
+                src={play}
+                alt="circled play"
+                style={{
+                  height: 16,
+                }}
+              />
               <Box
                 // border={1}
                 sx={{
@@ -116,51 +187,79 @@ const MovieLists = () => {
                   src={starGold}
                   alt="star"
                   style={{
+                    position: "relative",
+                    left: 10,
                     height: 14,
-                    marginLeft: 4,
-                    marginBottom: 2,
+                    marginLeft: 0,
+                    padding: 0,
+                    marginBottom: 8,
+                    opacity: 1,
                   }}
                 />
                 <Typography
                   variant="body1"
                   color="#fbfafb"
-                  sx={{ fontSize: 12, marginLeft: "2px" }}
+                  sx={{ fontSize: 12, marginLeft: "6px" }}
                 >
                   {item.vote_average.toFixed(1)}
                 </Typography>
               </Box>
-            </Button>
-            {/* <Box
-              border={1}
-              sx={{
-                width: 185,
-              }}
-            >
-              <Button
-                variant="text"
+              <Box
+                // border={1}
+                className="hoverBox"
                 sx={{
-                  width: "100%",
-                  padding: 0,
-                  padding: "5px 0px",
-                  color: "black",
-                  "&:hover": {
-                    color: "blue",
-                    backgroundColor: "white",
-                  },
+                  position: "absolute",
+                  width: 130,
+                  paddingBottom: "5px",
+                  zIndex: 1,
+                  bottom: 0,
                 }}
               >
-                {" "}
                 <Typography
+                  variant="body1"
+                  color="#fbfafb"
+                  sx={{
+                    fontSize: "12px",
+                    opacity: "0.8",
+                    textAlign: "center",
+                    fontWeight: 100,
+                  }}
+                >
+                  {item &&
+                    (item.release_date || item.first_air_date) &&
+                    (item.release_date || item.first_air_date).split("-")[0]}
+                  <span style={{ verticalAlign: "middle", margin: "0 5px" }}>
+                    •
+                  </span>
+                  {item && item.original_language.toUpperCase()}
+                  <span style={{ verticalAlign: "middle", margin: "0 5px" }}>
+                    •
+                  </span>
+                  HD
+                </Typography>
+
+                <Typography
+                  variant="body1"
+                  color="#FFFFFF"
                   sx={{
                     overflow: "hidden",
                     textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
+                    opacity: "1",
+                    fontWeight: 600,
+                    fontSize: "14px",
+                    // letterSpacing: "1px",
+                    textAlign: "center",
+
+                    // whiteSpace: "nowrap",
                   }}
                 >
-                  {item.original_title}
+                  {item.title || item.name}
                 </Typography>
-              </Button>
-            </Box> */}
+              </Box>
+            </Button>
           </Box>
         ))}
     </Box>
@@ -184,11 +283,11 @@ const MovieLists = () => {
                 display: "flex",
                 justifyContent: "flex-start",
                 alignItems: "flex-start",
-                backgroundColor: "#18191b",
+                backgroundColor: "#131416",
                 borderRadius: "10px",
                 textTransform: "none",
                 "&:hover": {
-                  backgroundColor: "#2f3032",
+                  backgroundColor: "rgba(255,255,255,0.1)",
                 },
               }}
             >
@@ -211,9 +310,11 @@ const MovieLists = () => {
                 <Typography
                   sx={{
                     padding: "0px",
-                    fontSize: "12px",
-                    fontWeight: "bold",
+                    fontSize: "14px",
+                    fontWeight: 500,
                     textAlign: "left",
+                    letterSpacing: "1px",
+                    opacity: "0.99",
                   }}
                   variant="body1"
                   color="#fbfafb"
@@ -228,6 +329,8 @@ const MovieLists = () => {
                     marginTop: "4px",
                     padding: "0px",
                     fontSize: "12px",
+                    opacity: "0.6",
+                    fontWeight: 100,
                   }}
                 >
                   {movie.release_date || movie.first_air_date}
@@ -247,11 +350,11 @@ const MovieLists = () => {
     <Box>
       <Box sx={{ display: "flex" }}>
         <Box>
-          <MyIcon img={movie1} alt="movie" text="MOVIES" />
+          <MyIcon img={movie} alt="movie" text="MOVIES" />
           <Lists list={trendingMovies} mediaType={"movie"} />
         </Box>
         <Box sx={{ marginLeft: "24px" }}>
-          <MyIcon img={flashy} alt="movie" text="Top Movies" />
+          <MyIcon img={shine} alt="movie" text="Top Movies" />
 
           <SideList list={nowPlaying} mediaType={"movie"} />
         </Box>
@@ -263,7 +366,7 @@ const MovieLists = () => {
           <Lists list={trendingTvShows} mediaType={"tv"} />
         </Box>
         <Box sx={{ marginLeft: "24px" }}>
-          <MyIcon img={flashy} alt="movie" text="Popular shows" />
+          <MyIcon img={shine} alt="movie" text="Popular shows" />
 
           <SideList list={popularTvShows} mediaType={"tv"} />
         </Box>

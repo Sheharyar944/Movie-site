@@ -9,8 +9,8 @@ const YouTubePlayer = ({ videoId, videoLoaded, setVideoLoaded }) => {
   const [isMuted, setIsMuted] = useState(true);
 
   const opts = {
-    height: "780px", // Full height
-    width: "100%",
+    height: "920px", // Full height
+    width: "1536px",
     zIndex: -2, // Full width
     playerVars: {
       autoplay: 1, // Auto-play the video
@@ -56,25 +56,27 @@ const YouTubePlayer = ({ videoId, videoLoaded, setVideoLoaded }) => {
       }
     }
   };
-  console.log("video", videoLoaded);
 
   return (
     <Box>
       <Box
+        // border={1}
         sx={{
+          borderColor: "white",
           position: "absolute",
-          top: -55,
+          top: -140,
           left: 0,
           width: "100%",
-          height: "100vh",
+          height: "130vh",
           zIndex: videoLoaded ? -1 : -3,
+          overflow: "hidden",
         }}
       >
         <Box
           sx={{
             position: "absolute",
             width: "100%",
-            height: "116vh",
+            height: "130vh",
             backgroundColor: "rgba(0, 0, 0, 0.4)",
             top: 0,
             left: 0,
@@ -82,12 +84,14 @@ const YouTubePlayer = ({ videoId, videoLoaded, setVideoLoaded }) => {
           }}
         />
         <Box
+          border={1}
           sx={{
+            borderColor: "white",
             position: "absolute",
             width: "100%",
             height: "100px",
             backgroundColor: "rgba(0, 0, 0, 1)",
-            top: 690,
+            top: 850,
             left: 0,
             zIndex: 1,
           }}
@@ -98,6 +102,11 @@ const YouTubePlayer = ({ videoId, videoLoaded, setVideoLoaded }) => {
           opts={opts}
           onStateChange={onStateChange}
           onReady={onReady}
+          style={{
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
         />
       </Box>
 

@@ -27,13 +27,17 @@ const Info = () => {
   const [recommendations, setRecommendations] = useState("");
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [playIndex, setPlayIndex] = useState(null);
-  const [hovered, setHovered] = useState(false);
-  const [hovered1, setHovered1] = useState(false);
+  const [hovered, setHovered] = useState(null);
   const [position, setPosition] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const prevLocation = useRef();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   const getList = async (url, state) => {
     const list = await getMovieList(url);
@@ -70,13 +74,10 @@ const Info = () => {
     prevLocation.current = location.pathname;
   }, [location.pathname]);
 
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-  // }, []);
-
   const PlayAndAddToList = () => (
     <Box sx={{ marginTop: "20px" }}>
       <Button
+        onClick={() => navigate(`/watch/${type}/${id}`)}
         startIcon={<img src={play} alt="play" style={{ height: "18px" }} />}
         variant="contained"
         sx={{
@@ -213,6 +214,9 @@ const Info = () => {
           {details &&
             details.genres.map((item, index) => (
               <Button
+                onClick={() =>
+                  navigate(`/explore?type=${type}&genre=${item.id}`)
+                }
                 key={index}
                 variant="text"
                 sx={{
@@ -315,9 +319,8 @@ const Info = () => {
             <Box>
               <IconButton
                 onClick={handleLeftArrow}
-                onMouseEnter={() => setHovered(true)}
-                onMouseLeave={() => setHovered(false)}
-                // disabled={position === 0}
+                onMouseEnter={() => setHovered(1)}
+                onMouseLeave={() => setHovered(null)}
                 sx={{
                   width: 40,
                   height: 35,
@@ -326,21 +329,20 @@ const Info = () => {
                   borderRadius: 0,
                   borderTopLeftRadius: 10,
                   borderBottomLeftRadius: 10,
-
                   "&:hover": {
                     backgroundColor: "rgba(180, 177, 176,0.3)",
                   },
                 }}
               >
                 <img
-                  src={hovered ? arrowLeftBlue : arrowLeft}
+                  src={hovered === 1 ? arrowLeftBlue : arrowLeft}
                   alt="arrow left"
                 />
               </IconButton>
               <IconButton
                 onClick={handleRightArrow}
-                onMouseEnter={() => setHovered1(true)}
-                onMouseLeave={() => setHovered1(false)}
+                onMouseEnter={() => setHovered(2)}
+                onMouseLeave={() => setHovered(null)}
                 sx={{
                   width: 40,
                   height: 35,
@@ -354,7 +356,7 @@ const Info = () => {
                 }}
               >
                 <img
-                  src={hovered1 ? rightArrowBlue : arrowRight}
+                  src={hovered === 2 ? rightArrowBlue : arrowRight}
                   alt="arrow left"
                 />
               </IconButton>

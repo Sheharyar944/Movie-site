@@ -13,6 +13,7 @@ import SearchIcon from "@mui/icons-material/Search";
 // import Link from "@mui/material/Link";
 import heart from "../assets/heart.png";
 import arrowLeftBlue from "../assets/arrowLeftBlue.png";
+import whiteLeftArrow from "../assets/whiteLeftArrow.png";
 import line from "../assets/line.png";
 
 const Root = () => {
@@ -79,13 +80,13 @@ const Root = () => {
         }}
       >
         <Toolbar variant="dense" style={{ padding: "0px", marginLeft: "70px" }}>
-          {pathname.startsWith("/info") && (
+          {!(pathname === "/") && (
             <Link to="/">
               <img
-                src={arrowLeftBlue}
+                src={whiteLeftArrow}
                 alt="arrow left blue"
                 style={{
-                  width: 30,
+                  width: 28,
                   marginTop: "7px",
                   marginRight: "20px",
                   textDecoration: "none",
@@ -94,7 +95,12 @@ const Root = () => {
             </Link>
           )}
           <Link to="/" style={{ marginRight: "auto", textDecoration: "none" }}>
-            <Typography variant="h5" color="#fbfafb" component="div">
+            <Typography
+              variant="h5"
+              color="#fbfafb"
+              component="div"
+              sx={{ fontWeight: 800 }}
+            >
               Flixer
             </Typography>
           </Link>
