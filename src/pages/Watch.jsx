@@ -303,7 +303,7 @@ const Watch = () => {
           height: "635px",
           width: "100%",
           zIndex: -1,
-          filter: "blur(100px)",
+          filter: "blur(40px)",
         }}
       >
         {" "}

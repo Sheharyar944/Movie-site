@@ -29,8 +29,8 @@ const Explore = () => {
   // const navigate = useNavigate();
   const { getMovieList } = useGetMovieLists();
   const [list, setList] = useState();
-  const [genreList, setGenreList] = useState("");
-  const [countryList, setCountryList] = useState("");
+  const [genreList, setGenreList] = useState();
+  const [countryList, setCountryList] = useState();
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorE2, setAnchorE2] = useState(null);
   const [anchorE3, setAnchorE3] = useState(null);
@@ -71,28 +71,6 @@ const Explore = () => {
     };
   };
   const [initialParams, setInitialParams] = useState(getQueryParams());
-
-  const filteredGenre =
-    genreList &&
-    genreList.genres.reduce(
-      (accumulator, item) =>
-        item.id === initialParams.genre ? item.name : accumulator,
-      "Any"
-    );
-
-  const filteredSortName =
-    sortList &&
-    sortList.reduce(
-      (accumulator, item) =>
-        item.value === initialParams.sort ? item.name : accumulator,
-      "Most Popular"
-    );
-
-  const [genreName, setGenreName] = useState(filteredGenre);
-  const [sortName, setSortName] = useState(filteredSortName);
-  const [typeName, setTypeName] = useState(
-    initialParams.type === "tv" ? "Show" : initialParams.type
-  );
   const [type, setType] = useState(initialParams.type);
   const [genre, setGenre] = useState(initialParams.genre);
   const [year, setYear] = useState(initialParams.year);
@@ -102,7 +80,31 @@ const Explore = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    setInitialParams(getQueryParams());
+    getList(
+      `https://api.themoviedb.org/3/genre/${type}/list?language=en`,
+      setGenreList
+    );
+  }, [type]);
+
+  useEffect(() => {
+    getList(
+      ` https://api.themoviedb.org/3/configuration/countries?language=en-US`,
+      setCountryList
+    );
+  }, []);
+
+  const filteredSortName =
+    sortList.find((item) => item.value === getQueryParams().sort)?.name ||
+    "Most Popular";
+
+  const [genreName, setGenreName] = useState();
+  const [sortName, setSortName] = useState(filteredSortName);
+  const [typeName, setTypeName] = useState(
+    getQueryParams().type === "tv" ? "Show" : getQueryParams().type
+  );
+
+  useEffect(() => {
+    // setInitialParams(getQueryParams());
     setType(getQueryParams().type);
     setGenre(getQueryParams().genre);
     setYear(getQueryParams().year);
@@ -111,27 +113,12 @@ const Explore = () => {
     setPage(getQueryParams().page);
   }, [location.search]);
 
-  const constructParams = () => {
-    const newParams = {};
-    if (type) {
-      newParams["type"] = type;
+  const updateSearchParams = (object) => {
+    const params = new URLSearchParams(searchParams);
+    for (const key in object) {
+      params.set(key, object[key]);
     }
-    if (genre !== "Any") {
-      newParams["genre"] = genre;
-    }
-    if (year !== "Any") {
-      newParams["year"] = year;
-    }
-    if (sort !== "Any") {
-      newParams["sort"] = sort;
-    }
-    if (country !== "Any") {
-      newParams["country"] = country;
-    }
-    if (page) {
-      newParams["page"] = page;
-    }
-    return newParams;
+    setSearchParams(params);
   };
 
   const constructApiUrl = () => {
@@ -158,38 +145,30 @@ const Explore = () => {
   };
 
   useEffect(() => {
-    console.log("I am dumb thats why i am working", genre);
-    const newParams = constructParams();
-    setSearchParams(newParams);
     const apiUrl = constructApiUrl();
     getList(apiUrl, setList);
+    console.log("I am dumb thats why i am working", apiUrl);
   }, [type, genre, year, sort, country, page]);
 
   useEffect(() => {
-    setGenre("Any");
-    setGenreName("Any");
-    setSortName("Most Popular");
-    setTypeName(type === "tv" ? "Show" : type);
-  }, [type]);
+    if (genreList && genre !== "Any") {
+      const filteredGenre = genreList?.genres?.find(
+        (item) => item.id === getQueryParams().genre
+      );
+      setGenreName(filteredGenre.name);
+    } else {
+      setGenreName("Any");
+    }
+  }, [genreList, genre]);
+
+  useEffect(() => {
+    setSortName(filteredSortName);
+  }, [type, sort]);
 
   const getList = async (url, state) => {
     const list = await getMovieList(url);
     state(list);
   };
-
-  useEffect(() => {
-    getList(
-      `https://api.themoviedb.org/3/genre/${type}/list?language=en`,
-      setGenreList
-    );
-  }, [type]);
-
-  useEffect(() => {
-    getList(
-      ` https://api.themoviedb.org/3/configuration/countries?language=en-US`,
-      setCountryList
-    );
-  }, []);
 
   // const DropDownButton = ({ list, type, onClick, anchorEl, onClose }) => (
   //   <>
@@ -362,13 +341,9 @@ const Explore = () => {
               <MenuItem
                 key={index}
                 onClick={() => {
-                  setType(item.id);
                   setAnchorEl(null);
                   setTypeName(item.name);
-                  // navigate(`/explore?${item.id}`);
-                  if (type !== item.id) {
-                    setGenre("Any");
-                  }
+                  setSearchParams({ type: item.id });
                 }}
                 sx={{
                   opacity: 0.7,
@@ -413,7 +388,6 @@ const Explore = () => {
               onClick={(event) => setAnchorE2(event.currentTarget)}
               sx={{
                 padding: 1,
-
                 borderRadius: "8px",
                 width: 248,
                 height: 36,
@@ -445,7 +419,7 @@ const Explore = () => {
                     opacity: 0.9,
                   }}
                 >
-                  {genreName || filteredGenre}
+                  {genreName}
                 </Typography>
                 <img
                   src={expand}
@@ -474,11 +448,10 @@ const Explore = () => {
                 .map((item, index) => (
                   <MenuItem
                     key={index}
-                    onClick={() => (
-                      setGenre(item.id),
-                      setAnchorE2(null),
-                      setGenreName(item.name)
-                    )}
+                    onClick={() => {
+                      setAnchorE2(null);
+                      updateSearchParams({ genre: item.id });
+                    }}
                     sx={{
                       opacity: 0.7,
                       width: 241,
@@ -584,7 +557,9 @@ const Explore = () => {
             {getYears().map((item, index) => (
               <MenuItem
                 key={index}
-                onClick={() => (setYear(item), setAnchorE3(null))}
+                onClick={() => (
+                  setAnchorE3(null), updateSearchParams({ year: item })
+                )}
                 sx={{
                   opacity: 0.7,
                   width: 241,
@@ -686,7 +661,7 @@ const Explore = () => {
               <MenuItem
                 key={index}
                 onClick={() => (
-                  setSort(item.value), setAnchorE4(null), setSortName(item.name)
+                  setAnchorE4(null), updateSearchParams({ sort: item.value })
                 )}
                 sx={{
                   opacity: 0.7,
@@ -796,7 +771,8 @@ const Explore = () => {
                   <MenuItem
                     key={index}
                     onClick={() => (
-                      setCountry(item.iso_3166_1), setAnchorE5(null)
+                      setAnchorE5(null),
+                      updateSearchParams({ country: item.iso_3166_1 })
                     )}
                     sx={{
                       opacity: 0.7,
@@ -830,13 +806,7 @@ const Explore = () => {
         </Box>
 
         <IconButton
-          onClick={() => (
-            setGenre("Any"),
-            setYear("Any"),
-            setCountry("Any"),
-            setSort("popularity.desc"),
-            setSortName("Most popular")
-          )}
+          onClick={() => setSearchParams({ type: getQueryParams().type })}
           sx={{
             backgroundColor: "#1b1f29",
             borderRadius: "8px",

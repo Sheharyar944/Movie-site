@@ -7,14 +7,14 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import { Outlet, useNavigate, useLocation, Link } from "react-router-dom";
 import logo from "../assets/logo.png";
+import crab from "../assets/crab.png";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
-// import Link from "@mui/material/Link";
+import discord from "../assets/discord.png";
 import heart from "../assets/heart.png";
 import arrowLeftBlue from "../assets/arrowLeftBlue.png";
 import whiteLeftArrow from "../assets/whiteLeftArrow.png";
-import line from "../assets/line.png";
+import SearchBar from "./SearchBar";
 
 const Root = () => {
   // search bar styling starts here
@@ -34,7 +34,7 @@ const Root = () => {
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(1),
       width: "300px",
-      // height: 30,
+      height: 30,
     },
   }));
 
@@ -253,7 +253,27 @@ const Root = () => {
             </Box>
           </Button>
 
-          <Search sx={{ marginRight: "30px" }}>
+          {/* <Search
+            sx={{
+              marginRight: "30px",
+              height: "100px",
+              // backgroundColor: "rgba(0,0,0,0.3)",
+              // filter: "blur(10px)",
+            }}
+          >
+            <Box
+              border={1}
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                backgroundColor: "rgba(255,255,255,1)",
+                height: "50px",
+                width: "100%",
+                zIndex: 100,
+                // filter: "blur(40px)",
+              }}
+            />
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -261,9 +281,39 @@ const Root = () => {
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
             />
-          </Search>
-          <IconButton sx={{ marginRight: "50px" }}>
-            <img src={logo} alt="logo" style={{ width: "50px" }} />
+          </Search> */}
+          <IconButton
+            sx={{
+              marginRight: "50px",
+              "& .hoverBox": {
+                position: "absolute",
+                top: 40,
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                opacity: 0,
+                transition: "height 0.4s ease, opacity 0.4s ease",
+              },
+              "&:hover .hoverBox": {
+                opacity: 1,
+                zIndex: 100,
+                height: 3,
+              },
+            }}
+            disableRipple
+          >
+            <img src={discord} alt="logo" style={{ height: 30 }} />
+            <Box
+              className="hoverBox"
+              sx={{
+                width: "70%",
+                height: 0,
+                backgroundColor: "#00c1db",
+              }}
+            />
+          </IconButton>
+          <SearchBar />
+          <IconButton sx={{ marginRight: "50px", ml: "30px" }}>
+            <img src={crab} alt="logo" style={{ height: 40 }} />
           </IconButton>
         </Toolbar>
       </AppBar>

@@ -8,12 +8,6 @@ const SlideShow = () => {
   const { trending } = useGetTrending();
   const navigate = useNavigate();
 
-  const images =
-    trending &&
-    trending.results.map(
-      (item) => `https://image.tmdb.org/t/p/w342${item.backdrop_path}`
-    );
-
   const length = trending && trending.results.length - 4;
 
   const [index, setIndex] = useState(0);
