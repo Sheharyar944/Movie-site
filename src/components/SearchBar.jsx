@@ -78,7 +78,6 @@ const SearchBar = () => {
         <IconButton
           onClick={(e) => {
             setSearchTerm("");
-            console.log("event", e);
           }}
           sx={{
             position: "absolute",
