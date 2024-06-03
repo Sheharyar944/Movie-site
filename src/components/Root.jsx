@@ -6,13 +6,13 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import { Outlet, useNavigate, useLocation, Link } from "react-router-dom";
+import { Link as MuiLink } from "@mui/material";
 import logo from "../assets/logo.png";
 import crab from "../assets/crab.png";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
-import discord from "../assets/discord.png";
 import heart from "../assets/heart.png";
-import arrowLeftBlue from "../assets/arrowLeftBlue.png";
+import github from "../assets/github.png";
 import whiteLeftArrow from "../assets/whiteLeftArrow.png";
 import SearchBar from "./SearchBar";
 
@@ -72,9 +72,10 @@ const Root = () => {
       <AppBar
         position="static"
         sx={{
-          backgroundColor: pathname.startsWith("/info")
-            ? "rgba(0, 0, 0, 0.3)"
-            : "transparent",
+          backgroundColor:
+            pathname.startsWith("/info") || pathname.startsWith("/watch")
+              ? "rgba(0, 0, 0, 0.3)"
+              : "transparent",
           boxShadow: "none",
           zIndex: 1000,
         }}
@@ -253,41 +254,16 @@ const Root = () => {
             </Box>
           </Button>
 
-          {/* <Search
-            sx={{
-              marginRight: "30px",
-              height: "100px",
-              // backgroundColor: "rgba(0,0,0,0.3)",
-              // filter: "blur(10px)",
-            }}
-          >
-            <Box
-              border={1}
-              sx={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                backgroundColor: "rgba(255,255,255,1)",
-                height: "50px",
-                width: "100%",
-                zIndex: 100,
-                // filter: "blur(40px)",
-              }}
-            />
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search> */}
           <IconButton
+            href="https://github.com/Sheharyar944"
+            target="_blank"
+            rel="noopener noreferrer"
             sx={{
               marginRight: "50px",
+
               "& .hoverBox": {
                 position: "absolute",
-                top: 40,
+                top: 36,
                 left: "50%",
                 transform: "translate(-50%, -50%)",
                 opacity: 0,
@@ -301,7 +277,7 @@ const Root = () => {
             }}
             disableRipple
           >
-            <img src={discord} alt="logo" style={{ height: 30 }} />
+            <img src={github} alt="logo" style={{ height: 25 }} />
             <Box
               className="hoverBox"
               sx={{
@@ -323,33 +299,53 @@ const Root = () => {
         sx={{
           margin: "80px 70px 10px 70px",
           paddingBottom: "18px",
+          display: "flex",
+          justifyContent: "space-between",
         }}
       >
-        <Box sx={{ display: "flex" }}>
+        <Box>
+          <Box sx={{ display: "flex" }}>
+            <Typography
+              variant="h5"
+              color="#fbfafb"
+              sx={{ fontSize: "18px", marginBottom: "8px", marginRight: "8px" }}
+            >
+              Welcome to Flixer
+            </Typography>
+            <img
+              src={heart}
+              alt="heart"
+              style={{ height: "20px", marginTop: "2px" }}
+            />
+          </Box>
           <Typography
-            variant="h5"
-            color="#fbfafb"
-            sx={{ fontSize: "18px", marginBottom: "8px", marginRight: "8px" }}
+            variant="body1"
+            color="#ababab"
+            sx={{ fontSize: "12px", marginBottom: "8px" }}
           >
-            Welcome to Flixer
+            This site does not store any files on our server, we only linked to
+            the media which is hosted on 3rd party services.
           </Typography>
-          <img
-            src={heart}
-            alt="heart"
-            style={{ height: "20px", marginTop: "2px" }}
-          />
+          <Typography variant="body1" color="#ababab" sx={{ fontSize: "12px" }}>
+            Copyright ©Flixer 2024
+          </Typography>
         </Box>
-        <Typography
-          variant="body1"
-          color="#ababab"
-          sx={{ fontSize: "12px", marginBottom: "8px" }}
-        >
-          This site does not store any files on our server, we only linked to
-          the media which is hosted on 3rd party services.
-        </Typography>
-        <Typography variant="body1" color="#ababab" sx={{ fontSize: "12px" }}>
-          Copyright ©Flixer 2024
-        </Typography>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <MuiLink
+            href="https://github.com/Sheharyar944"
+            target="_blank"
+            rel="noopener noreferrer"
+            underline="none"
+            sx={{ color: "white", display: "flex", alignItems: "center" }}
+          >
+            <img
+              src={github}
+              alt="github icon"
+              style={{ height: 30, marginRight: 6 }}
+            />
+            GitHub
+          </MuiLink>
+        </Box>
       </Box>
     </Box>
   );

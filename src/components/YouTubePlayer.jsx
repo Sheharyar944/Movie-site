@@ -28,12 +28,10 @@ const YouTubePlayer = ({ videoId, videoLoaded, setVideoLoaded }) => {
   };
 
   const onStateChange = (event) => {
-    console.log("Player state changed:", event.data);
     if (event.data === YouTube.PlayerState.ENDED) {
       player.playVideo();
     }
     if (event.data === window.YT.PlayerState.PLAYING) {
-      console.log("Video is now playing.");
       setVideoLoaded(true);
     }
   };

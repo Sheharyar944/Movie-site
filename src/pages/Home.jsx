@@ -151,13 +151,13 @@ const Home = () => {
           },
         }}
       ></Box>
-      {/* {trailer !== null && (
+      {trailer !== null && (
         <YouTubePlayer
           videoId={trailer}
           videoLoaded={videoLoaded}
           setVideoLoaded={setVideoLoaded}
         />
-      )} */}
+      )}
       <Box sx={{ padding: "0 70px 0 70px" }}>
         <TrendingMovie />
         <PlayAndMore />

@@ -33,10 +33,6 @@ const SearchBar = () => {
     setFilteredList(filteredList);
   }, [list]);
 
-  console.log("list", list);
-  console.log("filteredList", filteredList);
-  console.log("search", searchTerm);
-
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };

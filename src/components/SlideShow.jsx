@@ -38,8 +38,6 @@ const SlideShow = () => {
     };
   }, [index]);
 
-  console.log("trending", trending);
-
   return (
     <Box
       className="slideshow"

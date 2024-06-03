@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, ButtonBase, Typography } from "@mui/material";
 import useGetMovieLists from "../hooks/useGetMovieLists";
 import movie from "../assets/movie.png";
 import shine from "../assets/shine.png";
+import rightVector from "../assets/rightVector.png";
+
 import flashy from "../assets/flashy.png";
 import tv from "../assets/tv.png";
 import MyIcon from "./MyIcon";
@@ -350,7 +352,36 @@ const MovieLists = () => {
     <Box>
       <Box sx={{ display: "flex" }}>
         <Box>
-          <MyIcon img={movie} alt="movie" text="MOVIES" />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <MyIcon img={movie} alt="movie" text="MOVIES" />
+
+            <Button
+              onClick={() => navigate("/explore?type=movie")}
+              variant="text"
+              sx={{
+                color: "#fbfafb",
+                textTransform: "none",
+                height: 20,
+                mt: "63px",
+                opacity: 0.8,
+              }}
+              endIcon={
+                <img
+                  src={rightVector}
+                  alt="arrow icon"
+                  style={{ height: 14, transform: "rotate(-45deg)" }}
+                />
+              }
+            >
+              {" "}
+              View All
+            </Button>
+          </Box>
           <Lists list={trendingMovies} mediaType={"movie"} />
         </Box>
         <Box sx={{ marginLeft: "24px" }}>
@@ -361,8 +392,35 @@ const MovieLists = () => {
       </Box>
       <Box sx={{ display: "flex" }}>
         <Box>
-          <MyIcon img={tv} alt="movie" text="TV SHOWS" />
-
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <MyIcon img={tv} alt="movie" text="TV SHOWS" />
+            <Button
+              onClick={() => navigate("/explore?type=tv")}
+              variant="text"
+              sx={{
+                color: "#fbfafb",
+                textTransform: "none",
+                height: 20,
+                mt: "63px",
+                opacity: 0.8,
+              }}
+              endIcon={
+                <img
+                  src={rightVector}
+                  alt="arrow icon"
+                  style={{ height: 14, transform: "rotate(-45deg)" }}
+                />
+              }
+            >
+              {" "}
+              View All
+            </Button>
+          </Box>
           <Lists list={trendingTvShows} mediaType={"tv"} />
         </Box>
         <Box sx={{ marginLeft: "24px" }}>
@@ -371,24 +429,6 @@ const MovieLists = () => {
           <SideList list={popularTvShows} mediaType={"tv"} />
         </Box>
       </Box>
-      {/* 
-      <Typography variant="h5" color="#F0F0F0">
-        Now Playing
-      </Typography>
-
-      <Lists list={nowPlaying} />
-      <Typography variant="h5" color="#F0F0F0">
-        Popular
-      </Typography>
-      <Lists list={popular} />
-      <Typography variant="h5" color="#F0F0F0">
-        Top Rated
-      </Typography>
-      <Lists list={topRated} />
-      <Typography variant="h5" color="#F0F0F0">
-        Upcoming
-      </Typography>
-      <Lists list={upcoming} /> */}
     </Box>
   );
 };

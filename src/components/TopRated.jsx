@@ -5,9 +5,12 @@ import play from "../assets/play.png";
 import whiteinfo from "../assets/whiteinfo.png";
 import blackStar from "../assets/blackStar.png";
 import MyIcon from "./MyIcon";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import leftArrow from "../assets/leftArrow.png";
+import leftArrowCyan from "../assets/leftArrowCyan.png";
 import rightArrow from "../assets/rightArrow.png";
+import rightArrowCyan from "../assets/rightArrowCyan.png";
+
 import { useNavigate } from "react-router-dom";
 
 const TopRated = () => {
@@ -17,6 +20,9 @@ const TopRated = () => {
   const { getMovieList } = useGetMovieLists();
   const [checked, setChecked] = useState(true);
   const [position, setPosition] = useState(0);
+  const [itemShowing, setItemShowing] = useState(0);
+  const [windowPosition, setWindowPosition] = useState(0);
+
   const navigate = useNavigate();
 
   function resetTimeout() {
@@ -27,17 +33,33 @@ const TopRated = () => {
 
   useEffect(() => {
     resetTimeout();
-    timeoutRef.current = setTimeout(
-      () =>
-        setIndex((prevIndex) =>
-          prevIndex === -1260 * 19 ? 0 : prevIndex - 1260
-        ),
-      5000
-    );
+    timeoutRef.current = setTimeout(() => {
+      setIndex((prevIndex) =>
+        prevIndex === -1260 * 19 ? 0 : prevIndex - 1260
+      );
+      setItemShowing((prev) => (prev === 19 ? 0 : prev + 1));
+    }, 5000);
 
     return () => {
       resetTimeout();
     };
+  }, [index]);
+
+  useEffect(() => {
+    if (itemShowing - 7 >= windowPosition) {
+      const diff = 20 - itemShowing;
+      if (diff > 7) {
+        setPosition((prev) => prev - 180.5 * 7);
+        setWindowPosition((prev) => prev + 7);
+      } else {
+        setPosition((prev) => prev - 180.5 * diff);
+        setWindowPosition((prev) => prev + diff);
+      }
+    } else if (itemShowing < windowPosition) {
+      const diff = windowPosition - itemShowing;
+      setPosition((prev) => prev + 180.5 * diff);
+      setWindowPosition((prev) => prev - diff);
+    }
   }, [index]);
 
   const getList = async (url, state) => {
@@ -59,9 +81,10 @@ const TopRated = () => {
     }
   }, [checked]);
 
-  const PlayAndMore = ({ id }) => (
+  const WatchNowAndMore = ({ id }) => (
     <Box sx={{ marginBottom: "70px" }}>
       <Button
+        onClick={() => navigate(`/watch/${checked ? "tv" : "movie"}/${id}`)}
         startIcon={<img src={play} alt="play" style={{ height: 18 }} />}
         variant="contained"
         sx={{
@@ -95,7 +118,6 @@ const TopRated = () => {
           borderRadius: "100px",
           // opacity: "0.6",
           fontSize: "16px",
-
           color: "#FFFFFF",
           "&:hover": {
             backgroundColor: "rgba(52, 46, 53, 0.6)",
@@ -110,84 +132,105 @@ const TopRated = () => {
   const TopRatedAndToggle = () => (
     <Box
       sx={{
-        display: "flex",
-        justifyContent: "space-between",
         margin: "0px 70px",
+        position: "relative",
       }}
     >
-      <MyIcon img={blackStar} alt="fire" text="Top Rated" />
-      <Box sx={{ marginTop: "50px", display: "flex", gap: "10px" }}>
-        {checked ? (
-          <Button
-            onClick={() => setChecked(false)}
-            variant="outlined"
-            sx={{
-              height: "40px",
-              width: "116px",
-              color: "#fbfafb",
-              borderRadius: "20px",
-              borderColor: "#fbfafb",
-            }}
-          >
-            {" "}
-            Movies
-          </Button>
-        ) : (
-          <Button
-            variant="contained"
-            sx={{
-              height: "40px",
-              width: "116px",
-              color: "#fbfafb",
-              borderRadius: "20px",
-              borderColor: "#fbfafb",
-            }}
-          >
-            {" "}
-            Movies
-          </Button>
-        )}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <MyIcon img={blackStar} alt="fire" text="Top Rated" />
 
-        {checked ? (
-          <Button
-            variant="contained"
-            sx={{
-              height: "40px",
-              width: "116px",
-              borderRadius: "20px",
-              color: "#fbfafb",
-              borderColor: "#fbfafb",
-            }}
-          >
-            Tv Shows
-          </Button>
-        ) : (
-          <Button
-            onClick={() => setChecked(true)}
-            variant="outlined"
-            sx={{
-              height: "40px",
-              width: "116px",
-              borderRadius: "20px",
-              color: "#fbfafb",
-              borderColor: "#fbfafb",
-            }}
-          >
-            Tv Shows
-          </Button>
-        )}
+        <Box sx={{ marginTop: "50px", display: "flex", gap: "10px" }}>
+          {checked ? (
+            <Button
+              onClick={() => setChecked(false)}
+              variant="outlined"
+              sx={{
+                height: "40px",
+                width: "116px",
+                color: "#fbfafb",
+                borderRadius: "20px",
+                borderColor: "#fbfafb",
+              }}
+            >
+              {" "}
+              Movies
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              sx={{
+                height: "40px",
+                width: "116px",
+                color: "#fbfafb",
+                borderRadius: "20px",
+                borderColor: "#fbfafb",
+              }}
+            >
+              {" "}
+              Movies
+            </Button>
+          )}
+
+          {checked ? (
+            <Button
+              variant="contained"
+              sx={{
+                height: "40px",
+                width: "116px",
+                borderRadius: "20px",
+                color: "#fbfafb",
+                borderColor: "#fbfafb",
+              }}
+            >
+              Tv Shows
+            </Button>
+          ) : (
+            <Button
+              onClick={() => setChecked(true)}
+              variant="outlined"
+              sx={{
+                height: "40px",
+                width: "116px",
+                borderRadius: "20px",
+                color: "#fbfafb",
+                borderColor: "#fbfafb",
+              }}
+            >
+              Tv Shows
+            </Button>
+          )}
+        </Box>
       </Box>
+      <Typography
+        variant="body1"
+        color="#fbfafb"
+        sx={{
+          fontSize: "14px",
+          position: "absolute",
+          bottom: -4,
+          opacity: 0.7,
+        }}
+      >
+        Movies and TV Series highly rated by users
+      </Typography>
     </Box>
   );
 
   const handleLeftArrow = (event) => {
     if (position !== 0) {
       setPosition((prev) => prev + 180.5);
+      setWindowPosition((prev) => prev - 1);
     }
   };
   const handleRightArrow = (event) => {
     if (position !== -180.5 * 13) {
       setPosition((prev) => prev - 180.5);
+      setWindowPosition((prev) => prev + 1);
     }
   };
 
@@ -201,51 +244,95 @@ const TopRated = () => {
       sx={{ height: "900px", position: "relative" }}
     >
       <TopRatedAndToggle />
-      <Button
+      <IconButton
         onClick={handleLeftArrow}
         disabled={position === 0}
         sx={{
           height: "258px",
+          width: "5vw",
           position: "absolute",
-          // borderRadius: "10px",
+          borderRadius: "10px",
           backgroundImage:
-            "linear-gradient(to left, rgba(2,2,8,0),  rgba(2,2,8,0.5))",
+            "linear-gradient(to left, rgba(2,2,8,0),  rgba(2,2,8,0.7))",
           top: 620,
           left: 50,
           zIndex: 2,
+          "& img": {
+            opacity: 0,
+            transition: "opacity 0.3 ease",
+          },
+          "&:hover img": {
+            opacity: 1,
+          },
         }}
-        endIcon={<img src={leftArrow} alt="info" style={{ height: "30px" }} />}
-      ></Button>
-      <Button
+        disableRipple
+      >
+        <img
+          src={leftArrow}
+          alt="left arrow icon"
+          style={{ height: "30px", opacity: 1, position: "absolute" }}
+        />
+        <img
+          src={leftArrowCyan}
+          alt="left arrow icon"
+          style={{ height: "30px", position: "absolute", zIndex: 5 }}
+        />
+      </IconButton>
+      <IconButton
         onClick={handleRightArrow}
         disabled={position === -180.5 * 13}
         sx={{
           height: "258px",
           position: "absolute",
-          // borderRadius: "10px",
+          borderRadius: "10px",
+          width: "5vw",
+
           top: 620,
           left: 1244,
           zIndex: 2,
           backgroundImage:
-            "linear-gradient(to right, rgba(2,2,8,0),  rgba(2,2,8,0.5))",
+            "linear-gradient(to right, rgba(2,2,8,0),  rgba(2,2,8,0.7))",
+          "& img": {
+            opacity: 0,
+            transition: "opacity 0.3 ease",
+          },
+          "&:hover img": {
+            opacity: 1,
+          },
         }}
-        startIcon={
-          <img src={rightArrow} alt="info" style={{ height: "30px" }} />
-        }
-      ></Button>
+        disableRipple
+      >
+        <img
+          src={rightArrow}
+          alt="info"
+          style={{ height: "30px", opacity: 1 }}
+        />
+        <img
+          src={leftArrowCyan}
+          alt="info"
+          style={{
+            height: "30px",
+            transform: "rotate(180deg)",
+            position: "absolute",
+          }}
+        />
+      </IconButton>
       <Box
         // border={1}
         sx={{
           overflow: "hidden",
-          maxWidth: "100%",
-          height: "300px",
+          maxWidth: "1256px",
+          height: "258px",
           position: "absolute",
+          borderRadius: "10px",
+          borderColor: "white",
           top: 620,
           left: 52,
           zIndex: 1,
         }}
       >
         <Box
+          // border={1}
           sx={{
             transform: `translate3d(${position}px, 0, 0)`,
             whiteSpace: "nowrap",
@@ -255,11 +342,13 @@ const TopRated = () => {
           }}
         >
           {topRated &&
-            topRated.results.map((item, index) => (
+            topRated.results.map((item, i) => (
               <Button
-                key={index}
+                key={i}
                 // border={1}
-                onClick={() => setIndex(index * -1260)}
+                onClick={() => {
+                  setIndex(i * -1260), setItemShowing(i);
+                }}
                 sx={{
                   position: "relative",
                   display: "inline-block",
@@ -272,17 +361,19 @@ const TopRated = () => {
                   backgroundPosition: "center",
                 }}
               >
-                <Box
-                  sx={{
-                    position: "absolute",
-                    width: "172px",
-                    height: "258px",
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                    borderRadius: "10px",
-                    top: 0,
-                    left: 0,
-                  }}
-                ></Box>
+                {!(i * -1260 === index) && (
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      width: "172px",
+                      height: "258px",
+                      backgroundColor: "rgba(0, 0, 0, 0.5)",
+                      borderRadius: "10px",
+                      top: 0,
+                      left: 0,
+                    }}
+                  />
+                )}
               </Button>
             ))}
         </Box>
@@ -448,7 +539,7 @@ const TopRated = () => {
                     >
                       {item.overview}
                     </Typography>
-                    <PlayAndMore id={item.id} />
+                    <WatchNowAndMore id={item.id} />
                   </Box>
                 </Box>
                 <Box

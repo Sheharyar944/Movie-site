@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Grid from "../components/Grid";
-import { Box, Button, Typography, IconButton } from "@mui/material";
+import { Box, Button, Typography, IconButton, Link } from "@mui/material";
 import useGetMovieLists from "../hooks/useGetMovieLists";
 import { useParams, useNavigate } from "react-router-dom";
 import ReactPlayer from "react-player";
@@ -9,6 +9,9 @@ import leftVectorCyan from "../assets/leftVectorCyan.png";
 import rightVector from "../assets/rightVector.png";
 import rightVectorCyan from "../assets/rightVectorCyan.png";
 import episodes from "../assets/episodes.png";
+import play from "../assets/play.png";
+import circle from "../assets/circle.png";
+import ToolTip from "../components/ToolTip";
 
 const Watch = () => {
   const { getMovieList } = useGetMovieLists();
@@ -39,20 +42,32 @@ const Watch = () => {
     );
   }, [refresh]);
 
+  // useEffect(() => {
+  //   if (type === "tv") {
+  //     const seasons = list?.seasons.filter(
+  //       (season) =>
+  //         season.name.toLowerCase().includes("season") ||
+  //         season.name.toLowerCase().includes("series") ||
+  //         season.name.toLowerCase().includes("miniseries")
+  //     );
+  //     setSeasons(seasons);
+  //   }
+  // }, [list]);
+
   useEffect(() => {
     if (type === "tv") {
-      const seasons = list?.seasons.filter((season) =>
-        season.name.toLowerCase().includes("season")
+      const seasons = list?.seasons.filter(
+        (season) => !season.name.toLowerCase().includes("specials")
       );
       setSeasons(seasons);
     }
-  }, [list]);
+  }, [list, type]);
 
   useEffect(() => {
     if (seasons) {
       const season = seasons[selectedSeason];
       setBackgroundImageUrlTv(
-        `https://image.tmdb.org/t/p/original${season.poster_path}`
+        `https://image.tmdb.org/t/p/original${season?.poster_path}`
       );
     }
   }, [seasons, selectedSeason]);
@@ -341,9 +356,6 @@ const Watch = () => {
       setGoBack(parseFloat((17.2 * mod).toFixed(1)));
     }
   };
-  console.log("list", list);
-
-  // console.log("seasons", seasons);
 
   return (
     <Box>
@@ -374,13 +386,53 @@ const Watch = () => {
           }}
         />
       </Box>
+      <Box
+        // border={1}
+        sx={{
+          display: "flex",
+          ml: "52px",
+          mr: "52px",
+          color: "#fbfafb",
+          height: "8vh",
+          alignItems: "center",
+          pl: "2px",
+        }}
+      >
+        <Link href="/" underline="hover" color="#fbfafb" sx={{ mr: 1 }}>
+          <Typography variant="body1" color="#fbfafb">
+            Home
+          </Typography>
+        </Link>
+        /
+        <Link
+          href={`/explore?type=${type}`}
+          underline="hover"
+          color="#fbfafb"
+          sx={{ mr: 1, ml: 1 }}
+        >
+          <Typography variant="body1" color="#fbfafb">
+            {type === "movie" ? "Movie" : "Show"}
+          </Typography>
+        </Link>
+        /
+        <Link
+          href={`/info/${type}/${id}`}
+          underline="hover"
+          color="#00c1db"
+          sx={{ mr: 1, ml: 1 }}
+        >
+          <Typography variant="body1" color="#00c1db">
+            {list?.name || list?.title}
+          </Typography>
+        </Link>
+      </Box>
       {type === "movie" ? (
         <Box
           sx={{
             backgroundColor: "black",
             height: "100vh",
             width: "auto",
-            mt: 10,
+            // mt: 10,
             ml: "52px",
             mr: "52px",
             borderRadius: "10px",
@@ -399,12 +451,10 @@ const Watch = () => {
           // border={1}
           sx={{
             display: "flex",
-            mt: 10,
             ml: "52px",
             mr: "52px",
-            // overflow: "hidden",
             height: "100vh",
-            // width: "calc(100% - 104px)",
+            maxWidth: "calc(100% - 104px)",
           }}
         >
           <Box
@@ -412,19 +462,21 @@ const Watch = () => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              backgroundColor: "rgba(186, 186, 187, 0.2)",
               borderBottomLeftRadius: "10px",
               borderTopLeftRadius: "10px",
-              width: "100%",
+              width: "calc(100% - 69vw)",
+              overflow: "hidden",
+              backgroundColor: "rgba(186, 186, 187, 0.1)",
             }}
           >
             <Box
               // border={1}
               sx={{
                 height: "10vh",
-                width: "100%",
+                // width: "100%",
                 display: "flex",
                 alignItems: "center",
+                marginBottom: "2px",
               }}
             >
               <Typography
@@ -443,57 +495,116 @@ const Watch = () => {
             <Box
               // border={1}
               sx={{
+                position: "relative",
                 flex: 1,
                 overflowY: "auto",
-                scrollbarWidth: "none",
+
+                "&::-webkit-scrollbar": {
+                  width: "2px",
+                },
+                "&::-webkit-scrollbar-track": {
+                  backgroundColor: "rgba(186, 186, 187, 0.2)",
+                },
+                "&::-webkit-scrollbar-thumb": {
+                  borderRadius: "0px",
+                },
+                "&:hover": {
+                  "&::-webkit-scrollbar": {
+                    width: "6px",
+                  },
+                },
               }}
             >
               {list &&
                 list[`season/${selectedSeason + 1}`]?.episodes.map(
                   (item, index) => (
-                    <Button
-                      onClick={() => setSelectedEpisode(index)}
+                    <ToolTip
                       key={index}
+                      title={item.name}
                       sx={{
-                        width: "100%",
-                        height: "8vh",
-                        textTransform: "none",
-                        borderRadius: 0,
-                        backgroundColor:
-                          index % 2 === 0 ? "rgba(186, 186, 187, 0.2)" : null,
-                        "&:active": {
-                          transform: "scale(0.98)",
-                        },
-                        "&:hover": {
-                          background: "#464749",
-                        },
-                        // padding: 0,
+                        color: "rgba(255, 255, 255, 1)",
+                        borderRadius: "0px",
                       }}
-                      disableRipple
                     >
-                      <Typography
-                        variant="body1"
+                      <Button
+                        onClick={() => setSelectedEpisode(index)}
                         sx={{
-                          mr: 1,
-                          fontSize: "14px",
-                          color:
-                            selectedEpisode === index ? "#00c1db" : "#fbfafb",
+                          width: "100%",
+                          height: "8.2vh",
+                          textTransform: "none",
+                          borderRadius: 0,
+                          backgroundColor:
+                            index % 2 === 0 ? "rgba(186, 186, 187, 0.1)" : null,
+                          "&:active": {
+                            transform: "scale(0.98)",
+                          },
+                          "&:hover": {
+                            background: "#464749",
+                          },
                         }}
+                        disableRipple
                       >
-                        {index + 1}.
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          mr: "auto",
-                          fontSize: "14px",
-                          color:
-                            selectedEpisode === index ? "#00c1db" : "#fbfafb",
-                        }}
-                      >
-                        {item.name}
-                      </Typography>
-                    </Button>
+                        <Box
+                          sx={{
+                            position: "relative",
+                            width: "100%",
+                            display: "flex",
+                          }}
+                        >
+                          <Typography
+                            variant="body1"
+                            sx={{
+                              textAlign: "left",
+                              mr: 1,
+                              fontSize: "14px",
+                              color:
+                                selectedEpisode === index
+                                  ? "#00c1db"
+                                  : "#fbfafb",
+                            }}
+                          >
+                            {index + 1}.
+                          </Typography>
+                          <Typography
+                            variant="body1"
+                            sx={{
+                              mr: "auto",
+                              fontSize: "14px",
+                              color:
+                                selectedEpisode === index
+                                  ? "#00c1db"
+                                  : "#fbfafb",
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            {item.name}
+                          </Typography>
+                          {selectedEpisode === index && (
+                            <>
+                              <img
+                                src={circle}
+                                alt="circle icon"
+                                style={{
+                                  height: 20,
+                                }}
+                              />
+                              <img
+                                src={play}
+                                alt="play icon"
+                                style={{
+                                  position: "absolute",
+                                  right: 4,
+                                  height: 12,
+                                  top: 4,
+                                }}
+                              />
+                            </>
+                          )}
+                        </Box>
+                      </Button>
+                    </ToolTip>
                   )
                 )}
             </Box>
@@ -501,7 +612,7 @@ const Watch = () => {
           <Box
             // border={1}
             sx={{
-              width: "69vw",
+              maxWidth: "69vw",
               height: "100vh",
             }}
           >
@@ -509,7 +620,7 @@ const Watch = () => {
               sx={{
                 backgroundColor: "black",
                 height: "78vh",
-                width: "100%",
+                width: "69vw",
                 ml: "2px",
                 borderTopRightRadius: "10px",
                 overflow: "hidden",
@@ -523,13 +634,14 @@ const Watch = () => {
               />
             </Box>
             <Box
+              // border={1}
               sx={{
                 ml: "2px",
-                backgroundColor: "rgba(186, 186, 187, 0.2)",
+                backgroundColor: "rgba(186, 186, 187, 0.1)",
                 borderBottomRightRadius: "10px",
-                mt: "4px",
+                mt: "2px",
                 width: "69vw",
-                height: "21.3vh",
+                height: "21.7vh",
                 display: "flex",
                 alignItems: "center",
               }}
@@ -586,7 +698,7 @@ const Watch = () => {
                     />
                   </IconButton>
                 )}
-                {!disable && (
+                {!disable && seasons?.length > 4 && (
                   <IconButton
                     onClick={handleRightArrow}
                     sx={{
@@ -646,19 +758,6 @@ const Watch = () => {
                           backgroundSize: "cover",
                           backgroundPosition: "center",
                           textTransform: "none",
-                          transition: "transform 0.3s ease",
-                          "& img": {
-                            position: "absolute",
-                            top: "50%",
-                            left: "50%",
-                            transform: "translate(-50%, -50%)",
-                            opacity: 0,
-                            transition: "opacity 0.3s ease",
-                          },
-                          "&:hover img": {
-                            opacity: 1,
-                            zIndex: -100,
-                          },
                         }}
                         disableRipple
                       >
@@ -677,17 +776,35 @@ const Watch = () => {
                             zIndex: 1,
                           }}
                         />
+                        {index === selectedSeason && (
+                          <>
+                            <img
+                              src={circle}
+                              alt="circle icon"
+                              style={{
+                                position: "absolute",
+                                // transform: "translate(-50%, -50%)",
+                                height: 30,
+                                top: 6,
+                                right: 6,
+                                zIndex: 1,
+                              }}
+                            />
+                            <img
+                              src={play}
+                              alt="play icon"
+                              style={{
+                                position: "absolute",
+                                // transform: "translate(-50%, -50%)",
+                                height: 16,
+                                top: 13,
+                                right: 12,
+                                zIndex: 2,
+                              }}
+                            />
+                          </>
+                        )}
 
-                        {/* <img
-                            src={playWhite}
-                            alt="play"
-                            style={{ opacity: 1, height: 22, zIndex: 100 }}
-                          />
-                          <img
-                            src={playWhiteFilled}
-                            alt="play"
-                            style={{ height: 28, zIndex: 100 }}
-                          /> */}
                         <Box
                           sx={{
                             position: "absolute",

@@ -147,7 +147,6 @@ const Explore = () => {
   useEffect(() => {
     const apiUrl = constructApiUrl();
     getList(apiUrl, setList);
-    console.log("I am dumb thats why i am working", apiUrl);
   }, [type, genre, year, sort, country, page]);
 
   useEffect(() => {

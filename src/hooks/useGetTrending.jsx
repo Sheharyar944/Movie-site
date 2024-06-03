@@ -34,12 +34,6 @@ const useGetTrending = () => {
   const nowPlayingMovie =
     nowPlayingMovies && nowPlayingMovies.results[currentMovieIndex];
 
-  // const nowPlayingMovie =
-  //   nowPlayingMovies &&
-  //   nowPlayingMovies.results.reduce((prev, current) =>
-  //     prev.popularity > current.popularity ? prev : current
-  //   );
-
   return { trending, nowPlayingMovie, nowPlayingMovies };
 };
 
