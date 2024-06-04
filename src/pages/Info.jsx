@@ -14,13 +14,13 @@ import arrowLeftBlue from "../assets/arrowLeftBlue.png";
 import rightArrowBlue from "../assets/rightArrowBlue.png";
 import arrowRight from "../assets/arrowRight.png";
 import circle from "../assets/circle.png";
-import circleGrey from "../assets/circleGrey.png";
 import Grid from "../components/Grid";
 
 const Info = () => {
   const { getMovieList } = useGetMovieLists();
   const { type, id } = useParams();
-  const [list, setList] = useState("");
+  const [list, setList] = useState();
+  const [seasons, setSeasons] = useState();
   const [cast, setCast] = useState("");
   const [details, setDetails] = useState("");
   const [relatedVideos, setRelatedVideos] = useState("");
@@ -46,7 +46,7 @@ const Info = () => {
 
   useEffect(() => {
     getList(
-      `https://api.themoviedb.org/3/${type}/${id}?language=en-US`,
+      `https://api.themoviedb.org/3/${type}/${id}?append_to_response=season&language=en-US`,
       setList
     );
     getList(
@@ -66,6 +66,17 @@ const Info = () => {
       setRecommendations
     );
   }, []);
+
+  console.log("seasons", seasons);
+
+  useEffect(() => {
+    if (type === "tv") {
+      const seasons = list?.seasons.filter(
+        (season) => !season.name.toLowerCase().includes("specials")
+      );
+      setSeasons(seasons);
+    }
+  }, [list]);
 
   useEffect(() => {
     if (prevLocation.current && prevLocation.current !== location.pathname) {
@@ -155,7 +166,7 @@ const Info = () => {
             letterSpacing: "1px",
           }}
         >
-          {list.title || list.name}
+          {list?.title || list?.name}
         </Typography>
 
         <Box
@@ -170,7 +181,7 @@ const Info = () => {
             color="#fbfafb"
             sx={{ marginRight: "15px", fontSize: "14px", opacity: "0.7" }}
           >
-            {list.release_date || list.first_air_date}
+            {list?.release_date || list?.first_air_date}
           </Typography>
           <Box
             sx={{
@@ -249,7 +260,7 @@ const Info = () => {
             opacity: "0.7",
           }}
         >
-          {list.overview}
+          {list?.overview}
         </Typography>
         <PlayAndAddToList />
         <Box
@@ -729,8 +740,8 @@ const Info = () => {
   };
 
   const castList = cast && cast.cast.slice(0, 5);
-  const backgroundImageUrl = `https://image.tmdb.org/t/p/original${list.backdrop_path}`;
-  const posterImageUrl = `https://image.tmdb.org/t/p/w780${list.poster_path}`;
+  const backgroundImageUrl = `https://image.tmdb.org/t/p/original${list?.backdrop_path}`;
+  const posterImageUrl = `https://image.tmdb.org/t/p/w780${list?.poster_path}`;
 
   return (
     <Box>
@@ -760,8 +771,165 @@ const Info = () => {
       </Box>
       <Box sx={{ padding: "0 56px" }}>
         <MovieDetails />
-        <RelatedVideosHeader />
+      </Box>
+      {type == "tv" && (
+        <Box
+          // border={1}
+          sx={{
+            mt: 12,
+            p: 2,
+            pr: 1.6,
+            backgroundColor: "rgba(255,255 ,255,0.1)",
+            borderRadius: "8px",
+            ml: "2.5vw",
+            mr: "2.5vw",
+          }}
+        >
+          <Typography
+            variant="body1"
+            color="#fbfafb"
+            sx={{
+              fontSize: "20px",
+              mb: 2,
+              // ml: 1,
+            }}
+          >
+            List of Seasons
+          </Typography>
+          <Box
+            // border={1}
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4,1fr)",
+              gridAutoRows: "auto",
+              borderColor: "white",
+              overflowY: "auto",
+              maxHeight: "54vh",
+              minHeight: "26vh",
+              rowGap: 2,
+              "&::-webkit-scrollbar-thumb": {
+                borderRadius: "0px",
+              },
+              "&::-webkit-scrollbar-track": {
+                backgroundColor: "rgba(186, 186, 187, 0)",
+              },
+            }}
+          >
+            {seasons?.map((season, index) => (
+              <Button
+                onClick={() => navigate(`/info/${item.media_type}/${item.id}`)}
+                key={index}
+                sx={{
+                  height: 160,
+                  width: 300,
+                  position: "relative",
+                  borderRadius: "8px",
+                  textTransform: "none",
+                  transition: "transform 0.3s ease",
+                  overflow: "hidden",
+                  "&::before": {
+                    content: '""',
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundImage: `url(https://image.tmdb.org/t/p/w780${season.poster_path})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    borderRadius: "8px",
+                    opacity: 1,
+                    transition: "transform 0.3s ease",
+                  },
+                  "&:hover::before": {
+                    transform: "scale(1.1)",
+                  },
+                  "&:hover": {
+                    border: "2px solid #2dd5fd",
+                  },
+                  "& img": {
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    opacity: 0,
+                    transition: "opacity 0.3s ease",
+                  },
+                  "&:hover img": {
+                    opacity: 1,
+                    zIndex: 100,
+                  },
+                }}
+              >
+                <img
+                  src={play}
+                  alt="Overlay Image"
+                  style={{ height: 15, zIndex: 1000 }}
+                />
+                <img src={circle} alt="Overlay Image" style={{ height: 38 }} />
 
+                <Box
+                  // border={1}
+                  sx={{
+                    position: "absolute",
+                    width: 300,
+                    height: 160,
+                    backgroundColor: "rgba(0,0,0,0.2)",
+                    borderRadius: "8px",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      zIndex: 2,
+                      top: 6,
+                      left: 6,
+                      borderRadius: "6px",
+                      backgroundColor: "rgba(0,0,0,0.6)",
+                      padding: "2px 8px",
+                    }}
+                  >
+                    <Typography
+                      variant="body1"
+                      color="#FFFFFF"
+                      sx={{
+                        fontSize: "14px",
+                      }}
+                    >
+                      {season.name}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      zIndex: 2,
+                      bottom: 6,
+                      right: 6,
+                      borderRadius: "6px",
+                      backgroundColor: "rgba(0,0,0,0.6)",
+                      padding: "2px 8px",
+                    }}
+                  >
+                    <Typography
+                      variant="h4"
+                      color="#fbfafb"
+                      sx={{
+                        fontSize: "14px",
+                        fontWeight: 100,
+                        opacity: 0.8,
+                      }}
+                    >
+                      Ep. {season.episode_count}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Button>
+            ))}
+          </Box>
+        </Box>
+      )}
+      <Box sx={{ padding: "0 56px" }}>
+        <RelatedVideosHeader />
         {relatedVideos && relatedVideos.results.length !== 0 && (
           <Box
             // border={1}
@@ -811,7 +979,7 @@ const Info = () => {
                           width: 300,
                           borderRadius: "12px",
                           marginRight: "16px",
-                          backgroundImage: `url(https://image.tmdb.org/t/p/original${list.backdrop_path})`,
+                          backgroundImage: `url(https://image.tmdb.org/t/p/original${list?.backdrop_path})`,
                           backgroundSize: "cover",
                           backgroundPosition: "center",
                           textTransform: "none",
@@ -946,6 +1114,7 @@ const Info = () => {
           </Box>
         )}
       </Box>
+
       <RecommendationsGrid />
       {/* <Box sx={{ padding: "0 48px" }}>
         <Box sx={{ marginTop: "100px" }}>

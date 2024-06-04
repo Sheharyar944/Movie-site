@@ -38,9 +38,13 @@ const YouTubePlayer = ({ videoId, videoLoaded, setVideoLoaded }) => {
 
   useEffect(() => {
     if (player && videoId) {
-      player.loadVideoById(videoId);
+      try {
+        player.loadVideoById(videoId);
+      } catch (error) {
+        console.error("Failed to load video:", error);
+      }
     }
-  }, [videoId]);
+  }, [videoId, player]);
 
   const handleToggleSound = () => {
     if (player) {

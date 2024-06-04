@@ -9,34 +9,33 @@ const SlideShow = () => {
   const navigate = useNavigate();
 
   const length = trending && trending.results.length - 4;
-
   const [index, setIndex] = useState(0);
   const timeoutRef = useRef(null);
 
-  const resetTimeout = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-  };
+  // const resetTimeout = () => {
+  //   if (timeoutRef.current) {
+  //     clearTimeout(timeoutRef.current);
+  //   }
+  // };
 
   useEffect(() => {
-    resetTimeout();
-    timeoutRef.current = setTimeout(
-      () =>
-        setIndex((prevIndex) =>
-          prevIndex === -355 * length - 200
-            ? 0
-            : prevIndex === -355 * length
-            ? -355 * length - 200
-            : prevIndex - 355
-        ),
-      5000
-    );
+    let timerId = null;
+    if (length) {
+      timerId = setTimeout(
+        () =>
+          setIndex((prevIndex) =>
+            prevIndex === -355 * length - 200
+              ? 0
+              : prevIndex === -355 * length
+              ? -355 * length - 200
+              : prevIndex - 355
+          ),
+        5000
+      );
+    }
 
-    return () => {
-      resetTimeout();
-    };
-  }, [index]);
+    return () => clearTimeout(timerId);
+  }, [index, length]);
 
   return (
     <Box

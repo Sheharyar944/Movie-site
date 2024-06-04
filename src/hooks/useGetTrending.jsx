@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import useGetMovieLists from "./useGetMovieLists";
 
 const useGetTrending = () => {
-  const { getMovieList } = useGetMovieLists();
+  const { getMovieList, loading } = useGetMovieLists();
   const [trending, setTrending] = useState("");
   const [nowPlayingMovies, setNowPlayingMovies] = useState("");
   const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
@@ -34,7 +34,7 @@ const useGetTrending = () => {
   const nowPlayingMovie =
     nowPlayingMovies && nowPlayingMovies.results[currentMovieIndex];
 
-  return { trending, nowPlayingMovie, nowPlayingMovies };
+  return { trending, nowPlayingMovie, nowPlayingMovies, loading };
 };
 
 export default useGetTrending;
