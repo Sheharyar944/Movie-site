@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Grid from "../components/Grid";
 import { Box, Button, Typography, IconButton, Link } from "@mui/material";
 import useGetMovieLists from "../hooks/useGetMovieLists";
@@ -33,6 +33,8 @@ const Watch = () => {
     searchParams.get("ep") || 1
   );
   const [videoNumber, setVideoNumber] = useState(0);
+  const [stop, setStop] = useState(true);
+  const ref = useRef(0);
 
   const navigate = useNavigate();
 
@@ -78,15 +80,39 @@ const Watch = () => {
   }, [list]);
 
   useEffect(() => {
+    if (seasons && stop) {
+      const mod = seasons?.length % 4;
+      if (
+        selectedSeason > seasons?.length - mod &&
+        mod !== 0 &&
+        selectedSeason > 4 &&
+        selectedSeason <= seasons?.length
+      ) {
+        const div = (seasons?.length - 4) / 4;
+        setPosition(parseFloat((-68.8 * div).toFixed(1)));
+        setDisable(true);
+        setGoBack(parseFloat((17.2 * mod).toFixed(1)));
+      } else if (selectedSeason > 4 && selectedSeason <= seasons?.length) {
+        const div = Math.ceil((selectedSeason - 4) / 4);
+        setPosition(parseFloat((-68.8 * div).toFixed(1)));
+        if (selectedSeason > seasons?.length - 4) {
+          setDisable(true);
+        }
+      }
+      setStop(false);
+    }
+  }, [seasons]);
+
+  // console.log("position", position);
+
+  useEffect(() => {
     if (seasons) {
-      const season = seasons[selectedSeason];
+      const season = seasons[selectedSeason - 1];
       setBackgroundImageUrlTv(
         `https://image.tmdb.org/t/p/original${season?.poster_path}`
       );
     }
   }, [seasons, selectedSeason]);
-
-  console.log("list", list);
 
   const RecommendationsGrid = () => (
     <Box sx={{ padding: "0 48px" }}>
@@ -352,18 +378,14 @@ const Watch = () => {
   // }, null);
 
   const trailer = list?.videos?.results[videoNumber].key;
-  const handleNextMovie = () => {
-    setVideoNumber((prev) => prev + 1);
-  };
-  const handlePrevMovie = () => {
-    setVideoNumber((prev) => prev - 1);
-  };
 
   const handleLeftArrow = () => {
     if (position !== 0 && goBack) {
       setPosition((prev) => parseFloat((prev + goBack).toFixed(1)));
+      setGoBack(null);
     } else if (position !== 0) {
       setPosition((prev) => parseFloat((prev + 68.8).toFixed(1)));
+      ref.current--;
     }
     if (disable) {
       setDisable(false);
@@ -371,9 +393,19 @@ const Watch = () => {
   };
   const handleRightArrow = () => {
     const mod = (seasons.length - 4) % 4;
-    const div = (seasons.length - 4) / 4;
-    if (mod === 0 && position !== parseFloat((-68.8 * div).toFixed(1))) {
+    const div = Math.floor((seasons.length - 4) / 4);
+    if (
+      div !== 0 &&
+      ref.current !== div &&
+      position !== parseFloat((-68.8 * div).toFixed(1))
+    ) {
       setPosition((prev) => parseFloat((prev - 68.8).toFixed(1)));
+      ref.current++;
+      console.log("ref", ref.current);
+      if (ref.current === div && mod === 0) {
+        setDisable(true);
+        ref.current = 0;
+      }
     } else {
       setPosition((prev) => parseFloat((prev - 17.2 * mod).toFixed(1)));
       setDisable(true);
@@ -490,7 +522,7 @@ const Watch = () => {
               borderTopLeftRadius: "10px",
               width: "calc(100% - 69vw)",
               overflow: "hidden",
-              backgroundColor: "rgba(186, 186, 187, 0.1)",
+              // backgroundColor: "rgba(186, 186, 187, 0.1)",
             }}
           >
             <Box
@@ -501,6 +533,7 @@ const Watch = () => {
                 display: "flex",
                 alignItems: "center",
                 marginBottom: "2px",
+                backgroundColor: "rgba(255, 255, 255, 0.05)",
               }}
             >
               <Typography
@@ -522,15 +555,17 @@ const Watch = () => {
                 position: "relative",
                 flex: 1,
                 overflowY: "auto",
-
+                backgroundColor: "rgba(255, 255, 255, 0.05)",
+                // scrollbarWidth: "none",
                 "&::-webkit-scrollbar": {
                   width: "2px",
                 },
                 "&::-webkit-scrollbar-track": {
-                  backgroundColor: "rgba(186, 186, 187, 0.2)",
+                  backgroundColor: "rgba(255, 255, 255, 0.05)",
                 },
                 "&::-webkit-scrollbar-thumb": {
                   borderRadius: "0px",
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
                 },
                 "&:hover": {
                   "&::-webkit-scrollbar": {
@@ -561,7 +596,9 @@ const Watch = () => {
                           textTransform: "none",
                           borderRadius: 0,
                           backgroundColor:
-                            index % 2 === 0 ? "rgba(186, 186, 187, 0.1)" : null,
+                            index % 2 === 0
+                              ? null
+                              : "rgba(255, 255, 255, 0.05)",
                           "&:active": {
                             transform: "scale(0.98)",
                           },
@@ -705,10 +742,10 @@ const Watch = () => {
                   ml: "0.3vw",
                   display: "flex",
                   alignItems: "center",
-                  overflow: "hidden",
                   // maxWidth: "100%",
                   width: "62.3vw",
                   paddingRight: 10,
+                  overflow: "hidden",
                 }}
               >
                 {position !== 0 && (
@@ -725,6 +762,10 @@ const Watch = () => {
                       left: 0,
                       background:
                         "linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,0.8))",
+                      "&:hover": {
+                        background:
+                          "linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,0.9))",
+                      },
                       "& img": {
                         opacity: 0,
                         transition: "opacity 0.3s ease",
@@ -761,7 +802,10 @@ const Watch = () => {
                       right: "0",
                       background:
                         "linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.8))",
-
+                      "&:hover": {
+                        background:
+                          "linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.9))",
+                      },
                       "& img": {
                         opacity: 0,
                         transition: "opacity 0.3s ease",

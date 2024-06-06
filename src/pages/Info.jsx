@@ -817,7 +817,11 @@ const Info = () => {
           >
             {seasons?.map((season, index) => (
               <Button
-                onClick={() => navigate(`/info/${item.media_type}/${item.id}`)}
+                onClick={() =>
+                  navigate(
+                    `/watch/${type}/${id}?season=${season.season_number}`
+                  )
+                }
                 key={index}
                 sx={{
                   height: 160,
@@ -894,9 +898,10 @@ const Info = () => {
                       color="#FFFFFF"
                       sx={{
                         fontSize: "14px",
+                        textAlign: "left",
                       }}
                     >
-                      {season.name}
+                      {season.season_number}. {season.name}
                     </Typography>
                   </Box>
                   <Box

@@ -40,6 +40,20 @@ const ToolTip = ({ title, children, ...props }) => {
     setOpen(false);
   };
 
+  const handleScroll = () => {
+    if (open) {
+      clearTimeout(timerRef.current);
+      setOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [open]);
+
   return (
     <Box
       onMouseMove={handleMouseMove}

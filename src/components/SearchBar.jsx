@@ -90,7 +90,7 @@ const SearchBar = () => {
         style={{
           width: 260,
           height: 30,
-          backgroundColor: "rgba(255,255,255,0.3)",
+          backgroundColor: "rgba(255,255,255,0.2)",
           borderRadius: "8px",
           border: "none",
           outline: "none",
