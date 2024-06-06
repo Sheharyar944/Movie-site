@@ -14,6 +14,7 @@ import circle from "../assets/circle.png";
 import ToolTip from "../components/ToolTip";
 import leftArrow from "../assets/leftArrow.png";
 import rightArrow from "../assets/rightArrow.png";
+import exclamation from "../assets/exclamation.png";
 
 const Watch = () => {
   const { getMovieList } = useGetMovieLists();
@@ -95,7 +96,7 @@ const Watch = () => {
       } else if (selectedSeason > 4 && selectedSeason <= seasons?.length) {
         const div = Math.ceil((selectedSeason - 4) / 4);
         setPosition(parseFloat((-68.8 * div).toFixed(1)));
-        if (selectedSeason > seasons?.length - 4) {
+        if (selectedSeason > seasons?.length - 4 + mod) {
           setDisable(true);
         }
       }
@@ -103,7 +104,7 @@ const Watch = () => {
     }
   }, [seasons]);
 
-  // console.log("position", position);
+  console.log("list", list);
 
   useEffect(() => {
     if (seasons) {
@@ -377,7 +378,10 @@ const Watch = () => {
   //   return acc;
   // }, null);
 
-  const trailer = list?.videos?.results[videoNumber].key;
+  const trailer =
+    list?.videos?.results.length > 0
+      ? list?.videos?.results[videoNumber].key
+      : null;
 
   const handleLeftArrow = () => {
     if (position !== 0 && goBack) {
@@ -495,12 +499,25 @@ const Watch = () => {
             overflow: "hidden",
           }}
         >
-          <ReactPlayer
-            url={`https://www.youtube.com/embed/${trailer}`}
-            width="100%"
-            height="100%"
-            controls={true}
-          />
+          {trailer ? (
+            <ReactPlayer
+              url={`https://www.youtube.com/embed/${trailer}`}
+              width="100%"
+              height="100%"
+              controls={true}
+            />
+          ) : (
+            <>
+              <img
+                src={exclamation}
+                alt="exclamation mark icon"
+                style={{ height: 30, marginRight: 10 }}
+              />
+              <Typography variant="body1" color="#fbfafb" sx={{ fontSize: 25 }}>
+                No Video
+              </Typography>
+            </>
+          )}
         </Box>
       ) : (
         <Box
@@ -689,9 +706,12 @@ const Watch = () => {
                 ml: "2px",
                 borderTopRightRadius: "10px",
                 overflow: "hidden",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              {!(videoNumber === 0) && (
+              {trailer && videoNumber !== 0 && (
                 <IconButton
                   onClick={() => setVideoNumber((prev) => prev - 1)}
                   sx={{
@@ -702,7 +722,7 @@ const Watch = () => {
                   <img src={leftArrow} alt="left arrow" />
                 </IconButton>
               )}
-              {!(videoNumber === list?.videos?.results?.length - 1) && (
+              {trailer && videoNumber !== list?.videos?.results?.length - 1 && (
                 <IconButton
                   onClick={() => setVideoNumber((prev) => prev + 1)}
                   sx={{
@@ -714,12 +734,29 @@ const Watch = () => {
                   <img src={rightArrow} alt="right arrow" />
                 </IconButton>
               )}
-              <ReactPlayer
-                url={`https://www.youtube.com/embed/${trailer}`}
-                width="100%"
-                height="100%"
-                controls={true}
-              />
+              {trailer ? (
+                <ReactPlayer
+                  url={`https://www.youtube.com/embed/${trailer}`}
+                  width="100%"
+                  height="100%"
+                  controls={true}
+                />
+              ) : (
+                <>
+                  <img
+                    src={exclamation}
+                    alt="exclamation mark icon"
+                    style={{ height: 30, marginRight: 10 }}
+                  />
+                  <Typography
+                    variant="body1"
+                    color="#fbfafb"
+                    sx={{ fontSize: 25 }}
+                  >
+                    No Video
+                  </Typography>
+                </>
+              )}
             </Box>
             <Box
               // border={1}
