@@ -7,30 +7,29 @@ const MyIcon = ({ img, alt, text }) => {
       sx={{
         display: "flex",
         alignItems: "center",
-        marginBottom: "18px",
-        marginTop: "50px",
+        marginBottom: "2.5vh",
+        marginTop: "6vh",
       }}
     >
       <Box
         sx={{
           display: "flex",
-          width: "25px",
-          height: "25px",
+          width: "1.9vw",
+          height: "1.9vw",
           backgroundColor: "#00c1db",
-          borderRadius: "6px",
-          marginRight: "10px",
+          borderRadius: "0.4vw",
+          marginRight: "0.7vw",
           justifyContent: "center",
           alignItems: "center",
         }}
       >
-        <img src={img} alt={alt} style={{ height: 20 }} />
+        <img src={img} alt={alt} style={{ height: "3vh" }} />
       </Box>
       <Typography
         variant="body1"
         color="#fbfafb"
         sx={{
-          fontSize: "25px",
-          // fontWeight: "bold",
+          fontSize: "3.5vh",
         }}
       >
         {" "}

@@ -34,9 +34,7 @@ const TopRated = () => {
   useEffect(() => {
     resetTimeout();
     timeoutRef.current = setTimeout(() => {
-      setIndex((prevIndex) =>
-        prevIndex === -1260 * 19 ? 0 : prevIndex - 1260
-      );
+      setIndex((prevIndex) => (prevIndex === -93 * 19 ? 0 : prevIndex - 93));
       setItemShowing((prev) => (prev === 19 ? 0 : prev + 1));
     }, 5000);
 
@@ -49,15 +47,15 @@ const TopRated = () => {
     if (itemShowing - 7 >= windowPosition) {
       const diff = 20 - itemShowing;
       if (diff > 7) {
-        setPosition((prev) => prev - 180.5 * 7);
+        setPosition((prev) => prev - 13.2 * 7);
         setWindowPosition((prev) => prev + 7);
       } else {
-        setPosition((prev) => prev - 180.5 * diff);
+        setPosition((prev) => prev - 13.2 * diff);
         setWindowPosition((prev) => prev + diff);
       }
     } else if (itemShowing < windowPosition) {
       const diff = windowPosition - itemShowing;
-      setPosition((prev) => prev + 180.5 * diff);
+      setPosition((prev) => prev + 13.2 * diff);
       setWindowPosition((prev) => prev - diff);
     }
   }, [index]);
@@ -82,19 +80,23 @@ const TopRated = () => {
   }, [checked]);
 
   const WatchNowAndMore = ({ id }) => (
-    <Box sx={{ marginBottom: "70px" }}>
+    <Box
+      // border={1}
+
+      sx={{ marginBottom: "70px" }}
+    >
       <Button
         onClick={() => navigate(`/watch/${checked ? "tv" : "movie"}/${id}`)}
-        startIcon={<img src={play} alt="play" style={{ height: 18 }} />}
+        startIcon={<img src={play} alt="play" style={{ height: "3vh" }} />}
         variant="contained"
         sx={{
-          width: "176px",
-          height: "45px",
-          marginRight: "12px",
+          width: "12.8vw",
+          height: "6vh",
+          marginRight: "0.9vw",
           textTransform: "none",
           backgroundColor: "#00c1db",
-          borderRadius: "100px",
-          fontSize: "16px",
+          borderRadius: "100vh",
+          fontSize: "2.4vh",
           fontWeight: "bold",
           color: "rgba(0,0,0,0.8)",
           "&:hover": {
@@ -107,17 +109,17 @@ const TopRated = () => {
       <Button
         onClick={() => navigate(`/info/${checked ? "tv" : "movie"}/${id}`)}
         startIcon={
-          <img src={whiteinfo} alt="info" style={{ height: "20px" }} />
+          <img src={whiteinfo} alt="info" style={{ height: "3.5vh" }} />
         }
         variant="contained"
         sx={{
-          width: "176px",
-          height: "45px",
+          width: "12.8vw",
+          height: "6vh",
           textTransform: "none",
           backgroundColor: "rgba(87, 76, 88, 0.6)",
-          borderRadius: "100px",
+          borderRadius: "100vh",
           // opacity: "0.6",
-          fontSize: "16px",
+          fontSize: "2.4vh",
           color: "#FFFFFF",
           "&:hover": {
             backgroundColor: "rgba(52, 46, 53, 0.6)",
@@ -131,15 +133,19 @@ const TopRated = () => {
 
   const TopRatedAndToggle = () => (
     <Box
+      // border={1}
       sx={{
-        margin: "0px 70px",
+        margin: "0px 5.1vw",
         position: "relative",
+        borderColor: "white",
       }}
     >
       <Box
+        // border={1}
         sx={{
           display: "flex",
           justifyContent: "space-between",
+          borderColor: "white",
         }}
       >
         <MyIcon img={blackStar} alt="fire" text="Top Rated" />
@@ -150,11 +156,12 @@ const TopRated = () => {
               onClick={() => setChecked(false)}
               variant="outlined"
               sx={{
-                height: "40px",
-                width: "116px",
+                height: "6vh",
+                width: "8.6vw",
                 color: "#fbfafb",
-                borderRadius: "20px",
+                borderRadius: "100vh",
                 borderColor: "#fbfafb",
+                fontSize: "2.2vh",
               }}
             >
               {" "}
@@ -164,11 +171,12 @@ const TopRated = () => {
             <Button
               variant="contained"
               sx={{
-                height: "40px",
-                width: "116px",
+                height: "6vh",
+                width: "8.6vw",
                 color: "#fbfafb",
-                borderRadius: "20px",
+                borderRadius: "100vh",
                 borderColor: "#fbfafb",
+                fontSize: "2.2vh",
               }}
             >
               {" "}
@@ -180,11 +188,12 @@ const TopRated = () => {
             <Button
               variant="contained"
               sx={{
-                height: "40px",
-                width: "116px",
-                borderRadius: "20px",
+                height: "6vh",
+                width: "8.6vw",
+                borderRadius: "100vh",
                 color: "#fbfafb",
                 borderColor: "#fbfafb",
+                fontSize: "2.2vh",
               }}
             >
               Tv Shows
@@ -194,11 +203,12 @@ const TopRated = () => {
               onClick={() => setChecked(true)}
               variant="outlined"
               sx={{
-                height: "40px",
-                width: "116px",
-                borderRadius: "20px",
+                height: "6vh",
+                width: "8.6vw",
+                borderRadius: "100vh",
                 color: "#fbfafb",
                 borderColor: "#fbfafb",
+                fontSize: "2.2vh",
               }}
             >
               Tv Shows
@@ -210,7 +220,7 @@ const TopRated = () => {
         variant="body1"
         color="#fbfafb"
         sx={{
-          fontSize: "14px",
+          fontSize: "2.2vh",
           position: "absolute",
           bottom: -4,
           opacity: 0.7,
@@ -223,13 +233,13 @@ const TopRated = () => {
 
   const handleLeftArrow = (event) => {
     if (position !== 0) {
-      setPosition((prev) => prev + 180.5);
+      setPosition((prev) => prev + 13.2);
       setWindowPosition((prev) => prev - 1);
     }
   };
   const handleRightArrow = (event) => {
-    if (position !== -180.5 * 13) {
-      setPosition((prev) => prev - 180.5);
+    if (position !== -13.2 * 13) {
+      setPosition((prev) => prev - 13.2);
       setWindowPosition((prev) => prev + 1);
     }
   };
@@ -241,21 +251,21 @@ const TopRated = () => {
   return (
     <Box
       // border={1}
-      sx={{ height: "900px", position: "relative" }}
+      sx={{ height: "141vh", position: "relative", borderColor: "white" }}
     >
       <TopRatedAndToggle />
       <IconButton
         onClick={handleLeftArrow}
         disabled={position === 0}
         sx={{
-          height: "258px",
+          height: "41vh",
           width: "5vw",
           position: "absolute",
           borderRadius: "10px",
           backgroundImage:
             "linear-gradient(to left, rgba(2,2,8,0),  rgba(2,2,8,0.7))",
-          top: 620,
-          left: 50,
+          top: "98vh",
+          left: "3.6vw",
           zIndex: 2,
           "& img": {
             opacity: 0,
@@ -282,13 +292,12 @@ const TopRated = () => {
         onClick={handleRightArrow}
         disabled={position === -180.5 * 13}
         sx={{
-          height: "258px",
           position: "absolute",
           borderRadius: "10px",
+          height: "41vh",
           width: "5vw",
-
-          top: 620,
-          left: 1244,
+          top: "98vh",
+          right: "3.6vw",
           zIndex: 2,
           backgroundImage:
             "linear-gradient(to right, rgba(2,2,8,0),  rgba(2,2,8,0.7))",
@@ -321,24 +330,26 @@ const TopRated = () => {
         // border={1}
         sx={{
           overflow: "hidden",
-          maxWidth: "1256px",
-          height: "258px",
+          maxWidth: "92vw",
+          height: "41vh",
           position: "absolute",
           borderRadius: "10px",
           borderColor: "white",
-          top: 620,
-          left: 52,
+          top: "98vh",
+          left: "50%",
+          transform: "translateX(-50%)",
           zIndex: 1,
         }}
       >
         <Box
           // border={1}
           sx={{
-            transform: `translate3d(${position}px, 0, 0)`,
+            transform: `translate3d(${position}vw, 0, 0)`,
             whiteSpace: "nowrap",
             transition: "ease 1000ms",
             borderRadius: "50px",
-            width: "1260px",
+            width: "100vw",
+            borderColor: "white",
           }}
         >
           {topRated &&
@@ -347,26 +358,26 @@ const TopRated = () => {
                 key={i}
                 // border={1}
                 onClick={() => {
-                  setIndex(i * -1260), setItemShowing(i);
+                  setIndex(i * -93), setItemShowing(i);
                 }}
                 sx={{
                   position: "relative",
                   display: "inline-block",
-                  height: "258px",
-                  width: "172px",
-                  marginRight: "8.5px",
+                  height: "41vh",
+                  width: "12.6vw",
+                  marginRight: "0.6vw",
                   borderRadius: "10px",
                   backgroundImage: `url(https://image.tmdb.org/t/p/w780${item.poster_path})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
               >
-                {!(i * -1260 === index) && (
+                {!(i * -93 === index) && (
                   <Box
                     sx={{
                       position: "absolute",
-                      width: "172px",
-                      height: "258px",
+                      width: "12.6vw",
+                      height: "41vh",
                       backgroundColor: "rgba(0, 0, 0, 0.5)",
                       borderRadius: "10px",
                       top: 0,
@@ -384,15 +395,20 @@ const TopRated = () => {
         //   className="slideshow"
         sx={{
           borderRadius: "20px",
-          margin: "14px 52px",
+          // margin: "1.8vh 3.8vw",
+          mt: "1.8vh",
           overflow: "hidden",
-          maxWidth: "100%",
+          maxWidth: "92vw",
+          borderColor: "white",
+          position: "absolute",
+          left: "50%",
+          transform: "translate(-50%)",
         }}
       >
         <Box
           // className="slideshowSlider"
           sx={{
-            transform: `translate3d(${index}px, 0, 0)`,
+            transform: `translate3d(${index}vw, 0, 0)`,
             whiteSpace: "nowrap",
             transition: "ease 1000ms",
             borderRadius: "50px",
@@ -401,13 +417,15 @@ const TopRated = () => {
           {topRated &&
             topRated.results.map((item, index) => (
               <Box
+                // border={1}
                 key={index}
                 sx={{
                   position: "relative",
                   display: "inline-block",
-                  height: "690px",
-                  width: "1250px",
-                  marginRight: "10px",
+                  height: "110vh",
+                  width: "92vw",
+                  marginRight: "1vw",
+                  borderColor: "white",
                 }}
               >
                 <Box
@@ -425,42 +443,42 @@ const TopRated = () => {
                   }}
                 />
                 <Box
+                  // border={1}
                   sx={{
                     position: "absolute",
-                    width: "1260px",
-                    height: "100%",
+                    width: "100%",
+                    height: "110vh",
                     backgroundColor: "rgba(0, 0, 0, 0.6)",
                     filter: "blur(100px)",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
+                    left: "50%",
+                    transform: "translate(-50%)",
+                    borderColor: "white",
                   }}
                 />
                 <Box
                   // border={1}
                   sx={{
-                    width: "520px",
-                    height: "326px",
+                    width: "38vw",
+                    height: "51vh",
                     position: "absolute",
-                    left: 100,
-                    top: 83,
+                    left: "7.3vw",
+                    top: "13vh",
                   }}
                 >
                   <Box
-                    //   border={1}
+                    // border={1}
                     sx={{
-                      padding: "30px 10px",
-                      width: "440px",
-                      height: "326px",
+                      padding: "5vh 0.7vw",
+                      width: "32vw",
+                      height: "50vh",
                     }}
                   >
                     <Box
-                      //   border={1}
-                      sx={{ width: "300px" }}
+                      // border={1}
+                      sx={{ width: "22vw" }}
                     >
                       <Typography
-                        variant="h4"
+                        // variant="h4"
                         color="#fbfafb"
                         sx={{
                           textWrap: "wrap",
@@ -469,31 +487,34 @@ const TopRated = () => {
                           display: "-webkit-box",
                           WebkitLineClamp: 2,
                           WebkitBoxOrient: "vertical",
+                          fontSize: "2.5vw",
+                          fontWeight: "600",
                         }}
                       >
                         {item.title || item.name}
                       </Typography>
                     </Box>
                     <Box
+                      // border={1}
                       sx={{
                         display: "flex",
                         alignItems: "center",
-                        margin: "16px 0px",
+                        margin: "3vh 0px",
                       }}
                     >
                       <img
                         src={star}
                         alt="star"
                         style={{
-                          height: "14px",
-                          paddingBottom: "2px",
-                          paddingRight: "2px",
+                          height: "2vh",
+                          paddingBottom: "0.2vh",
+                          paddingRight: "0.15vw",
                         }}
                       />
                       <Typography
                         variant="body1"
                         color="#fbfafb"
-                        sx={{ marginRight: "15px", fontSize: "12px" }}
+                        sx={{ marginRight: "1.1vw", fontSize: "0.9vw" }}
                       >
                         {item && item.vote_average.toFixed(1)}
                       </Typography>
@@ -501,21 +522,21 @@ const TopRated = () => {
                       <Typography
                         variant="body1"
                         color="#fbfafb"
-                        sx={{ marginRight: "15px", fontSize: "12px" }}
+                        sx={{ marginRight: "1.1vw", fontSize: "0.9vw" }}
                       >
                         {item.release_date || item.first_air_date}
                       </Typography>
                       <Typography
                         variant="body1"
                         color="#fbfafb"
-                        sx={{ marginRight: "15px", fontSize: "12px" }}
+                        sx={{ marginRight: "1.1vw", fontSize: "0.9vw" }}
                       >
                         {item && item.original_language.toUpperCase()}
                       </Typography>
                       <Typography
                         variant="body1"
                         color="#fbfafb"
-                        sx={{ fontSize: "12px" }}
+                        sx={{ fontSize: "0.9vw" }}
                       >
                         HD
                       </Typography>
@@ -531,10 +552,10 @@ const TopRated = () => {
                         WebkitLineClamp: 5,
                         WebkitBoxOrient: "vertical",
                         textWrap: "wrap",
-                        fontSize: "12px",
-                        marginBottom: "16px",
+                        fontSize: "0.9vw",
+                        marginBottom: "3vh",
                         fontFamily: "",
-                        letterSpacing: "1px",
+                        letterSpacing: "0.1vh",
                       }}
                     >
                       {item.overview}
@@ -546,12 +567,14 @@ const TopRated = () => {
                   // border={1}
                   sx={{
                     backgroundImage: `url(https://image.tmdb.org/t/p/w780${item.backdrop_path})`,
-                    width: "520px",
-                    height: "326px",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    width: "38vw",
+                    height: "51vh",
                     position: "absolute",
                     borderRadius: "20px",
-                    right: 100,
-                    top: 83,
+                    right: "7.3vw",
+                    top: "13vh",
                   }}
                 >
                   {" "}

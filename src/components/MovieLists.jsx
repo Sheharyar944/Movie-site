@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Box, Button, ButtonBase, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import useGetMovieLists from "../hooks/useGetMovieLists";
 import movie from "../assets/movie.png";
 import shine from "../assets/shine.png";
 import rightVector from "../assets/rightVector.png";
-
-import flashy from "../assets/flashy.png";
 import tv from "../assets/tv.png";
 import MyIcon from "./MyIcon";
 import starGold from "../assets/starGold.png";
@@ -17,13 +14,8 @@ import play from "../assets/play.png";
 const MovieLists = () => {
   const { getMovieList } = useGetMovieLists();
   const [nowPlaying, setNowPlaying] = useState("");
-  const [popular, setPopular] = useState("");
-  const [topRated, setTopRated] = useState("");
-  const [upcoming, setUpcoming] = useState("");
   const [trendingMovies, setTrendingMovies] = useState("");
   const [trendingTvShows, setTrendingTvShows] = useState("");
-  const [airingToday, setAiringToday] = useState("");
-  const [onTheAir, setOnTheAir] = useState("");
   const [popularTvShows, setPopularTvShows] = useState("");
   const navigate = useNavigate();
 
@@ -35,39 +27,16 @@ const MovieLists = () => {
   useEffect(() => {
     getList(
       "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
-      setPopular
-    );
-    getList(
-      "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
       setNowPlaying
     );
     getList(
-      "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1",
-      setTopRated
-    );
-    getList(
-      "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1",
-      setUpcoming
-    );
-    getList(
-      "https://api.themoviedb.org/3/trending/movie/day?language=en-US",
+      "https://api.themoviedb.org/3/trending/movie/week?language=en-US",
       setTrendingMovies
     );
     getList(
-      "https://api.themoviedb.org/3/trending/tv/day?language=en-US",
+      "https://api.themoviedb.org/3/trending/tv/week?language=en-US",
       setTrendingTvShows
     );
-
-    getList(
-      "https://api.themoviedb.org/3/tv/airing_today?language=en-US&page=1",
-      setAiringToday
-    );
-
-    getList(
-      "https://api.themoviedb.org/3/tv/on_the_air?language=en-US&page=1",
-      setOnTheAir
-    );
-
     getList(
       "https://api.themoviedb.org/3/tv/popular?language=en-US&page=1",
       setPopularTvShows
@@ -76,14 +45,14 @@ const MovieLists = () => {
 
   const Lists = ({ list, mediaType }) => (
     <Box
-      // border={1}
+      border={1}
       sx={{
         display: "grid",
-        gridTemplateColumns: "repeat(6, 1fr)", // 6 columns
-        gridAutoRows: "auto", // Auto height rows
-        gap: "10px",
-        width: "870px",
-        height: "650px",
+        gridTemplateColumns: "repeat(6, 1fr)",
+        gridAutoRows: "auto",
+        gap: "1.8vh",
+        width: "63.6vw",
+        height: "100vh",
         overflow: "hidden",
       }}
     >
@@ -95,9 +64,9 @@ const MovieLists = () => {
               onClick={() => navigate(`/info/${mediaType}/${item.id}`)}
               sx={{
                 padding: 0,
-                borderRadius: "6px",
-                height: 202,
-                width: 135,
+                borderRadius: "0.6vw",
+                height: "31.8vh",
+                width: "9.5vw",
                 position: "relative",
                 textTransform: "none",
                 transition: "0.5s ease",
@@ -112,7 +81,7 @@ const MovieLists = () => {
                   backgroundImage: `url(https://image.tmdb.org/t/p/w780${item.poster_path})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  borderRadius: "8px",
+                  borderRadius: "0.6vw",
                   opacity: 1,
                   transition: "transform 0.3s ease",
                 },
@@ -146,13 +115,13 @@ const MovieLists = () => {
                 className="hoverBox"
                 sx={{
                   position: "absolute",
-                  height: 202,
-                  width: 135,
+                  height: "31.8vh",
+                  width: "9.9vw",
                   top: 0,
                   left: 0,
                   backgroundImage:
                     "linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.9))",
-                  borderRadius: "6px",
+                  borderRadius: "0.6vw",
                   zIndex: 0,
                 }}
               />
@@ -174,34 +143,41 @@ const MovieLists = () => {
                 // border={1}
                 sx={{
                   position: "absolute",
-                  top: 4,
+                  top: "0.6vh",
                   right: 0,
-                  height: 20,
-                  width: 40,
+                  height: "3.1vh",
+                  width: "2.9vw",
                   display: "flex",
-                  backgroundColor: "rgba(0, 0, 0,0.6)",
                   alignItems: "center",
-                  borderTopLeftRadius: "4px",
-                  borderBottomLeftRadius: "4px",
+                  backgroundColor: "rgba(0, 0, 0,0.6)",
+                  borderTopLeftRadius: "0.3vw",
+                  borderBottomLeftRadius: "0.3vw",
                 }}
               >
-                <img
-                  src={starGold}
-                  alt="star"
-                  style={{
+                <Box
+                  // border={1}
+                  sx={{
                     position: "relative",
-                    left: 10,
-                    height: 14,
-                    marginLeft: 0,
-                    padding: 0,
-                    marginBottom: 8,
-                    opacity: 1,
+                    height: "3.1vh",
+                    width: "3.1vh",
+                    diplay: "flex",
+                    alignItems: "center",
                   }}
-                />
+                >
+                  <img
+                    src={starGold}
+                    alt="star"
+                    style={{
+                      height: "0.9vw",
+                      padding: 0,
+                      opacity: 1,
+                    }}
+                  />
+                </Box>
                 <Typography
                   variant="body1"
                   color="#fbfafb"
-                  sx={{ fontSize: 12, marginLeft: "6px" }}
+                  sx={{ fontSize: "0.9vw" }}
                 >
                   {item.vote_average.toFixed(1)}
                 </Typography>
@@ -211,8 +187,8 @@ const MovieLists = () => {
                 className="hoverBox"
                 sx={{
                   position: "absolute",
-                  width: 130,
-                  paddingBottom: "5px",
+                  width: "9.3vw",
+                  paddingBottom: "0.8vh",
                   zIndex: 1,
                   bottom: 0,
                 }}
@@ -221,7 +197,7 @@ const MovieLists = () => {
                   variant="body1"
                   color="#fbfafb"
                   sx={{
-                    fontSize: "12px",
+                    fontSize: "0.9vw",
                     opacity: "0.8",
                     textAlign: "center",
                     fontWeight: 100,
@@ -230,11 +206,11 @@ const MovieLists = () => {
                   {item &&
                     (item.release_date || item.first_air_date) &&
                     (item.release_date || item.first_air_date).split("-")[0]}
-                  <span style={{ verticalAlign: "middle", margin: "0 5px" }}>
+                  <span style={{ verticalAlign: "middle", margin: "0 0.3vw" }}>
                     •
                   </span>
                   {item && item.original_language.toUpperCase()}
-                  <span style={{ verticalAlign: "middle", margin: "0 5px" }}>
+                  <span style={{ verticalAlign: "middle", margin: "0 0.3vw" }}>
                     •
                   </span>
                   HD
@@ -251,7 +227,7 @@ const MovieLists = () => {
                     WebkitBoxOrient: "vertical",
                     opacity: "1",
                     fontWeight: 600,
-                    fontSize: "14px",
+                    fontSize: "1vw",
                     // letterSpacing: "1px",
                     textAlign: "center",
 
@@ -270,23 +246,23 @@ const MovieLists = () => {
   const SideList = ({ list, mediaType }) => (
     <Box
       //  border={1}
-      sx={{ height: "650px" }}
+      sx={{ height: "100vh" }}
     >
       {list &&
-        list.results.slice(0, 8).map((movie, index) => (
+        list.results.slice(0, 10).map((movie, index) => (
           <Box key={index}>
             <Button
               onClick={() => navigate(`info/${mediaType}/${movie.id}`)}
               sx={{
                 padding: "0px",
-                marginBottom: "7px",
-                width: "320px",
-                height: "74px",
+                marginBottom: "1.1vh",
+                width: "23.4vw",
+                height: "9vh",
                 display: "flex",
                 justifyContent: "flex-start",
                 alignItems: "flex-start",
                 backgroundColor: "#131416",
-                borderRadius: "10px",
+                borderRadius: "0.6vw",
                 textTransform: "none",
                 "&:hover": {
                   backgroundColor: "rgba(255,255,255,0.1)",
@@ -294,7 +270,11 @@ const MovieLists = () => {
               }}
             >
               <img
-                style={{ borderRadius: "10px", width: 50, height: 74 }}
+                style={{
+                  borderRadius: "0.6vw",
+                  width: "3.66vw",
+                  height: "9vh",
+                }}
                 src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`}
                 alt={`Movie Poster:${movie.original_title}`}
               />
@@ -304,15 +284,17 @@ const MovieLists = () => {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "flex-start",
-                  width: "270px",
+                  width: "23.4vw",
+                  height: "9vh",
                   padding: "10px",
                   marginRight: "auto",
+                  borderColor: "white",
                 }}
               >
                 <Typography
                   sx={{
                     padding: "0px",
-                    fontSize: "14px",
+                    fontSize: "1vw",
                     fontWeight: 500,
                     textAlign: "left",
                     letterSpacing: "1px",
@@ -328,18 +310,22 @@ const MovieLists = () => {
                   variant="body1"
                   color="#fbfafb"
                   sx={{
-                    marginTop: "4px",
+                    marginTop: "0.6vh",
                     padding: "0px",
-                    fontSize: "12px",
+                    fontSize: "0.9vw",
                     opacity: "0.6",
                     fontWeight: 100,
                   }}
                 >
                   {movie.release_date || movie.first_air_date}
-                  <span style={{ verticalAlign: "middle", margin: "0 5px" }}>
+                  <span style={{ verticalAlign: "middle", margin: "0 0.3vw" }}>
                     •
                   </span>
                   {movie.original_language.toUpperCase()}
+                  <span style={{ verticalAlign: "middle", margin: "0 0.3vw" }}>
+                    •
+                  </span>
+                  HD
                 </Typography>
               </Box>
             </Button>
@@ -353,9 +339,12 @@ const MovieLists = () => {
       <Box sx={{ display: "flex" }}>
         <Box>
           <Box
+            // border={1}
             sx={{
               display: "flex",
               justifyContent: "space-between",
+              borderColor: "white",
+              alignItems: "center",
             }}
           >
             <MyIcon img={movie} alt="movie" text="MOVIES" />
@@ -366,15 +355,15 @@ const MovieLists = () => {
               sx={{
                 color: "#fbfafb",
                 textTransform: "none",
-                height: 20,
-                mt: "63px",
+                height: "3vh",
+                mt: "6vh",
                 opacity: 0.8,
               }}
               endIcon={
                 <img
                   src={rightVector}
                   alt="arrow icon"
-                  style={{ height: 14, transform: "rotate(-45deg)" }}
+                  style={{ height: "1.8vh", transform: "rotate(-45deg)" }}
                 />
               }
             >
@@ -386,16 +375,17 @@ const MovieLists = () => {
         </Box>
         <Box sx={{ marginLeft: "24px" }}>
           <MyIcon img={shine} alt="movie" text="Top Movies" />
-
           <SideList list={nowPlaying} mediaType={"movie"} />
         </Box>
       </Box>
+
       <Box sx={{ display: "flex" }}>
         <Box>
           <Box
             sx={{
               display: "flex",
               justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
             <MyIcon img={tv} alt="movie" text="TV SHOWS" />
@@ -405,15 +395,15 @@ const MovieLists = () => {
               sx={{
                 color: "#fbfafb",
                 textTransform: "none",
-                height: 20,
-                mt: "63px",
+                height: "3vh",
+                mt: "6vh",
                 opacity: 0.8,
               }}
               endIcon={
                 <img
                   src={rightVector}
                   alt="arrow icon"
-                  style={{ height: 14, transform: "rotate(-45deg)" }}
+                  style={{ height: "1.8vh", transform: "rotate(-45deg)" }}
                 />
               }
             >
@@ -425,7 +415,6 @@ const MovieLists = () => {
         </Box>
         <Box sx={{ marginLeft: "24px" }}>
           <MyIcon img={shine} alt="movie" text="Popular shows" />
-
           <SideList list={popularTvShows} mediaType={"tv"} />
         </Box>
       </Box>

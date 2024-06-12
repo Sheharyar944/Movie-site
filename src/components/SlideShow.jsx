@@ -24,11 +24,11 @@ const SlideShow = () => {
       timerId = setTimeout(
         () =>
           setIndex((prevIndex) =>
-            prevIndex === -355 * length - 200
+            prevIndex === parseFloat((-25.7 * length).toFixed(1)) - 13
               ? 0
-              : prevIndex === -355 * length
-              ? -355 * length - 200
-              : prevIndex - 355
+              : prevIndex === parseFloat((-25.7 * length).toFixed(1))
+              ? parseFloat((-25.7 * length).toFixed(1)) - 13
+              : parseFloat((prevIndex - 25.7).toFixed(1))
           ),
         5000
       );
@@ -46,7 +46,7 @@ const SlideShow = () => {
     >
       <Box
         className="slideshowSlider"
-        style={{ transform: `translate3d(${index}px, 0, 0)` }}
+        style={{ transform: `translate3d(${index}vw, 0, 0)` }}
       >
         {trending &&
           trending.results.map((item, index) => (
@@ -59,8 +59,10 @@ const SlideShow = () => {
                 // backgroundImage: `url(https://image.tmdb.org/t/p/w780${item.backdrop_path})`,
                 // backgroundSize: "cover",
                 // backgroundPosition: "center",
+                width: "25vw",
+                height: "27vh",
                 borderRadius: "20px",
-                marginRight: "10px",
+                marginRight: "0.7vw",
                 textTransform: "none",
                 transition: "transform 0.3s ease",
                 overflow: "hidden",
@@ -74,7 +76,7 @@ const SlideShow = () => {
                   backgroundImage: `url(https://image.tmdb.org/t/p/w780${item.backdrop_path})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  borderRadius: "20px",
+                  borderRadius: "1.5vw",
                   opacity: 1,
                   transition: "transform 0.3s ease",
                 },
@@ -103,23 +105,23 @@ const SlideShow = () => {
                 // border={1}
                 sx={{
                   position: "absolute",
-                  width: "345px",
-                  height: "175px",
+                  width: "25vw",
+                  height: "27vh",
                   backgroundImage:
                     "linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.4))",
-                  borderRadius: "20px",
+                  borderRadius: "1.5vw",
                 }}
               >
                 <Box
                   // border={1}
                   sx={{
                     position: "absolute",
-                    borderRadius: "20px",
+                    borderRadius: "1.5vw",
                     width: "100%",
                     bottom: 0,
                     left: "50%",
                     transform: "translateX(-50%)",
-                    padding: "0 20px 10px 20px",
+                    padding: "0 1.5vw 0.7vw 1.5vw",
                   }}
                 >
                   <Typography
@@ -128,7 +130,7 @@ const SlideShow = () => {
                       fontWeight: "bold",
                       // textShadow: "2px 2px 4px rgba(0, 0, 0, 1)",
                       zindex: 1,
-                      fontSize: "15px",
+                      fontSize: "1.1vw",
                       textWrap: "wrap",
                     }}
                     variant="body1"
@@ -141,18 +143,22 @@ const SlideShow = () => {
                     variant="body1"
                     color="#2dd5fd"
                     sx={{
-                      marginTop: "4px",
-                      padding: "0 20px",
-                      fontSize: "12px",
+                      marginTop: "0.2vw",
+                      padding: "0 1.5vw",
+                      fontSize: "0.9vw",
                       textShadow: "2px 2px 12px rgba(0, 0, 0, 1)",
                     }}
                   >
-                    Rating {item.vote_average.toFixed(1)}
-                    <span style={{ verticalAlign: "middle", margin: "0 5px" }}>
+                    Rating: {item.vote_average.toFixed(1)}
+                    <span
+                      style={{ verticalAlign: "middle", margin: "0 0.3vw" }}
+                    >
                       •
                     </span>
                     {(item.release_date || item.first_air_date).split("-")[0]}
-                    <span style={{ verticalAlign: "middle", margin: "0 5px" }}>
+                    <span
+                      style={{ verticalAlign: "middle", margin: "0 0.3vw" }}
+                    >
                       •
                     </span>
                     {item.original_language.toUpperCase()}

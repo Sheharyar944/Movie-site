@@ -78,37 +78,59 @@ const Root = () => {
               : "transparent",
           boxShadow: "none",
           zIndex: 1000,
+          height: "10vh",
         }}
       >
-        <Toolbar variant="dense" style={{ padding: "0px", marginLeft: "70px" }}>
-          {!(pathname === "/") && (
-            <Link to="/">
+        <Toolbar
+          variant="dense"
+          style={{ padding: "0px", marginLeft: "5.1vw", height: "10vh" }}
+        >
+          {!(pathname === "/") ? (
+            <Link
+              to="/"
+              style={{
+                marginRight: "auto",
+                textDecoration: "none",
+                display: "flex",
+              }}
+            >
               <img
                 src={whiteLeftArrow}
                 alt="arrow left blue"
                 style={{
-                  width: 28,
-                  marginTop: "7px",
-                  marginRight: "20px",
+                  width: "2vw",
+                  marginRight: "1.5vw",
                   textDecoration: "none",
                 }}
               />
+              <Typography
+                // variant="h5"
+                color="#fbfafb"
+                component="div"
+                sx={{ fontWeight: 800, fontSize: "1.7vw" }}
+              >
+                Flixer
+              </Typography>
+            </Link>
+          ) : (
+            <Link
+              to="/"
+              style={{ marginRight: "auto", textDecoration: "none" }}
+            >
+              <Typography
+                // variant="h5"
+                color="#fbfafb"
+                component="div"
+                sx={{ fontWeight: 800, fontSize: "1.7vw" }}
+              >
+                Flixer
+              </Typography>
             </Link>
           )}
-          <Link to="/" style={{ marginRight: "auto", textDecoration: "none" }}>
-            <Typography
-              variant="h5"
-              color="#fbfafb"
-              component="div"
-              sx={{ fontWeight: 800 }}
-            >
-              Flixer
-            </Typography>
-          </Link>
           <Button
             onClick={() => navigate("/")}
             sx={{
-              marginRight: "30px",
+              marginRight: "2.2vw",
               textDecoration: "none",
               textTransform: "capitalize",
               backgroundColor: "transparent",
@@ -117,7 +139,7 @@ const Root = () => {
               },
               "& .hoverBox": {
                 position: "absolute",
-                top: 34,
+                top: "5.3vh",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
                 opacity: 0,
@@ -126,7 +148,7 @@ const Root = () => {
               "&:hover .hoverBox": {
                 opacity: 1,
                 zIndex: 100,
-                height: 3,
+                height: "0.5vh",
               },
             }}
             disableRipple
@@ -137,6 +159,7 @@ const Root = () => {
                 sx={{
                   color: path === "/" ? "#00c1db" : "#fbfafb",
                   fontWeight: 700,
+                  fontSize: "1.2vw",
                 }}
               >
                 Home
@@ -156,7 +179,7 @@ const Root = () => {
           <Button
             onClick={() => navigate("/explore?type=movie")}
             sx={{
-              marginRight: "30px",
+              marginRight: "2.2vw",
               textDecoration: "none",
               textTransform: "capitalize",
               backgroundColor: "transparent",
@@ -165,7 +188,7 @@ const Root = () => {
               },
               "& .hoverBox": {
                 position: "absolute",
-                top: 34,
+                top: "5.3vh",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
                 opacity: 0,
@@ -174,7 +197,7 @@ const Root = () => {
               "&:hover .hoverBox": {
                 opacity: 1,
                 zIndex: 100,
-                height: 3,
+                height: "0.5vh",
               },
             }}
             disableRipple
@@ -187,6 +210,7 @@ const Root = () => {
                     ? "#00c1db"
                     : "#fbfafb",
                   fontWeight: 700,
+                  fontSize: "1.2vw",
                 }}
               >
                 Movies
@@ -206,7 +230,7 @@ const Root = () => {
           <Button
             onClick={() => navigate("/explore?type=tv")}
             sx={{
-              marginRight: "30px",
+              marginRight: "2.2vw",
               textDecoration: "none",
               textTransform: "capitalize",
               backgroundColor: "transparent",
@@ -215,7 +239,7 @@ const Root = () => {
               },
               "& .hoverBox": {
                 position: "absolute",
-                top: 34,
+                top: "5.3vh",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
                 opacity: 0,
@@ -224,7 +248,7 @@ const Root = () => {
               "&:hover .hoverBox": {
                 opacity: 1,
                 zIndex: 100,
-                height: 3,
+                height: "0.5vh",
               },
             }}
             disableRipple
@@ -237,6 +261,7 @@ const Root = () => {
                     ? "#00c1db"
                     : "#fbfafb",
                   fontWeight: 700,
+                  fontSize: "1.2vw",
                 }}
               >
                 Tv Shows
@@ -253,17 +278,15 @@ const Root = () => {
               )}
             </Box>
           </Button>
-
           <IconButton
             href="https://github.com/Sheharyar944"
             target="_blank"
             rel="noopener noreferrer"
             sx={{
-              marginRight: "50px",
-
+              marginRight: "3.2vw",
               "& .hoverBox": {
                 position: "absolute",
-                top: 36,
+                top: "5.6vh",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
                 opacity: 0,
@@ -272,12 +295,12 @@ const Root = () => {
               "&:hover .hoverBox": {
                 opacity: 1,
                 zIndex: 100,
-                height: 3,
+                height: "0.5vh",
               },
             }}
             disableRipple
           >
-            <img src={github} alt="logo" style={{ height: 25 }} />
+            <img src={github} alt="logo" style={{ height: "1.8vw" }} />
             <Box
               className="hoverBox"
               sx={{
@@ -288,8 +311,8 @@ const Root = () => {
             />
           </IconButton>
           <SearchBar />
-          <IconButton sx={{ marginRight: "50px", ml: "30px" }}>
-            <img src={crab} alt="logo" style={{ height: 40 }} />
+          <IconButton sx={{ marginRight: "3.6vw", ml: "3.2vw" }}>
+            <img src={crab} alt="logo" style={{ height: "3vw" }} />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -297,10 +320,11 @@ const Root = () => {
       <Box
         // border={1}
         sx={{
-          margin: "80px 70px 10px 70px",
-          paddingBottom: "18px",
+          margin: "10.4vh 5.1vw 1.3vh 5.1vw",
+          paddingBottom: "3vh",
           display: "flex",
           justifyContent: "space-between",
+          borderColor: "white",
         }}
       >
         <Box>
@@ -308,25 +332,33 @@ const Root = () => {
             <Typography
               variant="h5"
               color="#fbfafb"
-              sx={{ fontSize: "18px", marginBottom: "8px", marginRight: "8px" }}
+              sx={{
+                fontSize: "2.5vh",
+                marginBottom: "1vh",
+                marginRight: "1vw",
+              }}
             >
               Welcome to Flixer
             </Typography>
             <img
               src={heart}
               alt="heart"
-              style={{ height: "20px", marginTop: "2px" }}
+              style={{ height: "3vh", marginTop: "0.2vh" }}
             />
           </Box>
           <Typography
             variant="body1"
             color="#ababab"
-            sx={{ fontSize: "12px", marginBottom: "8px" }}
+            sx={{ fontSize: "1.8vh", marginBottom: "1vh" }}
           >
             This site does not store any files on our server, we only linked to
             the media which is hosted on 3rd party services.
           </Typography>
-          <Typography variant="body1" color="#ababab" sx={{ fontSize: "12px" }}>
+          <Typography
+            variant="body1"
+            color="#ababab"
+            sx={{ fontSize: "1.8vh" }}
+          >
             Copyright ©Flixer 2024
           </Typography>
         </Box>
@@ -336,12 +368,17 @@ const Root = () => {
             target="_blank"
             rel="noopener noreferrer"
             underline="none"
-            sx={{ color: "white", display: "flex", alignItems: "center" }}
+            sx={{
+              color: "white",
+              display: "flex",
+              alignItems: "center",
+              fontSize: "2.5vh",
+            }}
           >
             <img
               src={github}
               alt="github icon"
-              style={{ height: 30, marginRight: 6 }}
+              style={{ height: "5vh", marginRight: "0.4vw" }}
             />
             GitHub
           </MuiLink>

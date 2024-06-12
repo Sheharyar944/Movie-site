@@ -13,45 +13,69 @@ const nowPlayingMovie = () => {
 
   return (
     <Box
-      //   border={1}
+      // border={1}
       sx={{
-        width: "600px",
-        height: "120px",
-        marginTop: "180px",
-        marginBottom: "32px",
+        width: "44vw",
+        height: "19vh",
+        marginTop: "28.3vh",
+        marginBottom: "5vh",
         // position: "absolute",
       }}
     >
-      <Typography variant="h4" color="#fbfafb">
+      <Typography
+        variant="h4"
+        color="#fbfafb"
+        sx={{
+          fontSize: "2.3vw",
+          fontWeight: "bold",
+        }}
+      >
         {nowPlayingMovie.title || nowPlayingMovie.name}
       </Typography>
-      <Box sx={{ display: "flex", alignItems: "center", margin: "10px 0px" }}>
+      <Box
+        // border={1}
+        sx={{ display: "flex", alignItems: "center", margin: "1.5vh 0px" }}
+      >
         <img
           src={star}
           alt="star"
-          style={{ height: "16px", paddingBottom: "3px", paddingRight: "2px" }}
+          style={{
+            height: "1vw",
+            marginBottom: "0.1vw",
+            marginRight: "0.1vw",
+          }}
         />
         <Typography
           variant="body1"
           color="#fbfafb"
-          sx={{ marginRight: "15px" }}
+          sx={{ marginRight: "1.1vw", fontSize: "0.9vw" }}
         >
           {nowPlayingMovie && nowPlayingMovie.vote_average.toFixed(1)}
         </Typography>
         <img
           src={date}
           alt="date"
-          style={{ height: "16px", paddingRight: "5px" }}
+          style={{ height: "1vw", marginRight: "0.3vw" }}
         />
         <Typography
           variant="body1"
           color="#fbfafb"
-          sx={{ marginRight: "15px" }}
+          sx={{ marginRight: "1.1vw", fontSize: "0.9vw" }}
         >
           {nowPlayingMovie.release_date}
         </Typography>
-        <Typography variant="body1" color="#fbfafb">
+        <Typography variant="body1" color="#fbfafb" sx={{ fontSize: "0.9vw" }}>
           {nowPlayingMovie && nowPlayingMovie.original_language.toUpperCase()}
+          <span
+            style={{
+              verticalAlign: "middle",
+              margin: "0 5px",
+              color: "fbfafb",
+            }}
+          >
+            •
+          </span>
+          HD
         </Typography>
       </Box>
       <Typography
@@ -63,6 +87,7 @@ const nowPlayingMovie = () => {
           display: "-webkit-box",
           WebkitLineClamp: 2,
           WebkitBoxOrient: "vertical",
+          fontSize: "1.1vw",
         }}
       >
         {nowPlayingMovie.overview}

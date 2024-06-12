@@ -23,13 +23,13 @@ const Info = () => {
   const [seasons, setSeasons] = useState();
   const [cast, setCast] = useState("");
   const [details, setDetails] = useState("");
-  const [relatedVideos, setRelatedVideos] = useState("");
+  const [relatedVideos, setRelatedVideos] = useState();
   const [recommendations, setRecommendations] = useState("");
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [playIndex, setPlayIndex] = useState(null);
   const [hovered, setHovered] = useState(null);
   const [position, setPosition] = useState(0);
-  const [disabled, setDisabled] = useState(false);
+  const [trending, setTrending] = useState();
   const navigate = useNavigate();
   const location = useLocation();
   const prevLocation = useRef();
@@ -65,9 +65,14 @@ const Info = () => {
       `https://api.themoviedb.org/3/${type}/${id}/recommendations?language=en-US&page=1`,
       setRecommendations
     );
+
+    getList(
+      "https://api.themoviedb.org/3/trending/movie/day?language=en-US",
+      setTrending
+    );
   }, []);
 
-  console.log("seasons", seasons);
+  console.log("list", recommendations);
 
   useEffect(() => {
     if (type === "tv") {
@@ -326,7 +331,7 @@ const Info = () => {
           <img src={movieWhite} alt="movie image" style={{ height: 30 }} />
         </Box>
         <Box sx={{ display: "flex" }}>
-          {relatedVideos && relatedVideos.results.length > 4 && (
+          {relatedVideos && relatedVideos?.results?.length > 4 && (
             <Box>
               <IconButton
                 onClick={handleLeftArrow}
@@ -384,7 +389,7 @@ const Info = () => {
       className="slideshow"
       sx={{
         borderRadius: "12px",
-        // height: 160,
+        height: 160,
       }}
     >
       <Box
@@ -427,25 +432,25 @@ const Info = () => {
                     width: 300,
                     borderRadius: "12px",
                     marginRight: "16px",
-                    backgroundImage: `url(https://image.tmdb.org/t/p/original${list.backdrop_path})`,
+                    backgroundImage: `url(https://image.tmdb.org/t/p/original${list?.backdrop_path})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     textTransform: "none",
-                    // transition: "transform 0.3s ease",
+                    transition: "transform 0.3s ease",
                     "& img": {
                       position: "absolute",
                       top: "50%",
                       left: "50%",
                       transform: "translate(-50%, -50%)",
-                      opacity: 1,
+                      opacity: 0,
                       transition: "opacity 0.3s ease",
                     },
                     "&:hover img": {
                       opacity: 1,
+                      zIndex: -100,
                     },
                   }}
                 >
-                  {/* <img src={play} alt="Overlay Image" /> */}
                   <Box
                     sx={{
                       position: "absolute",
@@ -459,34 +464,16 @@ const Info = () => {
                       zIndex: 1,
                     }}
                   ></Box>
-                  <Box
-                    // border={1}
-                    sx={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      borderRadius: "50%",
-                      transform: "translate(-50%, -50%)",
-                      width: hoveredIndex === index ? 45 : 40,
-                      height: hoveredIndex === index ? 45 : 40,
-                      backgroundColor:
-                        hoveredIndex === index
-                          ? "rgba(180, 177, 176,0.5)"
-                          : "rgba(180, 177, 176,0.4)",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      zIndex: 2,
-                    }}
-                  >
-                    <img
-                      src={hoveredIndex === index ? playWhiteFilled : playWhite}
-                      alt="play image"
-                      style={{
-                        height: hoveredIndex === index ? "22px" : "30px",
-                      }}
-                    />
-                  </Box>
+                  <img
+                    src={playWhite}
+                    alt="play"
+                    style={{ opacity: 1, height: 22, zIndex: 100 }}
+                  />
+                  <img
+                    src={playWhiteFilled}
+                    alt="play"
+                    style={{ height: 28, zIndex: 100 }}
+                  />
 
                   <Box
                     sx={{
@@ -550,180 +537,9 @@ const Info = () => {
           You may also like
         </Typography>
       </Box>
-      <Grid data={recommendations} />
-      {/* <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: "repeat(6, 1fr)",
-          gridAutoRows: "auto",
-          gap: "12px",
-          marginTop: "12px",
-          marginBottom: "100px",
-        }}
-      >
-        {recommendations &&
-          recommendations.results.map((item, index) => (
-            <Box key={index}>
-              <Button
-                onClick={() => navigate(`/info/${item.media_type}/${item.id}`)}
-                onMouseEnter={() => setHoveredIndex(index + 1000)}
-                onMouseLeave={() => setHoveredIndex(null)}
-                sx={{
-                  padding: 0,
-                  borderRadius: "8px",
-                  // backgroundImage: `url(https://image.tmdb.org/t/p/w780${item.poster_path})`,
-                  // backgroundSize: "cover",
-                  // backgroundPosition: "center",
-                  height: 296,
-                  width: 197,
-                  position: "relative",
-                  textTransform: "none",
-                  transition: "0.5s ease",
-                  overflow: "hidden",
-                  "&::before": {
-                    content: '""',
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    backgroundImage: `url(https://image.tmdb.org/t/p/w780${item.poster_path})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    borderRadius: "8px",
-                    opacity: 1,
-                    transition: "transform 0.3s ease",
-                  },
-                  "&:hover::before": {
-                    transform: "scale(1.1)",
-                  },
-                  "& img": {
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    opacity: 0,
-                    transition: "opacity 0.3s ease",
-                  },
-                  "&:hover img": {
-                    opacity: 1,
-                    zIndex: 100,
-                  },
-                }}
-              >
-                <Box
-                  sx={{
-                    position: "absolute",
-                    height: 296,
-                    width: 197,
-                    top: 0,
-                    left: 0,
-                    backgroundImage:
-                      "linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.8))",
-                    borderRadius: "8px",
-                    zIndex: 0,
-                  }}
-                ></Box>
-                <img
-                  src={circle}
-                  alt="circled play"
-                  style={{
-                    height: 45,
-                  }}
-                />
-                <img
-                  src={play}
-                  alt="circled play"
-                  style={{
-                    height: 18,
-                  }}
-                />
-                <Box
-                  // border={1}
-                  sx={{
-                    position: "absolute",
-                    top: 4,
-                    right: 0,
-                    height: 20,
-                    width: 40,
-                    display: "flex",
-                    backgroundColor: "rgba(0, 0, 0,0.6)",
-                    alignItems: "center",
-                    borderTopLeftRadius: "4px",
-                    borderBottomLeftRadius: "4px",
-                  }}
-                >
-                  <img
-                    src={starGold}
-                    alt="star"
-                    style={{
-                      height: 14,
-                      marginLeft: 10,
-                      paddingBottom: 2,
-                      opacity: 1,
-                    }}
-                  />
-                  <Typography
-                    variant="body1"
-                    color="#fbfafb"
-                    sx={{ fontSize: 12, marginLeft: "4px" }}
-                  >
-                    {item.vote_average.toFixed(1)}
-                  </Typography>
-                </Box>
-                <Box
-                  // border={1}
-                  sx={{
-                    position: "absolute",
-                    width: 185,
-                    paddingBottom: "5px",
-                    zIndex: 1,
-                    bottom: 0,
-                  }}
-                >
-                  <Typography
-                    variant="body1"
-                    color="#FFFFFF"
-                    sx={{
-                      fontSize: "12px",
-                      opacity: "0.7",
-                      textAlign: "center",
-                    }}
-                  >
-                    {item &&
-                      (item.release_date || item.first_air_date).split("-")[0]}
-
-                    <span style={{ verticalAlign: "middle", margin: "0 5px" }}>
-                      •
-                    </span>
-                    {item && item.original_language.toUpperCase()}
-                  </Typography>
-
-                  <Typography
-                    variant="body1"
-                    color="#FFFFFF"
-                    sx={{
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      display: "-webkit-box",
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: "vertical",
-                      opacity: "0.9",
-                      fontweight: "bold",
-                      fontSize: "16px",
-                      letterSpacing: "1px",
-                      textAlign: "center",
-
-                      // whiteSpace: "nowrap",
-                    }}
-                  >
-                    {item.title || item.name}
-                  </Typography>
-                </Box>
-              </Button>
-            </Box>
-          ))}
-      </Box> */}
+      <Grid
+        data={recommendations?.results?.length > 0 ? recommendations : trending}
+      />
     </Box>
   );
 
@@ -767,7 +583,7 @@ const Info = () => {
             height: "100%",
             backgroundColor: "rgba(0, 0, 0, 0.6)",
           }}
-        ></Box>
+        />
       </Box>
       <Box sx={{ padding: "0 56px" }}>
         <MovieDetails />
@@ -1016,17 +832,6 @@ const Info = () => {
                             zIndex: 1,
                           }}
                         ></Box>
-
-                        {/* <img
-                          src={circleGrey}
-                          alt="grey circle"
-                          style={{ opacity: 0.5, height: 40, zIndex: 100 }}
-                        />
-                        <img
-                          src={circleGrey}
-                          alt="grey circle"
-                          style={{ height: 45, zIndex: 100 }}
-                        /> */}
                         <img
                           src={playWhite}
                           alt="play"
@@ -1037,40 +842,6 @@ const Info = () => {
                           alt="play"
                           style={{ height: 28, zIndex: 100 }}
                         />
-
-                        {/* <Box
-                          // border={1}
-                          sx={{
-                            position: "absolute",
-                            top: "50%",
-                            left: "50%",
-                            borderRadius: "50%",
-                            transform: "translate(-50%, -50%)",
-                            width: hoveredIndex === index ? 45 : 40,
-                            height: hoveredIndex === index ? 45 : 40,
-                            backgroundColor:
-                              hoveredIndex === index
-                                ? "rgba(255,255, 255,0.4)"
-                                : "rgba(180, 177, 176,0.4)",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            zIndex: 2,
-                          }}
-                        >
-                          <img
-                            src={
-                              hoveredIndex === index
-                                ? playWhiteFilled
-                                : playWhite
-                            }
-                            alt="play image"
-                            style={{
-                              opacity: 1,
-                              height: hoveredIndex === index ? "22px" : "30px",
-                            }}
-                          />
-                        </Box> */}
 
                         <Box
                           sx={{
@@ -1117,203 +888,11 @@ const Info = () => {
                 ))}
             </Box>
           </Box>
+          // <RelatedVideos />
         )}
       </Box>
 
       <RecommendationsGrid />
-      {/* <Box sx={{ padding: "0 48px" }}>
-        <Box sx={{ marginTop: "100px" }}>
-          <Typography
-            variant="body1"
-            color="#fbfafb"
-            sx={{
-              fontSize: "25px",
-              // fontWeight: "bold",
-            }}
-          >
-            You may also like
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(6, 1fr)",
-            gridAutoRows: "auto",
-            gap: "12px",
-            marginTop: "12px",
-            marginBottom: "100px",
-          }}
-        >
-          {recommendations &&
-            recommendations.results.map((item, index) => (
-              <Box key={index}>
-                <Button
-                  onClick={() =>
-                    navigate(`/info/${item.media_type}/${item.id}`)
-                  }
-                  onMouseEnter={() => setHoveredIndex(index + 1000)}
-                  onMouseLeave={() => setHoveredIndex(null)}
-                  sx={{
-                    padding: 0,
-                    borderRadius: "8px",
-                    // backgroundImage: `url(https://image.tmdb.org/t/p/w780${item.poster_path})`,
-                    // backgroundSize: "cover",
-                    // backgroundPosition: "center",
-                    height: 296,
-                    width: 197,
-                    position: "relative",
-                    textTransform: "none",
-                    transition: "0.5s ease",
-                    overflow: "hidden",
-                    "&::before": {
-                      content: '""',
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      backgroundImage: `url(https://image.tmdb.org/t/p/w780${item.poster_path})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      borderRadius: "8px",
-                      opacity: 1,
-                      transition: "transform 0.3s ease",
-                    },
-                    "&:hover::before": {
-                      transform: "scale(1.1)",
-                    },
-                    "& img": {
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
-                      opacity: 0,
-                      transition: "opacity 0.3s ease",
-                    },
-                    "&:hover img": {
-                      opacity: 1,
-                      zIndex: 100,
-                    },
-                  }}
-                >
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      height: 296,
-                      width: 197,
-                      top: 0,
-                      left: 0,
-                      backgroundImage:
-                        "linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.8))",
-                      borderRadius: "8px",
-                      zIndex: 0,
-                    }}
-                  ></Box>
-                  <img
-                    src={circle}
-                    alt="circled play"
-                    style={{
-                      height: 45,
-                    }}
-                  />
-                  <img
-                    src={play}
-                    alt="circled play"
-                    style={{
-                      height: 18,
-                    }}
-                  />
-                  <Box
-                    // border={1}
-                    sx={{
-                      position: "absolute",
-                      top: 4,
-                      right: 0,
-                      height: 20,
-                      width: 40,
-                      display: "flex",
-                      backgroundColor: "rgba(0, 0, 0,0.6)",
-                      alignItems: "center",
-                      borderTopLeftRadius: "4px",
-                      borderBottomLeftRadius: "4px",
-                    }}
-                  >
-                    <img
-                      src={starGold}
-                      alt="star"
-                      style={{
-                        height: 14,
-                        marginLeft: 4,
-                        marginBottom: 2,
-                        opacity: 1,
-                      }}
-                    />
-                    <Typography
-                      variant="body1"
-                      color="#fbfafb"
-                      sx={{ fontSize: 12, marginLeft: "2px" }}
-                    >
-                      {item.vote_average.toFixed(1)}
-                    </Typography>
-                  </Box>
-                  <Box
-                    // border={1}
-                    sx={{
-                      position: "absolute",
-                      width: 185,
-                      paddingBottom: "5px",
-                      zIndex: 1,
-                      bottom: 0,
-                    }}
-                  >
-                    <Typography
-                      variant="body1"
-                      color="#FFFFFF"
-                      sx={{
-                        fontSize: "12px",
-                        opacity: "0.7",
-                        textAlign: "center",
-                      }}
-                    >
-                      {list &&
-                        (list.release_date || list.first_air_date).split(
-                          "-"
-                        )[0]}
-
-                      <span
-                        style={{ verticalAlign: "middle", margin: "0 5px" }}
-                      >
-                        •
-                      </span>
-                      {list && list.original_language.toUpperCase()}
-                    </Typography>
-
-                    <Typography
-                      variant="body1"
-                      color="#FFFFFF"
-                      sx={{
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        display: "-webkit-box",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
-                        opacity: "0.9",
-                        fontweight: "bold",
-                        fontSize: "16px",
-                        letterSpacing: "1px",
-                        textAlign: "center",
-
-                        // whiteSpace: "nowrap",
-                      }}
-                    >
-                      {item.title || item.name}
-                    </Typography>
-                  </Box>
-                </Button>
-              </Box>
-            ))}
-        </Box>
-      </Box> */}
     </Box>
   );
 };

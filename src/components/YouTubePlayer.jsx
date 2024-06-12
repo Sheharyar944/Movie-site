@@ -7,10 +7,33 @@ import sound from "../assets/sound.png";
 const YouTubePlayer = ({ videoId, videoLoaded, setVideoLoaded }) => {
   const [player, setPlayer] = useState(null);
   const [isMuted, setIsMuted] = useState(true);
+  const [videoDimensions, setVideoDimensions] = useState({
+    width: 0,
+    height: 0,
+  });
+
+  useEffect(() => {
+    const calculateDimensions = () => {
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+      const width = screenWidth * 1.4;
+      const height = screenHeight * 1.4;
+      setVideoDimensions({ width, height });
+    };
+
+    calculateDimensions();
+
+    window.addEventListener("resize", calculateDimensions);
+    return () => {
+      window.removeEventListener("resize", calculateDimensions);
+    };
+  }, []);
+
+  console.log("video dim", videoDimensions.height);
 
   const opts = {
-    height: "920px", // Full height
-    width: "1536px",
+    height: `${videoDimensions.height}px`, // Full height
+    width: `${videoDimensions.width}px`,
     zIndex: -2, // Full width
     playerVars: {
       autoplay: 1, // Auto-play the video
@@ -66,7 +89,7 @@ const YouTubePlayer = ({ videoId, videoLoaded, setVideoLoaded }) => {
         sx={{
           borderColor: "white",
           position: "absolute",
-          top: -140,
+          top: "-19vh",
           left: 0,
           width: "100%",
           height: "130vh",
@@ -78,7 +101,7 @@ const YouTubePlayer = ({ videoId, videoLoaded, setVideoLoaded }) => {
           sx={{
             position: "absolute",
             width: "100%",
-            height: "130vh",
+            height: "100%",
             backgroundColor: "rgba(0, 0, 0, 0.4)",
             top: 0,
             left: 0,
@@ -86,16 +109,16 @@ const YouTubePlayer = ({ videoId, videoLoaded, setVideoLoaded }) => {
           }}
         />
         <Box
-          border={1}
+          // border={1}
           sx={{
             borderColor: "white",
             position: "absolute",
             width: "100%",
-            height: "100px",
+            height: "16vh",
             backgroundColor: "rgba(0, 0, 0, 1)",
-            top: 850,
+            top: "119vh",
             left: 0,
-            zIndex: 1,
+            zIndex: 2,
           }}
         />
 
@@ -115,10 +138,10 @@ const YouTubePlayer = ({ videoId, videoLoaded, setVideoLoaded }) => {
       <IconButton
         sx={{
           position: "absolute",
-          top: 400,
-          left: 1250,
-          height: 35,
-          width: 35,
+          top: "63vh",
+          left: "91.5vw",
+          height: "2.5vw",
+          width: "2.5vw",
           zIndex: videoLoaded ? 0 : -3,
           backgroundColor: " rgba(255,255,255,0.1)",
           "&:hover": {
@@ -132,7 +155,7 @@ const YouTubePlayer = ({ videoId, videoLoaded, setVideoLoaded }) => {
             src={mute}
             alt="mute"
             style={{
-              height: 20,
+              height: "1.5vw",
               borderRadius: "50%",
             }}
           />
@@ -141,7 +164,7 @@ const YouTubePlayer = ({ videoId, videoLoaded, setVideoLoaded }) => {
             src={sound}
             alt="sound"
             style={{
-              height: 20,
+              height: "1.5vw",
               borderRadius: "50%",
             }}
           />

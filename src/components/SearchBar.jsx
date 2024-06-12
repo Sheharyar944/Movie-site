@@ -61,8 +61,8 @@ const SearchBar = () => {
         style={{
           position: "absolute",
           top: "50%",
-          left: 10,
-          height: 20,
+          left: "0.7vw",
+          height: "1.5vw",
           zIndex: 1,
           //   filter: "blur(10px)",
           transform: "translateY(-50%)",
@@ -77,25 +77,26 @@ const SearchBar = () => {
           }}
           sx={{
             position: "absolute",
-            left: 310,
-            height: 30,
+            left: "22.7vw",
+            height: "2.2vw",
             zIndex: 1000,
           }}
           disableRipple
         >
-          <img src={cross} alt="clear Icon" style={{ height: 15 }} />
+          <img src={cross} alt="clear Icon" style={{ height: "1.1vw" }} />
         </IconButton>
       )}
       <input
         style={{
-          width: 260,
-          height: 30,
+          width: "19vw",
+          height: "2.2vw",
           backgroundColor: "rgba(255,255,255,0.2)",
-          borderRadius: "8px",
+          borderRadius: "0.6vw",
           border: "none",
           outline: "none",
-          paddingLeft: 40,
-          paddingRight: 40,
+          paddingLeft: "2.9vw",
+          paddingRight: "2.9vw",
+          fontSize: "1vw",
         }}
         type="text"
         placeholder="Search Anything..."
@@ -111,14 +112,14 @@ const SearchBar = () => {
             <Box
               //   border={1}
               sx={{
-                pt: "7px",
-                borderRadius: "8px",
+                pt: "1.1vh",
+                borderRadius: "0.6vw",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 backgroundColor: "black",
                 position: "absolute",
-                maxHeight: 400,
+                maxHeight: "63vh",
                 width: "100%",
                 overflowY: "auto",
                 scrollbarWidth: "none",
@@ -135,14 +136,14 @@ const SearchBar = () => {
                     }
                     sx={{
                       padding: "0px",
-                      marginBottom: "7px",
-                      width: "320px",
-                      height: "74px",
+                      marginBottom: "1.1vh",
+                      width: "23.4vw",
+                      height: "11.6vh",
                       display: "flex",
                       justifyContent: "flex-start",
                       alignItems: "flex-start",
                       backgroundColor: "#131416",
-                      borderRadius: "10px",
+                      borderRadius: "0.7vw",
                       textTransform: "none",
                       "&:hover": {
                         backgroundColor: "rgba(255,255,255,0.1)",
@@ -156,9 +157,9 @@ const SearchBar = () => {
                       item.known_for[0].poster_path) ? (
                       <img
                         style={{
-                          borderRadius: "10px",
-                          width: 60,
-                          height: 74,
+                          borderRadius: "0.7vw",
+                          width: "4.4vw",
+                          height: "11.6vh",
                           boxShadow: "4px 0 10px rgba(0, 0, 0, 0.4)",
                         }}
                         src={`https://image.tmdb.org/t/p/w185${
@@ -169,9 +170,9 @@ const SearchBar = () => {
                     ) : (
                       <Box
                         style={{
-                          borderRadius: "10px",
-                          width: 60,
-                          height: 74,
+                          borderRadius: "0.7vw",
+                          width: "4.4vw",
+                          height: "11.6vh",
                           backgroundColor: "#2f3032",
                         }}
                       ></Box>
@@ -183,15 +184,15 @@ const SearchBar = () => {
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "flex-start",
-                        width: "270px",
-                        padding: "10px",
+                        width: "19.7vw",
+                        padding: "0.7vw",
                         marginRight: "auto",
                       }}
                     >
                       <Typography
                         sx={{
                           padding: "0px",
-                          fontSize: "14px",
+                          fontSize: "1vw",
                           fontWeight: 500,
                           textAlign: "left",
                           opacity: "0.99",
@@ -206,9 +207,9 @@ const SearchBar = () => {
                         variant="body1"
                         color="#00c1db"
                         sx={{
-                          marginTop: "4px",
+                          marginTop: "0.6vh",
                           padding: "0px",
-                          fontSize: "11px",
+                          fontSize: "0.8vw",
                           opacity: "0.6",
                           fontWeight: 100,
                         }}
@@ -245,11 +246,11 @@ const SearchBar = () => {
           ) : (
             <Box
               sx={{
-                height: "88px",
+                height: "13.8vh",
                 width: "100%",
                 backgroundColor: "black",
                 position: "absolute",
-                borderRadius: "8px",
+                borderRadius: "0.6vw",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -260,7 +261,7 @@ const SearchBar = () => {
                 color="#fbfafb"
                 sx={{
                   opacity: 0.6,
-                  fontSize: "12px",
+                  fontSize: "0.9vw",
                 }}
               >
                 No Result Found!
