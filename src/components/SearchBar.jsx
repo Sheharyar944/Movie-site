@@ -11,7 +11,7 @@ const SearchBar = () => {
   const [list, setList] = useState();
   const [searchTerm, setSearchTerm] = useState("");
   const [isActive, setIsActive] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
+  const [debouncedQuery, setDebouncedQuery] = useState(searchTerm);
   const [filteredList, setFilteredList] = useState();
 
   const getList = async (url, state) => {
@@ -20,11 +20,23 @@ const SearchBar = () => {
   };
 
   useEffect(() => {
-    getList(
-      `https://api.themoviedb.org/3/search/multi?query=${searchTerm}`,
-      setList
-    );
+    const timeout = setTimeout(() => {
+      setDebouncedQuery(searchTerm);
+    }, 500);
+
+    return () => {
+      clearTimeout(timeout);
+    };
   }, [searchTerm]);
+
+  useEffect(() => {
+    if (debouncedQuery) {
+      getList(
+        `https://api.themoviedb.org/3/search/multi?query=${searchTerm}`,
+        setList
+      );
+    }
+  }, [debouncedQuery]);
 
   useEffect(() => {
     const filteredList = list?.results?.filter(
@@ -41,6 +53,7 @@ const SearchBar = () => {
     <Box
       sx={{
         position: "relative",
+        zIndex: 100,
       }}
     >
       {/* <Box
