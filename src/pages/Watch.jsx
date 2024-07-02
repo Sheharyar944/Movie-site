@@ -90,12 +90,12 @@ const Watch = () => {
         selectedSeason <= seasons?.length
       ) {
         const div = (seasons?.length - 4) / 4;
-        setPosition(parseFloat((-68.8 * div).toFixed(1)));
+        setPosition(parseFloat((-938 * div).toFixed(1)));
         setDisable(true);
-        setGoBack(parseFloat((17.2 * mod).toFixed(1)));
+        setGoBack(parseFloat((234.5 * mod).toFixed(1)));
       } else if (selectedSeason > 4 && selectedSeason <= seasons?.length) {
         const div = Math.ceil((selectedSeason - 4) / 4);
-        setPosition(parseFloat((-68.8 * div).toFixed(1)));
+        setPosition(parseFloat((-938 * div).toFixed(1)));
         if (selectedSeason > seasons?.length - 4 + mod) {
           setDisable(true);
         }
@@ -134,13 +134,14 @@ const Watch = () => {
 
   const MovieDetails = () => (
     <Box
-      //   border={1}
+      // border={1}
       sx={{
         marginTop: "116px",
         display: "flex",
-        ml: "52px",
-        mr: "52px",
+        // ml: "52px",
+        // mr: "52px",
         borderColor: "white",
+        width: 1254,
       }}
     >
       <Box
@@ -157,9 +158,10 @@ const Watch = () => {
       ></Box>
 
       <Box
+        // border={1}
         sx={{
           width: 880,
-          height: 412,
+          height: 425,
           display: "flex",
           flexDirection: "column",
         }}
@@ -169,8 +171,7 @@ const Watch = () => {
           color="#fbfafb"
           sx={{
             fontWeight: 600,
-            fontSize: "30px",
-            // letterSpacing: "1px",
+            fontSize: 30,
             opacity: 0.9,
           }}
         >
@@ -187,6 +188,7 @@ const Watch = () => {
                 backgroundColor: "rgba(0, 193, 219, 0.2)",
                 textTransform: "none",
                 height: 32,
+                fontSize: 14,
                 color: "#00c1db",
                 marginRight: "10px",
                 marginBottom: "13px",
@@ -202,7 +204,7 @@ const Watch = () => {
           ))}
         </Box>
         <Box
-          //   border={1}
+          // border={1}
           sx={{
             backgroundColor: "rgba(255,255,255,0.1)",
             padding: 1,
@@ -227,13 +229,14 @@ const Watch = () => {
           </Typography>
         </Box>
         <Box
+          // border={1}
           sx={{
             // display: "flex",
             alignItems: "center",
             margin: "11px 0px 15px 0px",
           }}
         >
-          <Box sx={{ display: "flex" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <Typography
               variant="body1"
               color="#fbfafb"
@@ -250,7 +253,11 @@ const Watch = () => {
             <Typography
               variant="body1"
               color="#fbfafb"
-              sx={{ marginRight: "15px", fontSize: "14px", opacity: "0.9" }}
+              sx={{
+                marginRight: "15px",
+                fontSize: "14px",
+                opacity: "0.7",
+              }}
             >
               {list?.release_date || list?.first_air_date}
             </Typography>
@@ -280,7 +287,7 @@ const Watch = () => {
               sx={{
                 fontSize: "12px",
                 marginRight: "2px",
-                opacity: "0.9",
+                opacity: "0.7",
               }}
             >
               {list && list.vote_average.toFixed(1)}
@@ -311,7 +318,7 @@ const Watch = () => {
               color="#fbfafb"
               sx={{
                 fontSize: "12px",
-                opacity: "0.9",
+                opacity: "0.7",
                 letterSpacing: "1px",
               }}
             >
@@ -337,7 +344,7 @@ const Watch = () => {
               sx={{
                 height: 50,
                 width: 50,
-                borderRadius: "50px",
+                borderRadius: "500px",
                 overflow: "hidden",
                 position: "relative",
                 marginRight: "12px",
@@ -388,7 +395,7 @@ const Watch = () => {
       setPosition((prev) => parseFloat((prev + goBack).toFixed(1)));
       setGoBack(null);
     } else if (position !== 0) {
-      setPosition((prev) => parseFloat((prev + 68.8).toFixed(1)));
+      setPosition((prev) => parseFloat((prev + 938).toFixed(1)));
       ref.current--;
     }
     if (disable) {
@@ -401,9 +408,9 @@ const Watch = () => {
     if (
       div !== 0 &&
       ref.current !== div &&
-      position !== parseFloat((-68.8 * div).toFixed(1))
+      position !== parseFloat((-938 * div).toFixed(1))
     ) {
-      setPosition((prev) => parseFloat((prev - 68.8).toFixed(1)));
+      setPosition((prev) => parseFloat((prev - 938).toFixed(1)));
       ref.current++;
       console.log("ref", ref.current);
       if (ref.current === div && mod === 0) {
@@ -411,14 +418,20 @@ const Watch = () => {
         ref.current = 0;
       }
     } else {
-      setPosition((prev) => parseFloat((prev - 17.2 * mod).toFixed(1)));
+      setPosition((prev) => parseFloat((prev - 234.5 * mod).toFixed(1)));
       setDisable(true);
-      setGoBack(parseFloat((17.2 * mod).toFixed(1)));
+      setGoBack(parseFloat((234.5 * mod).toFixed(1)));
     }
   };
 
   return (
-    <Box>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <Box
         sx={{
           position: "fixed",
@@ -431,7 +444,7 @@ const Watch = () => {
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
           backgroundSize: "cover",
-          height: "635px",
+          height: "100%",
           width: "100%",
           zIndex: -1,
           filter: "blur(70px)",
@@ -456,6 +469,7 @@ const Watch = () => {
           height: "8vh",
           alignItems: "center",
           pl: "2px",
+          width: 1254,
         }}
       >
         <Link href="/" underline="hover" color="#fbfafb" sx={{ mr: 1 }}>
@@ -490,8 +504,8 @@ const Watch = () => {
         <Box
           sx={{
             backgroundColor: "black",
-            height: "100vh",
-            width: "auto",
+            height: "635px",
+            width: "1254px",
             // mt: 10,
             ml: "52px",
             mr: "52px",
@@ -502,8 +516,8 @@ const Watch = () => {
           {trailer ? (
             <ReactPlayer
               url={`https://www.youtube.com/embed/${trailer}`}
-              width="100%"
-              height="100%"
+              width="1260px"
+              height="640px"
               controls={true}
             />
           ) : (
@@ -526,8 +540,8 @@ const Watch = () => {
             display: "flex",
             ml: "52px",
             mr: "52px",
-            height: "100vh",
-            maxWidth: "calc(100% - 104px)",
+            height: "635px",
+            maxWidth: "1254px",
           }}
         >
           <Box
@@ -537,7 +551,7 @@ const Watch = () => {
               flexDirection: "column",
               borderBottomLeftRadius: "10px",
               borderTopLeftRadius: "10px",
-              width: "calc(100% - 69vw)",
+              width: "388px",
               overflow: "hidden",
               // backgroundColor: "rgba(186, 186, 187, 0.1)",
             }}
@@ -545,8 +559,8 @@ const Watch = () => {
             <Box
               // border={1}
               sx={{
-                height: "10vh",
-                // width: "100%",
+                height: "63px",
+                // width: "31vw",
                 display: "flex",
                 alignItems: "center",
                 marginBottom: "2px",
@@ -557,8 +571,8 @@ const Watch = () => {
                 variant="body1"
                 color="#fbfafb"
                 sx={{
-                  ml: "1vw",
-                  mr: "1vh",
+                  ml: "12px",
+                  mr: "10px",
                   fontSize: "16px",
                 }}
               >
@@ -609,7 +623,7 @@ const Watch = () => {
                         }}
                         sx={{
                           width: "100%",
-                          height: "8.2vh",
+                          height: "52px",
                           textTransform: "none",
                           borderRadius: 0,
                           backgroundColor:
@@ -693,16 +707,17 @@ const Watch = () => {
           <Box
             // border={1}
             sx={{
-              maxWidth: "69vw",
-              height: "100vh",
+              maxWidth: "942px",
+              height: "635px",
             }}
           >
             <Box
+              // border={1}
               sx={{
-                Position: "relative",
+                position: "relative",
                 backgroundColor: "black",
-                height: "78vh",
-                width: "69vw",
+                height: "496px",
+                width: "942px",
                 ml: "2px",
                 borderTopRightRadius: "10px",
                 overflow: "hidden",
@@ -716,7 +731,8 @@ const Watch = () => {
                   onClick={() => setVideoNumber((prev) => prev - 1)}
                   sx={{
                     position: "absolute",
-                    top: "50%",
+                    // top: "50%",
+                    left: 0,
                   }}
                 >
                   <img src={leftArrow} alt="left arrow" />
@@ -727,8 +743,8 @@ const Watch = () => {
                   onClick={() => setVideoNumber((prev) => prev + 1)}
                   sx={{
                     position: "absolute",
-                    top: "50%",
-                    right: 50,
+                    // top: "50%",
+                    right: 0,
                   }}
                 >
                   <img src={rightArrow} alt="right arrow" />
@@ -765,8 +781,8 @@ const Watch = () => {
                 backgroundColor: "rgba(186, 186, 187, 0.1)",
                 borderBottomRightRadius: "10px",
                 mt: "2px",
-                width: "69vw",
-                height: "21.7vh",
+                width: "942px",
+                height: "137px",
                 display: "flex",
                 alignItems: "center",
               }}
@@ -776,11 +792,11 @@ const Watch = () => {
                 sx={{
                   borderRadius: "12px",
                   position: "relative",
-                  ml: "0.3vw",
+                  ml: "4px",
                   display: "flex",
                   alignItems: "center",
                   // maxWidth: "100%",
-                  width: "62.3vw",
+                  width: "848px",
                   paddingRight: 10,
                   overflow: "hidden",
                 }}
@@ -790,11 +806,11 @@ const Watch = () => {
                     onClick={handleLeftArrow}
                     sx={{
                       position: "absolute",
-                      height: "18vh",
+                      height: "114px",
                       borderRadius: 0,
                       borderTopLeftRadius: "12px",
                       borderBottomLeftRadius: "12px",
-                      width: "4vw",
+                      width: "54px",
                       zIndex: 100,
                       left: 0,
                       background:
@@ -830,13 +846,13 @@ const Watch = () => {
                     onClick={handleRightArrow}
                     sx={{
                       position: "absolute",
-                      height: "18vh",
+                      height: "114px",
                       borderRadius: 0,
                       borderTopRightRadius: "12px",
                       borderBottomRightRadius: "12px",
-                      width: "4vw",
+                      width: "54px",
                       zIndex: 100,
-                      right: "0",
+                      right: 0,
                       background:
                         "linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.8))",
                       "&:hover": {
@@ -867,7 +883,7 @@ const Watch = () => {
                 )}
                 <Box
                   className="slideshowSlider"
-                  style={{ transform: `translate3d(${position}vw, 0, 0)` }}
+                  style={{ transform: `translate3d(${position}px, 0, 0)` }}
                 >
                   {seasons?.map((item, index) => (
                     <Button
@@ -881,10 +897,10 @@ const Watch = () => {
                       sx={{
                         display: "inline-block",
                         position: "relative",
-                        height: "18vh",
-                        width: "16.6vw",
+                        height: "114px",
+                        width: "226.5px",
                         borderRadius: "12px",
-                        marginRight: "0.6vw",
+                        marginRight: "8px",
                         backgroundImage: `url(https://image.tmdb.org/t/p/w342${item.poster_path})`,
                         backgroundSize: "cover",
                         backgroundPosition: "center",
@@ -895,8 +911,8 @@ const Watch = () => {
                       <Box
                         sx={{
                           position: "absolute",
-                          height: "18vh",
-                          width: "16.6vw",
+                          height: "114px",
+                          width: "226.5px",
                           top: 0,
                           left: 0,
                           backgroundColor:
@@ -994,13 +1010,13 @@ const Watch = () => {
       <MovieDetails />
       <Box
         sx={{
-          //   position: "absolute",
+          // position: "absolute",
           top: 500,
+          // width: "100%",
           height: "1px",
           borderBottom: "0.5px solid",
           borderColor: "white",
-          ml: "52px",
-          mr: "52px",
+          width: 1254,
           zIndex: 100,
           opacity: 0.1,
         }}

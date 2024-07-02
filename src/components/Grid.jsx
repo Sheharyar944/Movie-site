@@ -10,6 +10,7 @@ const Grid = ({ data, type }) => {
   const navigate = useNavigate();
   return (
     <Box
+      // border={1}
       sx={{
         display: "grid",
         gridTemplateColumns: "repeat(5, 1fr)",
@@ -17,6 +18,7 @@ const Grid = ({ data, type }) => {
         gap: "26px",
         marginTop: "12px",
         marginBottom: "100px",
+        borderColor: "white",
       }}
     >
       {data &&

@@ -257,12 +257,23 @@ const Explore = () => {
   // );
 
   return (
-    <Box sx={{ mt: "50px", mx: "20px" }}>
+    <Box
+      sx={{
+        mt: "50px",
+
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <Box
+        // border={1}
         sx={{
           display: "flex",
           justifyContent: "space-between",
           mb: "50px",
+          borderColor: "white",
+          width: 1254,
         }}
       >
         <Box>
@@ -283,7 +294,7 @@ const Explore = () => {
               sx={{
                 padding: 1,
                 borderRadius: "8px",
-                width: 248,
+                width: 236,
                 height: 36,
                 backgroundColor: "#1b1f29",
                 transition: "transform 1s ease",
@@ -388,7 +399,7 @@ const Explore = () => {
               sx={{
                 padding: 1,
                 borderRadius: "8px",
-                width: 248,
+                width: 236,
                 height: 36,
                 backgroundColor: "#1b1f29",
                 transition: "transform 1s ease",
@@ -500,7 +511,7 @@ const Explore = () => {
                 padding: 1,
 
                 borderRadius: "8px",
-                width: 248,
+                width: 236,
                 height: 36,
                 backgroundColor: "#1b1f29",
                 transition: "transform 1s ease",
@@ -603,7 +614,7 @@ const Explore = () => {
               sx={{
                 padding: 1,
                 borderRadius: "8px",
-                width: 248,
+                width: 236,
                 height: 36,
                 backgroundColor: "#1b1f29",
                 transition: "transform 1s ease",
@@ -706,7 +717,7 @@ const Explore = () => {
               sx={{
                 padding: 1,
                 borderRadius: "8px",
-                width: 248,
+                width: 236,
                 height: 36,
                 backgroundColor: "#1b1f29",
                 transition: "transform 1s ease",

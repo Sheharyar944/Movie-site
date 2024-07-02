@@ -316,7 +316,13 @@ const Info = () => {
 
   const RelatedVideosHeader = () => (
     <Box sx={{ marginTop: "100px" }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Box
+        // border={1}
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
         <Box sx={{ display: "flex" }}>
           <Typography
             variant="body1"
@@ -560,7 +566,14 @@ const Info = () => {
   const posterImageUrl = `https://image.tmdb.org/t/p/w780${list?.poster_path}`;
 
   return (
-    <Box>
+    <Box
+      // border={1}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <Box
         sx={{
           position: "fixed",
@@ -570,7 +583,7 @@ const Info = () => {
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
           backgroundSize: "cover",
-          height: "635px",
+          height: "100%",
           width: "100%",
           zIndex: -1,
           filter: "blur(8px)",
@@ -585,7 +598,10 @@ const Info = () => {
           }}
         />
       </Box>
-      <Box sx={{ padding: "0 56px" }}>
+      <Box
+        // border={1}
+        sx={{ padding: "0 56px", borderColor: "white", width: 1240 }}
+      >
         <MovieDetails />
       </Box>
       {type == "tv" && (
@@ -596,9 +612,11 @@ const Info = () => {
             p: 2,
             pr: 1.6,
             backgroundColor: "rgba(255,255 ,255,0.1)",
-            borderRadius: "8px",
+            borderRadius: "0.6vw",
             ml: "2.5vw",
             mr: "2.5vw",
+            borderColor: "white",
+            width: 1252,
           }}
         >
           <Typography
@@ -620,8 +638,8 @@ const Info = () => {
               gridAutoRows: "auto",
               borderColor: "white",
               overflowY: "auto",
-              maxHeight: "54vh",
-              minHeight: "26vh",
+              maxHeight: 342,
+              minHeight: 165,
               rowGap: 2,
               "&::-webkit-scrollbar-thumb": {
                 borderRadius: "0px",
@@ -749,15 +767,21 @@ const Info = () => {
           </Box>
         </Box>
       )}
-      <Box sx={{ padding: "0 56px" }}>
+      <Box
+        // border={1}
+        sx={{ padding: "0 56px", borderColor: "white", width: 1240 }}
+      >
         <RelatedVideosHeader />
         {relatedVideos && relatedVideos.results.length !== 0 && (
           <Box
             // border={1}
-            className="slideshow"
+            // className="slideshow"
             sx={{
               borderRadius: "12px",
               height: 160,
+              maxWidth: 1258,
+              borderColor: "white",
+              overflow: "hidden",
             }}
           >
             <Box
