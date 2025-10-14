@@ -278,8 +278,8 @@ const Root = () => {
               )}
             </Box>
           </Button>
-          <IconButton
-            href=""
+          {/* <IconButton
+            href="https://github.com/Sheharyar944"
             target="_blank"
             rel="noopener noreferrer"
             sx={{
@@ -309,7 +309,7 @@ const Root = () => {
                 backgroundColor: "#00c1db",
               }}
             />
-          </IconButton>
+          </IconButton> */}
           <SearchBar />
           <IconButton sx={{ marginRight: "3.6vw", ml: "3.2vw" }}>
             <img src={crab} alt="logo" style={{ height: "3vw" }} />
