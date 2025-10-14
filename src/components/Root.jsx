@@ -279,7 +279,7 @@ const Root = () => {
             </Box>
           </Button>
           <IconButton
-            href="https://github.com/Sheharyar944"
+            href=""
             target="_blank"
             rel="noopener noreferrer"
             sx={{
