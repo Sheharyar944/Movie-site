@@ -515,7 +515,7 @@ const Watch = () => {
         >
           {trailer ? (
             <ReactPlayer
-              url={`https://www.youtube.com/embed/NfkWGq2JRnI`}
+              url={`https://www.youtube.com/embed/${trailer}`}
               width="1260px"
               height="640px"
               controls={true}
@@ -752,7 +752,7 @@ const Watch = () => {
               )}
               {trailer ? (
                 <ReactPlayer
-                  url={`https://www.youtube.com/embed/NfkWGq2JRnI`}
+                  url={`https://www.youtube.com/embed/${trailer}`}
                   width="100%"
                   height="100%"
                   controls={true}
